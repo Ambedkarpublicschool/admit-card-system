@@ -6,7 +6,7 @@
   <title>School Admit Card Portal</title>
   <!-- Fast QR Code Library -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-  <!-- FontAwesome Icons for clean vector glyphs -->
+  <!-- FontAwesome Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <!-- Google Fonts: Oswald for Header & Poppins for Body -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -191,21 +191,38 @@
     .corner-bl { bottom: 2px; left: 2px; border-right: none; border-top: none; border-bottom-left-radius: 6px; }
     .corner-br { bottom: 2px; right: 2px; border-left: none; border-top: none; border-bottom-right-radius: 6px; }
 
-    /* Top Line */
+    /* 🔹 SINGLE-LINE TOP TAGLINE WITH DYNAMIC BORDER LINES */
     .top-gov-tagline {
-      text-align: center;
-      font-size: 8.5px;
-      font-weight: 700;
       display: flex;
       align-items: center;
-      justify-content: center;
-      gap: 5px;
+      justify-content: space-between;
+      width: 100%;
       margin-bottom: 2px;
+      white-space: nowrap;
     }
-    .top-gov-tagline::before, .top-gov-tagline::after {
-      content: "• ——————————————— •";
-      font-size: 7px;
-      color: #222;
+    .tag-line {
+      flex: 1;
+      height: 1px;
+      background-color: #000;
+      position: relative;
+      margin: 0 4px;
+    }
+    .tag-line::after {
+      content: "•";
+      position: absolute;
+      top: -6px;
+      font-size: 8px;
+      color: #000;
+    }
+    .tag-line.left::after { right: 0; }
+    .tag-line.right::after { left: 0; }
+    
+    .tag-text {
+      font-size: 7.6px;
+      font-weight: 700;
+      white-space: nowrap;
+      flex-shrink: 0;
+      letter-spacing: -0.1px;
     }
 
     /* Header Main (Logo + Name + Address) */
@@ -404,7 +421,6 @@
       text-transform: uppercase;
     }
 
-    /* EXACT TEXT BELOW QR AS REQUESTED */
     .exam-instruction-note {
       font-size: 7.5px;
       font-weight: 700;
@@ -579,7 +595,6 @@
         
         document.getElementById("loadingOverlay").style.display = "none";
 
-        // Admin Header Update from Sheet
         if(globalData.schoolInfo) {
           document.getElementById("adminHeaderTitle").innerText = `${globalData.schoolInfo.schoolName || 'School'} - Admit Card Portal`;
         }
@@ -611,7 +626,6 @@
         return;
       }
 
-      // Dynamic Data from Sheet for Mobile View
       document.getElementById("pSchoolLogo").src = school.logoLink || 'https://via.placeholder.com/65x65?text=Logo';
       document.getElementById("pSchoolName").innerText = school.schoolName || "School Name";
       document.getElementById("pSchoolAddr").innerText = school.schoolAddress || "School Address";
@@ -680,7 +694,6 @@
       const printContainer = document.getElementById("printContainer");
       printContainer.innerHTML = "";
       
-      // Dynamic Data from Sheet for Printing
       const school = globalData.schoolInfo;
       const dSchoolName = school.schoolName || 'YOUR SCHOOL NAME';
       const dSchoolAddr = school.schoolAddress || 'Your School Address';
@@ -715,9 +728,11 @@
                 <div class="corner-decor corner-bl"></div>
                 <div class="corner-decor corner-br"></div>
 
-                <!-- Top Tagline -->
+                <!-- 🔹 SINGLE LINE GOVERNMENT TAGLINE -->
                 <div class="top-gov-tagline">
-                  “A government recognized school (सरकार द्वारा मान्यता प्राप्त)”
+                  <div class="tag-line left"></div>
+                  <span class="tag-text">“A government recognized school (सरकार द्वारा मान्यता प्राप्त)”</span>
+                  <div class="tag-line right"></div>
                 </div>
 
                 <!-- DYNAMIC School Header -->
@@ -769,7 +784,6 @@
                       <div class="scan-me-pill">SCAN ME</div>
                     </div>
 
-                    <!-- ✅ EXACT USER REQUESTED TEXT -->
                     <div class="exam-instruction-note">
                       वर्तमान बकाया शुल्क जानने व जमा करने के लिए<br>QR स्कैन करें।
                     </div>
