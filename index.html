@@ -3,57 +3,50 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admit Card & Time Table Portal</title>
+  <title>Ambedkar Public School - Admit Card System</title>
   <!-- Fast QR Code Library -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+  <!-- FontAwesome Icons for crisp symbols -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Poppins:wght@400;600;700;800;900&display=swap');
+
     * { box-sizing: border-box; }
     body {
-      font-family: 'Segoe UI', Arial, sans-serif;
+      font-family: 'Poppins', sans-serif;
       margin: 0;
       padding: 0;
       background-color: #f1f5f9;
-      color: #1e293b;
+      color: #000;
+      -webkit-print-color-adjust: exact;
+      print-color-adjust: exact;
     }
 
     /* ================= 1. FULL-SCREEN BLURRED LOADER ================= */
     #loadingOverlay {
       position: fixed;
-      top: 0;
-      left: 0;
-      width: 100vw;
-      height: 100vh;
-      background: rgba(248, 250, 252, 0.96);
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      background: rgba(255, 255, 255, 0.96);
+      backdrop-filter: blur(8px);
       display: flex;
       flex-direction: column;
       justify-content: center;
       align-items: center;
       z-index: 99999;
     }
-
     .spinner {
-      width: 48px;
-      height: 48px;
-      border: 4px solid #cbd5e1;
-      border-top-color: #2563eb;
+      width: 48px; height: 48px;
+      border: 4px solid #e2e8f0;
+      border-top-color: #000;
       border-radius: 50%;
       animation: spin 0.8s linear infinite;
-      margin-bottom: 14px;
+      margin-bottom: 12px;
     }
+    @keyframes spin { to { transform: rotate(360deg); } }
+    .loading-text { font-size: 15px; font-weight: 700; color: #1e293b; }
 
-    @keyframes spin {
-      to { transform: rotate(360deg); }
-    }
-
-    .loading-text {
-      font-size: 15px;
-      font-weight: 700;
-      color: #334155;
-    }
-
-    /* ================= 2. PARENT PAYMENT VIEW (ON QR SCAN) ================= */
+    /* ================= 2. PARENT PAYMENT VIEW (MOBILE) ================= */
     #parentView {
       display: none;
       min-height: 100vh;
@@ -62,7 +55,6 @@
       justify-content: center;
       align-items: flex-start;
     }
-
     .pay-card {
       width: 100%;
       max-width: 420px;
@@ -74,38 +66,19 @@
       margin-top: 15px;
       border: 1px solid #e2e8f0;
     }
-
-    .pay-card .school-logo-parent {
-      width: 60px;
-      height: 60px;
-      object-fit: contain;
-      margin-bottom: 6px;
-    }
-
-    .pay-card .school-title {
-      font-size: 19px;
-      font-weight: 800;
-      color: #0f172a;
-      margin-bottom: 2px;
-    }
-
-    .pay-card .school-sub {
-      font-size: 12.5px;
-      color: #64748b;
-      margin-bottom: 16px;
-    }
-
+    .pay-card .school-logo-parent { width: 65px; height: 65px; object-fit: contain; margin-bottom: 8px; }
+    .pay-card .school-title { font-size: 19px; font-weight: 800; color: #0f172a; margin-bottom: 2px; }
+    .pay-card .school-sub { font-size: 12.5px; color: #64748b; margin-bottom: 16px; }
     .student-info-box {
       background: #f8fafc;
       border: 1px solid #e2e8f0;
       border-radius: 10px;
       padding: 14px;
       text-align: left;
-      font-size: 14px;
+      font-size: 13.5px;
       line-height: 1.6;
       margin-bottom: 16px;
     }
-
     .live-fee-box {
       border-radius: 10px;
       padding: 16px;
@@ -113,105 +86,49 @@
       background: #fff1f2;
       border: 1px solid #fecdd3;
     }
-
-    .live-fee-box.paid {
-      background: #f0fdf4;
-      border-color: #bbf7d0;
-    }
-
-    .fee-heading {
-      font-size: 13px;
-      font-weight: bold;
-      color: #475569;
-    }
-
-    .fee-amount-text {
-      font-size: 32px;
-      font-weight: 900;
-      color: #e11d48;
-      margin: 4px 0 0 0;
-    }
-
-    .fee-amount-text.paid-text {
-      color: #16a34a;
-      font-size: 22px;
-    }
-
+    .live-fee-box.paid { background: #f0fdf4; border-color: #bbf7d0; }
+    .fee-heading { font-size: 13px; font-weight: bold; color: #475569; }
+    .fee-amount-text { font-size: 32px; font-weight: 900; color: #e11d48; margin: 4px 0 0 0; }
+    .fee-amount-text.paid-text { color: #16a34a; font-size: 22px; }
     .btn-upi-pay {
-      display: block;
-      width: 100%;
-      background: #16a34a;
-      color: #ffffff;
-      text-decoration: none;
-      padding: 14px 0;
-      border-radius: 10px;
-      font-size: 16px;
-      font-weight: bold;
+      display: block; width: 100%;
+      background: #16a34a; color: #ffffff;
+      text-decoration: none; padding: 14px 0;
+      border-radius: 10px; font-size: 16px; font-weight: bold;
       box-shadow: 0 4px 12px rgba(22, 163, 74, 0.25);
     }
 
-    /* ================= 3. ADMIN PORTAL VIEW (PC) ================= */
+    /* ================= 3. ADMIN PORTAL VIEW (SCREEN) ================= */
     #adminView {
       display: none;
       max-width: 1100px;
       margin: 20px auto;
       background: #ffffff;
       padding: 24px;
-      border-radius: 8px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
     }
-
     .header-panel {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 20px;
-      border-bottom: 2px solid #e2e8f0;
-      padding-bottom: 12px;
+      display: flex; justify-content: space-between; align-items: center;
+      margin-bottom: 18px; border-bottom: 2px solid #e2e8f0; padding-bottom: 12px;
     }
-
     .header-panel h2 { margin: 0; font-size: 22px; color: #0f172a; }
-
     .search-panel { display: flex; gap: 12px; margin-bottom: 16px; }
     .search-panel input {
-      flex: 1;
-      padding: 10px 14px;
-      border: 1px solid #cbd5e1;
-      border-radius: 6px;
-      font-size: 15px;
-      outline: none;
+      flex: 1; padding: 10px 14px; border: 1px solid #cbd5e1; border-radius: 6px; font-size: 15px; outline: none;
     }
-
     .btn {
-      background-color: #2563eb;
-      color: #ffffff;
-      border: none;
-      padding: 10px 24px;
-      font-size: 15px;
-      font-weight: 600;
-      cursor: pointer;
-      border-radius: 6px;
+      background-color: #0f172a; color: #ffffff; border: none;
+      padding: 10px 24px; font-size: 15px; font-weight: 600; cursor: pointer; border-radius: 6px; transition: 0.2s;
     }
-    .btn:hover { background-color: #1d4ed8; }
-
-    .table-container {
-      max-height: 500px;
-      overflow-y: auto;
-      border: 1px solid #cbd5e1;
-      border-radius: 6px;
-    }
-
+    .btn:hover { background-color: #1e293b; }
+    .table-container { max-height: 500px; overflow-y: auto; border: 1px solid #cbd5e1; border-radius: 6px; }
     table { width: 100%; border-collapse: collapse; background: #fff; }
-    th, td {
-      border-bottom: 1px solid #e2e8f0;
-      padding: 10px 14px;
-      text-align: left;
-      font-size: 14px;
-    }
+    th, td { border-bottom: 1px solid #e2e8f0; padding: 10px 14px; text-align: left; font-size: 13.5px; }
     th { background-color: #f8fafc; font-weight: 600; position: sticky; top: 0; z-index: 10; }
     tr:hover { background-color: #f8fafc; }
 
-    /* ================= 4. PRINT VIEW (140mm x 200mm on A4) ================= */
+    /* ================= 4. PRINT VIEW (EXACT 140mm x 200mm ON A4) ================= */
     .print-area { display: none; }
 
     @media print {
@@ -239,141 +156,360 @@
         top: 0;
         left: 0;
         box-sizing: border-box;
-        border: 1.5px solid #000;
-        padding: 4mm 5mm;
+        border: 2px solid #000;
+        padding: 2.5mm;
         background: #fff;
         overflow: hidden;
       }
     }
 
-    .card-header {
-      border-bottom: 1.2px solid #000;
-      padding-bottom: 3px;
-      margin-bottom: 3px;
-      text-align: center;
-    }
-    
-    .card-header .tagline {
-      font-size: 9px;
-      font-weight: bold;
-      border-bottom: 0.5px solid #666;
-      padding-bottom: 2px;
-      margin-bottom: 3px;
+    /* Outer Decorative Double Border Container */
+    .card-inner-frame {
+      width: 100%;
+      height: 100%;
+      border: 1px solid #000;
+      border-radius: 12px;
+      padding: 3mm 3.5mm;
+      box-sizing: border-box;
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
     }
 
-    .header-main-flex {
+    /* Corner Accents */
+    .corner-decor {
+      position: absolute;
+      width: 12px;
+      height: 12px;
+      border: 2px solid #000;
+    }
+    .corner-tl { top: 2px; left: 2px; border-right: none; border-bottom: none; border-top-left-radius: 8px; }
+    .corner-tr { top: 2px; right: 2px; border-left: none; border-bottom: none; border-top-right-radius: 8px; }
+    .corner-bl { bottom: 2px; left: 2px; border-right: none; border-top: none; border-bottom-left-radius: 8px; }
+    .corner-br { bottom: 2px; right: 2px; border-left: none; border-top: none; border-bottom-right-radius: 8px; }
+
+    /* Top Banner Tagline */
+    .top-gov-tagline {
+      text-align: center;
+      font-size: 8.5px;
+      font-weight: 700;
+      letter-spacing: 0.2px;
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 6px;
+      margin-bottom: 2px;
+    }
+    .top-gov-tagline::before, .top-gov-tagline::after {
+      content: "• ——————————————— •";
+      font-size: 7px;
+      color: #333;
+      letter-spacing: -1px;
     }
 
-    .header-main-flex img.school-logo {
-      width: 32px;
-      height: 32px;
+    /* Header Main */
+    .header-section {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      margin-top: 1px;
+    }
+    .header-logo-img {
+      width: 38px;
+      height: 38px;
       object-fit: contain;
+      filter: grayscale(100%);
     }
-
-    .school-info-text {
+    .header-text-block {
       text-align: center;
     }
-
-    .school-info-text .school-name {
-      font-size: 15px;
+    .header-school-name {
+      font-family: 'Impact', 'Arial Black', sans-serif;
+      font-size: 21px;
       font-weight: 900;
+      letter-spacing: 0.8px;
+      line-height: 1;
       margin: 0;
-      line-height: 1.1;
       text-transform: uppercase;
     }
-
-    .school-info-text .school-addr {
+    .header-school-addr {
       font-size: 9.5px;
       font-weight: 600;
       margin: 1px 0 0 0;
+      color: #111;
     }
 
-    .title-badge-container {
-      margin-top: 2px;
+    /* Exam Ribbon Badge */
+    .exam-badge-container {
+      text-align: center;
+      margin: 3px 0 4px 0;
     }
-
-    .card-header .title-badge {
+    .exam-badge {
       display: inline-block;
-      background: #e2e8f0;
-      font-size: 11px;
-      font-weight: bold;
-      padding: 1px 10px;
-      border-radius: 2px;
+      border: 1.5px solid #000;
+      border-radius: 15px;
+      padding: 1px 14px;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: 0.3px;
+      background: #fff;
+      position: relative;
     }
+    .exam-badge::before { content: "❧ "; font-size: 9px; }
+    .exam-badge::after { content: " ☙"; font-size: 9px; }
 
-    .student-details { display: flex; justify-content: space-between; margin-top: 3px; font-size: 10px; }
-    .details-left { width: 70%; line-height: 1.3; }
-    .details-row { display: flex; margin-bottom: 1px; }
-    .d-label { width: 88px; font-weight: bold; flex-shrink: 0; }
-    .d-colon { margin-right: 4px; }
-
-    .photo-right { width: 28%; text-align: center; }
-    .photo-right img {
-      width: 26mm;
-      height: 33mm;
-      border: 1px solid #000;
-      object-fit: cover;
-      display: block;
-      margin: 0 auto;
+    /* Student Info & Photo Outer Card */
+    .student-card-container {
+      border: 1.2px solid #000;
+      border-radius: 10px;
+      padding: 4px 6px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
       background: #fff;
     }
-
-    .time-table-heading {
-      text-align: center;
-      background: #e2e8f0;
-      font-size: 9.5px;
-      font-weight: bold;
-      padding: 1.5px;
-      margin-top: 3px;
-      margin-bottom: 3px;
-      border: 1px solid #cbd5e1;
-    }
-
-    .bottom-section { display: flex; gap: 5px; }
-    .fee-col {
-      width: 36%;
-      border-right: 1px dashed #475569;
-      padding-right: 3px;
+    .student-details-list {
+      width: 68%;
       display: flex;
       flex-direction: column;
-      justify-content: flex-start;
-      text-align: center;
+      gap: 1.2px;
     }
-    .fee-label { font-size: 9.5px; font-weight: bold; text-align: left; }
-    .fee-amount { font-size: 12px; font-weight: 900; margin: 1px 0 3px 0; text-align: left; }
-    
-    .qr-box { display: flex; justify-content: center; margin-top: 1px; min-height: 65px; }
-    .qr-text { font-size: 7.5px; line-height: 1.1; margin-top: 2px; font-weight: bold; }
+    .s-row {
+      display: flex;
+      align-items: center;
+      font-size: 9.2px;
+      line-height: 1.25;
+    }
+    .s-icon {
+      width: 14px;
+      height: 14px;
+      background: #000;
+      color: #fff;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 7px;
+      margin-right: 5px;
+      flex-shrink: 0;
+    }
+    .s-label {
+      width: 78px;
+      font-weight: 700;
+      flex-shrink: 0;
+    }
+    .s-colon {
+      margin-right: 5px;
+      font-weight: 700;
+    }
+    .s-val {
+      font-weight: 600;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
 
-    .tt-col { width: 64%; }
-    .tt-time {
-      font-size: 9px;
-      font-weight: bold;
+    .student-photo-wrapper {
+      width: 30%;
+      display: flex;
+      justify-content: flex-end;
+      padding-right: 2px;
+    }
+    .student-photo-frame {
+      width: 33mm;
+      height: 42mm;
+      border: 1.5px solid #000;
+      border-radius: 10px;
+      overflow: hidden;
+      background: #fff;
+    }
+    .student-photo-frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+      filter: grayscale(100%);
+    }
+
+    /* Bottom Split Section */
+    .bottom-split-container {
+      display: flex;
+      gap: 4.5px;
+      margin-top: 3px;
+      height: 87mm;
+    }
+
+    /* Left Card: Fee & QR */
+    .fee-qr-card {
+      width: 38%;
+      border: 1.2px solid #000;
+      border-radius: 10px;
+      padding: 4px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      text-align: center;
+      box-sizing: border-box;
+    }
+    .fee-title {
+      font-size: 10.5px;
+      font-weight: 800;
+      width: 100%;
+      text-align: left;
+      padding-left: 2px;
+    }
+    .fee-digit {
+      font-size: 15px;
+      font-weight: 900;
+      width: 100%;
+      text-align: left;
+      padding-left: 2px;
+      margin-top: -2px;
       margin-bottom: 2px;
-      text-align: center;
-      background: #f1f5f9;
-      padding: 1.5px;
-      border: 0.5px solid #cbd5e1;
     }
 
-    .tt-table { width: 100%; border-collapse: collapse; font-size: 8.5px; }
-    .tt-table td { border: 1px dotted #334155; padding: 1.5px 2px; }
-    .tt-table td:first-child { width: 56%; }
+    /* Exact 40mm x 40mm QR Box with SCAN ME Badge */
+    .qr-wrapper-styled {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      border: 1.5px solid #000;
+      border-radius: 8px;
+      padding: 3px 3px 2px 3px;
+      background: #fff;
+    }
+    .qr-target-box {
+      width: 40mm;
+      height: 40mm;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .qr-target-box img, .qr-target-box canvas {
+      width: 40mm !important;
+      height: 40mm !important;
+      display: block;
+    }
+    .scan-me-pill {
+      background: #000;
+      color: #fff;
+      font-size: 7.5px;
+      font-weight: 900;
+      letter-spacing: 0.8px;
+      padding: 1px 12px;
+      border-radius: 6px;
+      margin-top: 2px;
+      text-transform: uppercase;
+    }
+
+    .exam-instruction-note {
+      font-size: 7px;
+      font-weight: 800;
+      line-height: 1.15;
+      margin-top: 3px;
+      padding: 0 1px;
+    }
+    .grad-cap-svg {
+      width: 36px;
+      height: 22px;
+      margin-top: 1px;
+      opacity: 0.85;
+    }
+
+    /* Right Card: Time Table */
+    .timetable-card {
+      width: 62%;
+      border: 1.2px solid #000;
+      border-radius: 10px;
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+      box-sizing: border-box;
+    }
+    .tt-ribbon-header {
+      background: #000;
+      color: #fff;
+      text-align: center;
+      font-size: 8.5px;
+      font-weight: 800;
+      padding: 2.5px 4px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+    }
+    .tt-time-strip {
+      border-bottom: 1.2px solid #000;
+      padding: 2px 4px;
+      font-size: 8.5px;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 5px;
+      background: #fff;
+    }
+    .tt-time-strip i { font-size: 9px; }
+
+    .tt-rows-container {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-around;
+      padding: 1px 4px;
+    }
+    .tt-item-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      border-bottom: 1px dotted #444;
+      padding: 1.5px 0;
+      font-size: 8.5px;
+    }
+    .tt-item-row:last-child {
+      border-bottom: none;
+    }
+    .tt-date-cell {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      width: 58%;
+      font-weight: 600;
+      line-height: 1.1;
+    }
+    .tt-cal-icon {
+      width: 13px;
+      height: 13px;
+      background: #000;
+      color: #fff;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 6.5px;
+      flex-shrink: 0;
+    }
+    .tt-subject-cell {
+      width: 42%;
+      font-weight: 800;
+      text-align: center;
+      font-size: 9px;
+      letter-spacing: 0.1px;
+    }
   </style>
 </head>
 <body>
 
-  <!-- 1. FULL-SCREEN LOADER -->
+  <!-- 1. FULL-SCREEN BLURRED LOADER -->
   <div id="loadingOverlay">
     <div class="spinner"></div>
     <div class="loading-text">डेटा लोड हो रहा है... कृपया प्रतीक्षा करें</div>
   </div>
 
-  <!-- 2. PARENT VIEW (ON QR SCAN) -->
+  <!-- 2. PARENT PAYMENT VIEW (When QR is Scanned) -->
   <div id="parentView">
     <div class="pay-card">
       <img src="https://i.postimg.cc/pLt1F2cD/logo-copy.png" class="school-logo-parent" alt="Logo">
@@ -396,7 +532,7 @@
     </div>
   </div>
 
-  <!-- 3. ADMIN PORTAL VIEW -->
+  <!-- 3. ADMIN ADMIT CARD PRINT PORTAL VIEW -->
   <div id="adminView">
     <div class="header-panel">
       <h2>Ambedkar Public School - Admit Card Portal</h2>
@@ -538,7 +674,7 @@
       const school = globalData.schoolInfo;
       const logoUrl = school.logoLink || "https://i.postimg.cc/pLt1F2cD/logo-copy.png";
 
-      // 1. एडमिट कार्ड्स रेंडर करें
+      // 1. कार्ड्स रेंडर करें
       selectedBoxes.forEach((cb, index) => {
         const s = globalData.students[cb.dataset.index];
         const qrId = `qr_card_${index}`;
@@ -546,70 +682,114 @@
 
         const timetableRows = (s.schedule.timetable && s.schedule.timetable.length > 0)
           ? s.schedule.timetable.map(t => `
-              <tr>
-                <td>${t.date}</td>
-                <td><strong>${t.subject}</strong></td>
-              </tr>
+              <div class="tt-item-row">
+                <div class="tt-date-cell">
+                  <span class="tt-cal-icon"><i class="fa-solid fa-calendar-days"></i></span>
+                  <span>${t.date}</span>
+                </div>
+                <div class="tt-subject-cell">${t.subject}</div>
+              </div>
             `).join('')
-          : `<tr><td colspan="2" style="text-align:center; padding: 10px;">टाइम टेबल उपलब्ध नहीं है</td></tr>`;
+          : `<div style="text-align:center; padding:15px; font-size:9px;">टाइम टेबल उपलब्ध नहीं है</div>`;
 
         const cardHtml = `
           <div class="admit-card-page">
             <div class="card-box">
-              <div class="card-header">
-                <div class="tagline">"A government recognized school (सरकार द्वारा मान्यता प्राप्त)"</div>
-                <div class="header-main-flex">
-                  <img src="${logoUrl}" class="school-logo" alt="Logo">
-                  <div class="school-info-text">
-                    <div class="school-name">${school.schoolName || 'Ambedkar Public School'}</div>
-                    <div class="school-addr">${school.schoolAddress || 'Madhopur Campierganj Gorakhpur'}</div>
-                  </div>
-                </div>
-                <div class="title-badge-container">
-                  <div class="title-badge">${school.examName || 'Quaterly Examination 2026-2027'}</div>
-                </div>
-              </div>
-              
-              <div class="student-details">
-                <div class="details-left">
-                  <div class="details-row"><span class="d-label">Name</span><span class="d-colon">:-</span> ${s.name}</div>
-                  <div class="details-row"><span class="d-label">Father's Name</span><span class="d-colon">:-</span> ${s.fatherName}</div>
-                  <div class="details-row"><span class="d-label">Mother's Name</span><span class="d-colon">:-</span> ${s.motherName}</div>
-                  <div class="details-row"><span class="d-label">Date of Birth</span><span class="d-colon">:-</span> ${s.dob}</div>
-                  <div class="details-row"><span class="d-label">Gender</span><span class="d-colon">:-</span> ${s.gender}</div>
-                  <div class="details-row"><span class="d-label">Class</span><span class="d-colon">:-</span> <strong>${s.className}</strong></div>
-                  <div class="details-row"><span class="d-label">Address</span><span class="d-colon">:-</span> ${s.address}</div>
-                  <div class="details-row"><span class="d-label">Mobile number</span><span class="d-colon">:-</span> ${s.mobile}</div>
-                  <div class="details-row"><span class="d-label">Cast</span><span class="d-colon">:-</span> ${s.caste}</div>
-                  <div class="details-row"><span class="d-label">Category</span><span class="d-colon">:-</span> ${s.category}</div>
-                </div>
-                <div class="photo-right">
-                  <img src="${photoUrl}" loading="eager" decoding="async" onerror="this.src='https://via.placeholder.com/100x130?text=No+Photo'" alt="Photo">
-                </div>
-              </div>
-
-              <div class="time-table-heading">
-                Time Table for ${school.examName || 'Quaterly Examination 2026-2027'}
-              </div>
-
-              <div class="bottom-section">
-                <div class="fee-col">
-                  <div>
-                    <div class="fee-label">Fee Due :-</div>
-                    <div class="fee-amount">रु. ${s.feeDue}</div>
-                  </div>
-                  <div>
-                    <div class="qr-box" id="${qrId}"></div>
-                    <div class="qr-text">वर्तमान बकाया शुल्क जानने व जमा करने के लिए स्कैन करें</div>
-                  </div>
-                </div>
+              <div class="card-inner-frame">
                 
-                <div class="tt-col">
-                  <div class="tt-time">TIME:- ${s.schedule.timeSlot || '08:30 AM TO 11:00 AM'}</div>
-                  <table class="tt-table">
-                    ${timetableRows}
-                  </table>
+                <!-- Corner Accents -->
+                <div class="corner-decor corner-tl"></div>
+                <div class="corner-decor corner-tr"></div>
+                <div class="corner-decor corner-bl"></div>
+                <div class="corner-decor corner-br"></div>
+
+                <!-- Top Tagline -->
+                <div class="top-gov-tagline">
+                  “A government recognized school (सरकार द्वारा मान्यता प्राप्त)”
                 </div>
+
+                <!-- School Header -->
+                <div class="header-section">
+                  <img src="${logoUrl}" class="header-logo-img" alt="Logo">
+                  <div class="header-text-block">
+                    <h1 class="header-school-name">${school.schoolName || 'AMBEDKAR PUBLIC SCHOOL'}</h1>
+                    <div class="header-school-addr">${school.schoolAddress || 'Madhopur Campierganj Gorakhpur'}</div>
+                  </div>
+                </div>
+
+                <!-- Examination Badge -->
+                <div class="exam-badge-container">
+                  <div class="exam-badge">${school.examName || 'Quaterly Examination 2026-2027'}</div>
+                </div>
+
+                <!-- Student Info Card -->
+                <div class="student-card-container">
+                  <div class="student-details-list">
+                    <div class="s-row"><span class="s-icon"><i class="fa-solid fa-user"></i></span><span class="s-label">Name</span><span class="s-colon">:</span><span class="s-val">${s.name}</span></div>
+                    <div class="s-row"><span class="s-icon"><i class="fa-solid fa-user-tie"></i></span><span class="s-label">Father’s Name</span><span class="s-colon">:</span><span class="s-val">${s.fatherName}</span></div>
+                    <div class="s-row"><span class="s-icon"><i class="fa-solid fa-person-breastfeeding"></i></span><span class="s-label">Mother’s Name</span><span class="s-colon">:</span><span class="s-val">${s.motherName}</span></div>
+                    <div class="s-row"><span class="s-icon"><i class="fa-solid fa-calendar-day"></i></span><span class="s-label">Date of Birth</span><span class="s-colon">:</span><span class="s-val">${s.dob}</span></div>
+                    <div class="s-row"><span class="s-icon"><i class="fa-solid fa-venus-mars"></i></span><span class="s-label">Gender</span><span class="s-colon">:</span><span class="s-val">${s.gender}</span></div>
+                    <div class="s-row"><span class="s-icon"><i class="fa-solid fa-book-open"></i></span><span class="s-label">Class</span><span class="s-colon">:</span><span class="s-val"><strong>${s.className}</strong></span></div>
+                    <div class="s-row"><span class="s-icon"><i class="fa-solid fa-location-dot"></i></span><span class="s-label">Address</span><span class="s-colon">:</span><span class="s-val">${s.address}</span></div>
+                    <div class="s-row"><span class="s-icon"><i class="fa-solid fa-phone"></i></span><span class="s-label">Mobile number</span><span class="s-colon">:</span><span class="s-val">${s.mobile}</span></div>
+                    <div class="s-row"><span class="s-icon"><i class="fa-solid fa-users"></i></span><span class="s-label">Cast</span><span class="s-colon">:</span><span class="s-val">${s.caste}</span></div>
+                    <div class="s-row"><span class="s-icon"><i class="fa-solid fa-layer-group"></i></span><span class="s-label">Category</span><span class="s-colon">:</span><span class="s-val">${s.category}</span></div>
+                  </div>
+
+                  <div class="student-photo-wrapper">
+                    <div class="student-photo-frame">
+                      <img src="${photoUrl}" loading="eager" decoding="async" onerror="this.src='https://via.placeholder.com/100x130?text=No+Photo'" alt="Student Photo">
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Bottom Split Section -->
+                <div class="bottom-split-container">
+                  
+                  <!-- Left: Fee Due & 40mm QR -->
+                  <div class="fee-qr-card">
+                    <div class="fee-title">Fee Due :-</div>
+                    <div class="fee-digit">₹. ${s.feeDue}</div>
+                    
+                    <div class="qr-wrapper-styled">
+                      <div class="qr-target-box" id="${qrId}"></div>
+                      <div class="scan-me-pill">SCAN ME</div>
+                    </div>
+
+                    <div class="exam-instruction-note">
+                      परीक्षण समय सूचक समय से एक घंटा पहले<br>परीक्षा स्थल पर उपस्थित रहे
+                    </div>
+
+                    <!-- Graduation Cap & Book SVG -->
+                    <svg class="grad-cap-svg" viewBox="0 0 100 60" fill="#000">
+                      <path d="M50 5 L90 20 L50 35 L10 20 Z"/>
+                      <path d="M25 26 L25 40 Q50 52 75 40 L75 26 Q50 38 25 26 Z"/>
+                      <path d="M12 25 L8 28 L8 45 Q10 47 12 45 L12 25 Z"/>
+                      <path d="M30 46 Q50 40 70 46 Q50 54 30 46 Z" fill="none" stroke="#000" stroke-width="2"/>
+                    </svg>
+                  </div>
+
+                  <!-- Right: Time Table -->
+                  <div class="timetable-card">
+                    <div class="tt-ribbon-header">
+                      <span>❧</span>
+                      <span>Time Table for ${school.examName || 'Quaterly Examination 2026-2027'}</span>
+                      <span>☙</span>
+                    </div>
+
+                    <div class="tt-time-strip">
+                      <i class="fa-regular fa-clock"></i>
+                      <span>TIME:- ${s.schedule.timeSlot || '08:30am to 11:00am'}</span>
+                    </div>
+
+                    <div class="tt-rows-container">
+                      ${timetableRows}
+                    </div>
+                  </div>
+
+                </div>
+
               </div>
             </div>
           </div>
@@ -617,7 +797,7 @@
         printContainer.insertAdjacentHTML('beforeend', cardHtml);
       });
 
-      // 2. Dynamic QR Codes जोड़ें
+      // 2. हर एडमिट कार्ड में 40mm x 40mm QR Code जनरेट करें
       const currentOriginUrl = window.location.origin + window.location.pathname;
 
       selectedBoxes.forEach((cb, index) => {
@@ -627,10 +807,11 @@
 
         if (qrElement) {
           qrElement.innerHTML = "";
+          // 40mm at ~96-300DPI is ~150px
           new QRCode(qrElement, {
             text: dynamicStudentLink,
-            width: 65,
-            height: 65,
+            width: 151,
+            height: 151,
             correctLevel: QRCode.CorrectLevel.M
           });
         }
@@ -639,7 +820,7 @@
       // 3. प्रिंट कमांड
       setTimeout(() => {
         window.print();
-      }, 150);
+      }, 180);
     }
 
     window.onload = initApp;
