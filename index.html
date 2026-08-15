@@ -4,10 +4,10 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Admit Card & Time Table Portal</title>
-  <!-- Fast QR Code Library -->
+  <!-- QR Code Library -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
   <style>
-    /* ================= SCREEN / UI STYLING ================= */
+    /* ================= SCREEN / UI VIEW ================= */
     * { box-sizing: border-box; }
     body {
       font-family: 'Segoe UI', Arial, sans-serif;
@@ -56,6 +56,7 @@
       font-weight: 600;
       cursor: pointer;
       border-radius: 6px;
+      transition: 0.2s;
     }
     .btn:hover { background-color: #1d4ed8; }
 
@@ -76,7 +77,7 @@
     th { background-color: #f8fafc; font-weight: 600; position: sticky; top: 0; z-index: 10; }
     tr:hover { background-color: #f8fafc; }
 
-    /* ================= PRINT STYLING (140mm x 200mm on A4) ================= */
+    /* ================= PRINT VIEW (A4 TOP-LEFT: 140mm x 200mm) ================= */
     .print-area { display: none; }
 
     @media print {
@@ -190,11 +191,11 @@
 </head>
 <body>
 
-  <!-- Screen UI -->
+  <!-- Screen Control UI -->
   <div class="no-print">
     <div class="header-panel">
-      <h2>Ambedkar Public School - Admit Card System</h2>
-      <button class="btn" onclick="printSelected()">Print Selected</button>
+      <h2>Ambedkar Public School - Admit Card Portal</h2>
+      <button class="btn" onclick="printSelected()">Print Selected Cards</button>
     </div>
 
     <div class="search-panel">
@@ -215,19 +216,31 @@
           </tr>
         </thead>
         <tbody id="tableBody">
-          <tr><td colspan="7" style="text-align:center; padding: 20px; color:#64748b;">डेटा लोड हो रहा है... कृपया प्रतीक्षा करें।</td></tr>
+          <tr><td colspan="7" style="text-align:center; padding: 25px; color:#64748b;">डेटा लोड हो रहा है... कृपया प्रतीक्षा करें।</td></tr>
         </tbody>
       </table>
     </div>
   </div>
 
-  <!-- Print Container -->
+  <!-- Hidden Print Area -->
   <div class="print-area" id="printContainer"></div>
 
   <script>
-    // 🔹 अपना Google Apps Script Web App URL यहाँ पेस्ट करें:
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw4REM5nUtH4Udy9T3axdq-bn5mlNUlX3Wsvx3JjQKCE0Wumyzk5IJgIec33VbkgCWn/exec";
+    // 🔹 अपना Google Apps Script Web App URL यहाँ डालें:
+    const SCRIPT_URL = "YOUR_APPS_SCRIPT_WEB_APP_URL_HERE";
     let globalData = null;
+
+    // Helper: फोटो URL को हाई-क्वालिटी थंबनेल में बदलना
+    function fixPhotoUrl(url) {
+      if (!url) return 'https://via.placeholder.com/100x130?text=No+Photo';
+      let cleanUrl = String(url).trim();
+      // Drive ID निकालें
+      const match = cleanUrl.match(/[-\w]{25,}/);
+      if (match) {
+        return `https://drive.google.com/thumbnail?id=${match[0]}&sz=w500`;
+      }
+      return cleanUrl;
+    }
 
     async function loadData() {
       try {
@@ -236,14 +249,14 @@
         renderTable(globalData.students);
       } catch (err) {
         document.getElementById("tableBody").innerHTML = `
-          <tr><td colspan="7" style="text-align:center; color:red; padding: 20px;">त्रुटि: ${err.message}</td></tr>`;
+          <tr><td colspan="7" style="text-align:center; color:red; padding: 20px;">डेटा लोड करने में विफल: ${err.message}</td></tr>`;
       }
     }
 
     function renderTable(students) {
       const tbody = document.getElementById("tableBody");
       if (!students || students.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="7" style="text-align:center; padding:20px;">कोई छात्र नहीं मिला।</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="7" style="text-align:center; padding:20px;">कोई एक्टिव छात्र रिकॉर्ड नहीं मिला।</td></tr>`;
         return;
       }
 
@@ -278,7 +291,7 @@
     function printSelected() {
       const selectedBoxes = document.querySelectorAll(".stu-check:checked");
       if (selectedBoxes.length === 0) {
-        alert("कृपया कम से कम एक छात्र को चुनें!");
+        alert("कृपया प्रिंट करने के लिए कम से कम एक छात्र को चुनें!");
         return;
       }
 
@@ -299,6 +312,8 @@
           : `<tr><td colspan="2" style="text-align:center; padding: 10px;">टाइम टेबल उपलब्ध नहीं है</td></tr>`;
 
         const qrId = `qrcode_${i}`;
+        const photoSrc = fixPhotoUrl(s.photo);
+
         const cardHtml = `
           <div class="admit-card-page">
             <div class="card-box">
@@ -322,7 +337,7 @@
                   <div class="details-row"><span class="d-label">Category</span><span class="d-colon">:-</span> ${s.category}</div>
                 </div>
                 <div class="photo-right">
-                  <img src="${s.photo}" onerror="this.src='https://via.placeholder.com/100x130?text=No+Photo'" alt="Photo">
+                  <img src="${photoSrc}" onerror="this.src='https://via.placeholder.com/100x130?text=No+Photo'" alt="Student Photo">
                 </div>
               </div>
 
@@ -354,24 +369,20 @@
         `;
         printContainer.innerHTML += cardHtml;
 
-        // UPI QR Code Generator
-        const upiId = "kalpnathchaurasia2@ybl";
-        const payeeName = school.schoolName || "Ambedkar Public School";
-        const amount = s.feeDue > 0 ? s.feeDue : 0;
-        const note = `Fee - ${s.name} (${s.className})`;
-        const upiString = `upi://pay?pa=${upiId}&pn=${encodeURIComponent(payeeName)}&am=${amount}&tn=${encodeURIComponent(note)}&cu=INR`;
+        // 🔹 Dynamic Live QR Code Link
+        const dynamicLiveLink = `${SCRIPT_URL}?pay=${encodeURIComponent(s.studentId)}`;
 
         setTimeout(() => {
           new QRCode(document.getElementById(qrId), {
-            text: upiString,
-            width: 70,
-            height: 70,
+            text: dynamicLiveLink,
+            width: 68,
+            height: 68,
             correctLevel: QRCode.CorrectLevel.M
           });
         }, 10);
       });
 
-      // Allow 300ms for QR generation before triggering print preview
+      // QR कोड और इमेज रेंडर होने के लिए 350ms का इंतज़ार
       setTimeout(() => {
         window.print();
       }, 350);
