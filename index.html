@@ -3,20 +3,21 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admit Card & Time Table Portal</title>
+  <title>Ambedkar Public School - Admit Card & Fee Portal</title>
   <!-- Fast QR Code Library -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
   <style>
-    /* ================= SCREEN / UI VIEW ================= */
+    /* ================= BASE / UI STYLING ================= */
     * { box-sizing: border-box; }
     body {
       font-family: 'Segoe UI', Arial, sans-serif;
       margin: 0;
-      padding: 20px;
+      padding: 15px;
       background-color: #f1f5f9;
       color: #1e293b;
     }
 
+    /* ================= DESKTOP UI (NO-PRINT) ================= */
     .no-print {
       max-width: 1100px;
       margin: 0 auto;
@@ -77,12 +78,43 @@
     th { background-color: #f8fafc; font-weight: 600; position: sticky; top: 0; z-index: 10; }
     tr:hover { background-color: #f8fafc; }
 
+    /* ================= MOBILE LIVE SCAN VIEW ================= */
+    #mobilePayView {
+      display: none;
+      max-width: 420px;
+      margin: 20px auto;
+      background: #ffffff;
+      padding: 24px;
+      border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      text-align: center;
+    }
+    .m-school { font-size: 19px; font-weight: 800; color: #0f172a; margin-bottom: 4px; }
+    .m-sub { font-size: 13px; color: #64748b; margin-bottom: 18px; }
+    .m-details { text-align: left; background: #f8fafc; border: 1px solid #e2e8f0; padding: 12px 16px; border-radius: 8px; font-size: 14px; line-height: 1.6; }
+    .m-fee-box { margin: 18px 0; padding: 16px; border-radius: 8px; }
+    .fee-due-alert { background: #fef2f2; border: 1.5px solid #fecaca; }
+    .fee-paid-alert { background: #f0fdf4; border: 1.5px solid #bbf7d0; }
+    .m-fee-val { font-size: 28px; font-weight: 900; margin-top: 4px; }
+    .btn-upi {
+      display: block;
+      width: 100%;
+      background: #16a34a;
+      color: #ffffff;
+      text-decoration: none;
+      padding: 14px;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: bold;
+      box-shadow: 0 3px 10px rgba(22,163,74,0.3);
+    }
+
     /* ================= PRINT VIEW (A4 TOP-LEFT: 140mm x 200mm) ================= */
     .print-area { display: none; }
 
     @media print {
       body { background: transparent !important; padding: 0 !important; margin: 0 !important; }
-      .no-print { display: none !important; }
+      .no-print, #mobilePayView { display: none !important; }
       .print-area { display: block !important; }
       
       @page {
@@ -191,8 +223,8 @@
 </head>
 <body>
 
-  <!-- Screen Control UI -->
-  <div class="no-print">
+  <!-- 1. DESKTOP ADMIT CARD PORTAL (UI) -->
+  <div class="no-print" id="desktopPortal">
     <div class="header-panel">
       <h2>Ambedkar Public School - Admit Card Portal</h2>
       <button class="btn" id="printBtn" onclick="printSelected()">Print Selected Cards</button>
@@ -222,28 +254,89 @@
     </div>
   </div>
 
-  <!-- Hidden Print Area -->
+  <!-- 2. MOBILE DYNAMIC SCAN PORTAL (QR स्कैन करने पर दिखने वाला लाइव पेज) -->
+  <div id="mobilePayView">
+    <div id="mobileContent">डेटा लोड हो रहा है...</div>
+  </div>
+
+  <!-- 3. PRINT AREA -->
   <div class="print-area" id="printContainer"></div>
 
   <script>
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw4REM5nUtH4Udy9T3axdq-bn5mlNUlX3Wsvx3JjQKCE0Wumyzk5IJgIec33VbkgCWn/exec";
     let globalData = null;
 
-    async function loadData() {
+    // URL पैरामीटर चेक करें (?id=APS1)
+    const urlParams = new URLSearchParams(window.location.search);
+    const scannedStudentId = urlParams.get('id') || urlParams.get('pay');
+
+    async function initApp() {
       try {
         const response = await fetch(SCRIPT_URL);
         globalData = await response.json();
-        renderTable(globalData.students);
+
+        if (scannedStudentId) {
+          // अगर मोबाइल से QR स्कैन किया गया है
+          showMobilePayView(scannedStudentId.trim().toUpperCase());
+        } else {
+          // नॉर्मल कंप्यूटर पर टेबल रेंडर करें
+          renderTable(globalData.students);
+        }
       } catch (err) {
-        document.getElementById("tableBody").innerHTML = `
-          <tr><td colspan="7" style="text-align:center; color:red; padding: 20px;">डेटा लोड करने में विफल: ${err.message}</td></tr>`;
+        if (scannedStudentId) {
+          document.getElementById("mobilePayView").style.display = "block";
+          document.getElementById("mobileContent").innerHTML = `<div style="color:red;padding:20px;">सर्वर से डेटा लोड नहीं हो सका: ${err.message}</div>`;
+        } else {
+          document.getElementById("tableBody").innerHTML = `<tr><td colspan="7" style="text-align:center; color:red; padding: 20px;">डेटा लोड करने में विफल: ${err.message}</td></tr>`;
+        }
       }
+    }
+
+    // मोबाइल लाइव पेमेंट स्क्रीन (Dynamic Scan View)
+    function showMobilePayView(studentId) {
+      document.getElementById("desktopPortal").style.display = "none";
+      const payView = document.getElementById("mobilePayView");
+      payView.style.display = "block";
+
+      const s = globalData.students.find(x => String(x.studentId).trim().toUpperCase() === studentId);
+      const school = globalData.schoolInfo;
+
+      if (!s) {
+        payView.innerHTML = `<h3 style="color:#ef4444;">छात्र रिकॉर्ड नहीं मिला (${studentId})</h3>`;
+        return;
+      }
+
+      const upiId = "kalpnathchaurasia2@ybl";
+      const note = `Fee Payment - ${s.name} (${s.className})`;
+      const upiLink = `upi://pay?pa=${upiId}&pn=${encodeURIComponent(school.schoolName)}&am=${s.feeDue}&tn=${encodeURIComponent(note)}&cu=INR`;
+
+      payView.innerHTML = `
+        <div class="m-school">${school.schoolName}</div>
+        <div class="m-sub">${school.schoolAddress}</div>
+
+        <div class="m-details">
+          <div><strong>Student Name:</strong> ${s.name}</div>
+          <div><strong>Father's Name:</strong> ${s.fatherName}</div>
+          <div><strong>Class:</strong> ${s.className}</div>
+          <div><strong>Student ID:</strong> ${s.studentId}</div>
+        </div>
+
+        <div class="m-fee-box ${s.feeDue > 0 ? 'fee-due-alert' : 'fee-paid-alert'}">
+          <div style="font-size:13px; font-weight:600; color:#475569;">वर्तमान लाइव बकाया शुल्क (Sheet Updated)</div>
+          <div class="m-fee-val" style="color: ${s.feeDue > 0 ? '#dc2626' : '#16a34a'};">₹ ${s.feeDue}</div>
+          ${s.feeDue === 0 ? '<div style="color:#16a34a; font-weight:bold; margin-top:5px;">✔ कोई बकाया नहीं है (All Dues Cleared)</div>' : ''}
+        </div>
+
+        ${s.feeDue > 0 ? `
+          <a href="${upiLink}" class="btn-upi">Pay ₹ ${s.feeDue} via PhonePe / GPay / Paytm</a>
+        ` : ''}
+      `;
     }
 
     function renderTable(students) {
       const tbody = document.getElementById("tableBody");
       if (!students || students.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="7" style="text-align:center; padding:20px;">कोई एक्टिव छात्र रिकॉर्ड नहीं मिला।</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="7" style="text-align:center; padding:20px;">कोई छात्र नहीं मिला।</td></tr>`;
         return;
       }
 
@@ -284,10 +377,9 @@
 
       const printContainer = document.getElementById("printContainer");
       printContainer.innerHTML = "";
-
       const school = globalData.schoolInfo;
 
-      // 1. सभी सेलेक्टेड कार्ड्स का HTML जोड़ें
+      // 1. कार्ड्स रेंडर करें
       selectedBoxes.forEach((cb, index) => {
         const s = globalData.students[cb.dataset.index];
         const qrId = `qr_card_${index}`;
@@ -341,7 +433,7 @@
                   </div>
                   <div>
                     <div class="qr-box" id="${qrId}"></div>
-                    <div class="qr-text">सीधे UPI (PhonePe / GPay) द्वारा जमा करने हेतु स्कैन करें</div>
+                    <div class="qr-text">वर्तमान बकाया शुल्क जानने व जमा करने के लिए स्कैन करें</div>
                   </div>
                 </div>
                 
@@ -358,34 +450,34 @@
         printContainer.insertAdjacentHTML('beforeend', cardHtml);
       });
 
-      // 2. हर कार्ड के लिए Clean Fast UPI QR Code जनरेट करें
+      // 2. हर कार्ड पर Dynamic Short URL वाला QR बनाएं
+      const currentUrlBase = window.location.origin + window.location.pathname;
+
       selectedBoxes.forEach((cb, index) => {
         const s = globalData.students[cb.dataset.index];
         const qrElement = document.getElementById(`qr_card_${index}`);
         
-        // 🔹 Fast Native UPI Format (Scan instantly in PhonePe/GPay)
-        const upiId = "kalpnathchaurasia2@ybl";
-        const feeAmount = (s.feeDue && s.feeDue > 0) ? s.feeDue : "";
-        const cleanUpiString = `upi://pay?pa=${upiId}&pn=Ambedkar Public School&am=${feeAmount}&cu=INR`;
+        // 🔹 यह QR कोड सीधे GitHub लाइव पोर्टल को कॉल करेगा:
+        const cleanDynamicUrl = `${currentUrlBase}?id=${encodeURIComponent(s.studentId)}`;
 
         if (qrElement) {
           qrElement.innerHTML = "";
           new QRCode(qrElement, {
-            text: cleanUpiString,
+            text: cleanDynamicUrl,
             width: 70,
             height: 70,
-            correctLevel: QRCode.CorrectLevel.L // Low density for ultra-fast scanning
+            correctLevel: QRCode.CorrectLevel.M
           });
         }
       });
 
-      // 3. प्रिंट ट्रिगर
+      // 3. प्रिंट डायलॉग खोलें
       setTimeout(() => {
         window.print();
       }, 150);
     }
 
-    window.onload = loadData;
+    window.onload = initApp;
   </script>
 </body>
 </html>
