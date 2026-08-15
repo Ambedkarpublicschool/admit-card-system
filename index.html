@@ -16,7 +16,44 @@
       color: #1e293b;
     }
 
-    /* ================= 1. PARENT PAYMENT VIEW (MOBILE) ================= */
+    /* ================= 1. FULL-SCREEN BLURRED LOADER ================= */
+    #loadingOverlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100vw;
+      height: 100vh;
+      background: rgba(248, 250, 252, 0.96);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      z-index: 99999;
+    }
+
+    .spinner {
+      width: 50px;
+      height: 50px;
+      border: 5px solid #cbd5e1;
+      border-top-color: #2563eb;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      margin-bottom: 16px;
+    }
+
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+
+    .loading-text {
+      font-size: 16px;
+      font-weight: 700;
+      color: #334155;
+    }
+
+    /* ================= 2. PARENT PAYMENT VIEW (MOBILE QR SCAN) ================= */
     #parentView {
       display: none;
       min-height: 100vh;
@@ -90,7 +127,7 @@
 
     .fee-amount-text.paid-text {
       color: #16a34a;
-      font-size: 24px;
+      font-size: 22px;
     }
 
     .btn-upi-pay {
@@ -111,7 +148,7 @@
       background: #15803d;
     }
 
-    /* ================= 2. ADMIN PORTAL VIEW ================= */
+    /* ================= 3. ADMIN PORTAL VIEW (PC / DIRECT ACCESS) ================= */
     #adminView {
       display: none;
       max-width: 1100px;
@@ -172,12 +209,12 @@
     th { background-color: #f8fafc; font-weight: 600; position: sticky; top: 0; z-index: 10; }
     tr:hover { background-color: #f8fafc; }
 
-    /* ================= 3. PRINT ADMIT CARD VIEW (140mm x 200mm) ================= */
+    /* ================= 4. PRINT VIEW (140mm x 200mm) ================= */
     .print-area { display: none; }
 
     @media print {
       body { background: transparent !important; padding: 0 !important; margin: 0 !important; }
-      #parentView, #adminView, #loaderScreen { display: none !important; }
+      #parentView, #adminView, #loadingOverlay { display: none !important; }
       .print-area { display: block !important; }
       
       @page {
@@ -277,32 +314,17 @@
     .tt-table { width: 100%; border-collapse: collapse; font-size: 9px; }
     .tt-table td { border: 1px dotted #334155; padding: 2px 3px; }
     .tt-table td:first-child { width: 56%; }
-
-    /* Loader Screen */
-    #loaderScreen {
-      position: fixed;
-      top: 0; left: 0; width: 100%; height: 100%;
-      background: #ffffff;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-      z-index: 9999;
-      font-size: 16px;
-      color: #334155;
-      font-weight: bold;
-    }
   </style>
 </head>
 <body>
 
-  <!-- 1. LOADING SCREEN -->
-  <div id="loaderScreen">
-    <div style="font-size: 32px; margin-bottom: 12px;">⏳</div>
-    <div>डेटा लोड हो रहा है... कृपया प्रतीक्षा करें।</div>
+  <!-- 1. FULL-SCREEN BLURRED OVERLAY LOADER -->
+  <div id="loadingOverlay">
+    <div class="spinner"></div>
+    <div class="loading-text">डेटा लोड हो रहा है... कृपया प्रतीक्षा करें</div>
   </div>
 
-  <!-- 2. PARENT SCAN/PAYMENT VIEW (When QR is Scanned) -->
+  <!-- 2. PARENT PAYMENT VIEW (When QR is Scanned) -->
   <div id="parentView">
     <div class="pay-card">
       <div class="school-title" id="pSchoolName">Ambedkar Public School</div>
@@ -360,7 +382,7 @@
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw4REM5nUtH4Udy9T3axdq-bn5mlNUlX3Wsvx3JjQKCE0Wumyzk5IJgIec33VbkgCWn/exec";
     let globalData = null;
 
-    // चेक करें कि क्या QR कोड स्कैन करके खोला गया है (?id=APS1)
+    // URL पैरामीटर चेक करें (?id=APS1 या ?pay=APS1)
     const urlParams = new URLSearchParams(window.location.search);
     const targetStudentId = urlParams.get('id') || urlParams.get('pay');
 
@@ -369,20 +391,21 @@
         const response = await fetch(SCRIPT_URL);
         globalData = await response.json();
         
-        document.getElementById("loaderScreen").style.display = "none";
+        // डेटा मिलते ही लोडिंग ओवरले हटाएँ
+        document.getElementById("loadingOverlay").style.display = "none";
 
         if (targetStudentId) {
-          // 👉 QR स्कैन किया गया है -> केवल पैरेंट पेमेंट कार्ड दिखाएं
+          // 👉 QR स्कैन किया गया है -> केवल पैरेंट पेमेंट कार्ड दिखेगा
           showParentPaymentView(targetStudentId.trim().toUpperCase());
         } else {
-          // 👉 एडमिन पोर्टल खोलें
+          // 👉 कंप्यूटर/डायरेक्ट लिंक -> एडमिन पोर्टल खुलेगा
           document.getElementById("adminView").style.display = "block";
           renderAdminTable(globalData.students);
         }
       } catch (err) {
-        document.getElementById("loaderScreen").innerHTML = `
-          <div style="color:red; text-align:center; padding:20px;">
-            डेटा लोड करने में विफल: ${err.message}
+        document.getElementById("loadingOverlay").innerHTML = `
+          <div style="color:#ef4444; font-size:16px; font-weight:bold; text-align:center; padding:20px;">
+            डेटा लोड करने में समस्या: ${err.message}
           </div>`;
       }
     }
@@ -397,7 +420,7 @@
       const school = globalData.schoolInfo;
 
       if (!student) {
-        pView.innerHTML = `<div class="pay-card"><h3 style="color:red;">छात्र ID (${studentId}) का रिकॉर्ड नहीं मिला।</h3></div>`;
+        pView.innerHTML = `<div class="pay-card"><h3 style="color:#ef4444;">छात्र ID (${studentId}) का रिकॉर्ड नहीं मिला।</h3></div>`;
         return;
       }
 
@@ -417,7 +440,7 @@
         payBtn.innerText = `Pay ₹ ${student.feeDue} via PhonePe / GPay / Paytm`;
         payBtn.style.display = "block";
         
-        // Native UPI Deep-Link
+        // Clean Native UPI Deep-Link
         const upiId = "kalpnathchaurasia2@ybl";
         const note = `Fee - ${student.name} (${student.className})`;
         payBtn.href = `upi://pay?pa=${upiId}&pn=${encodeURIComponent(school.schoolName)}&am=${student.feeDue}&tn=${encodeURIComponent(note)}&cu=INR`;
@@ -460,7 +483,7 @@
       });
     }
 
-    // प्रिंट कमांड
+    // प्रिंट एडमिट कार्ड
     function printSelected() {
       const selectedBoxes = Array.from(document.querySelectorAll(".stu-check:checked"));
       if (selectedBoxes.length === 0) {
@@ -472,7 +495,7 @@
       printContainer.innerHTML = "";
       const school = globalData.schoolInfo;
 
-      // 1. कार्ड्स रेंडर करें
+      // 1. कार्ड्स जोड़ें
       selectedBoxes.forEach((cb, index) => {
         const s = globalData.students[cb.dataset.index];
         const qrId = `qr_card_${index}`;
@@ -543,7 +566,7 @@
         printContainer.insertAdjacentHTML('beforeend', cardHtml);
       });
 
-      // 2. हर एडमिट कार्ड में Dynamic GitHub Pages QR Code लगाएँ
+      // 2. हर एडमिट कार्ड में Dynamic QR Code जोड़ें
       const currentOriginUrl = window.location.origin + window.location.pathname;
 
       selectedBoxes.forEach((cb, index) => {
