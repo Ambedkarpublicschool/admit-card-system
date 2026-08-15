@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ambedkar Public School</title>
+  <title>Admit Card & Time Table Portal</title>
   <!-- Fast QR Code Library -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
   <style>
@@ -34,13 +34,13 @@
     }
 
     .spinner {
-      width: 50px;
-      height: 50px;
-      border: 5px solid #cbd5e1;
+      width: 48px;
+      height: 48px;
+      border: 4px solid #cbd5e1;
       border-top-color: #2563eb;
       border-radius: 50%;
       animation: spin 0.8s linear infinite;
-      margin-bottom: 16px;
+      margin-bottom: 14px;
     }
 
     @keyframes spin {
@@ -48,12 +48,12 @@
     }
 
     .loading-text {
-      font-size: 16px;
+      font-size: 15px;
       font-weight: 700;
       color: #334155;
     }
 
-    /* ================= 2. PARENT PAYMENT VIEW (MOBILE QR SCAN) ================= */
+    /* ================= 2. PARENT PAYMENT VIEW (ON QR SCAN) ================= */
     #parentView {
       display: none;
       min-height: 100vh;
@@ -75,8 +75,15 @@
       border: 1px solid #e2e8f0;
     }
 
+    .pay-card .school-logo-parent {
+      width: 60px;
+      height: 60px;
+      object-fit: contain;
+      margin-bottom: 6px;
+    }
+
     .pay-card .school-title {
-      font-size: 20px;
+      font-size: 19px;
       font-weight: 800;
       color: #0f172a;
       margin-bottom: 2px;
@@ -85,7 +92,7 @@
     .pay-card .school-sub {
       font-size: 12.5px;
       color: #64748b;
-      margin-bottom: 18px;
+      margin-bottom: 16px;
     }
 
     .student-info-box {
@@ -96,7 +103,7 @@
       text-align: left;
       font-size: 14px;
       line-height: 1.6;
-      margin-bottom: 18px;
+      margin-bottom: 16px;
     }
 
     .live-fee-box {
@@ -141,14 +148,9 @@
       font-size: 16px;
       font-weight: bold;
       box-shadow: 0 4px 12px rgba(22, 163, 74, 0.25);
-      transition: 0.2s;
     }
 
-    .btn-upi-pay:hover {
-      background: #15803d;
-    }
-
-    /* ================= 3. ADMIN PORTAL VIEW (PC / DIRECT ACCESS) ================= */
+    /* ================= 3. ADMIN PORTAL VIEW (PC) ================= */
     #adminView {
       display: none;
       max-width: 1100px;
@@ -209,7 +211,7 @@
     th { background-color: #f8fafc; font-weight: 600; position: sticky; top: 0; z-index: 10; }
     tr:hover { background-color: #f8fafc; }
 
-    /* ================= 4. PRINT VIEW (140mm x 200mm) ================= */
+    /* ================= 4. PRINT VIEW (140mm x 200mm on A4) ================= */
     .print-area { display: none; }
 
     @media print {
@@ -238,34 +240,81 @@
         left: 0;
         box-sizing: border-box;
         border: 1.5px solid #000;
-        padding: 5mm 6mm;
+        padding: 4mm 5mm;
         background: #fff;
         overflow: hidden;
       }
     }
 
-    .card-header { text-align: center; border-bottom: 1.5px solid #000; padding-bottom: 3px; margin-bottom: 4px; }
-    .card-header .tagline { font-size: 9.5px; font-weight: bold; }
-    .card-header .school-name { font-size: 16px; font-weight: 900; margin: 1px 0; }
+    .card-header {
+      border-bottom: 1.2px solid #000;
+      padding-bottom: 3px;
+      margin-bottom: 3px;
+      text-align: center;
+    }
+    
+    .card-header .tagline {
+      font-size: 9px;
+      font-weight: bold;
+      border-bottom: 0.5px solid #666;
+      padding-bottom: 2px;
+      margin-bottom: 3px;
+    }
+
+    .header-main-flex {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .header-main-flex img.school-logo {
+      width: 32px;
+      height: 32px;
+      object-fit: contain;
+    }
+
+    .school-info-text {
+      text-align: center;
+    }
+
+    .school-info-text .school-name {
+      font-size: 15px;
+      font-weight: 900;
+      margin: 0;
+      line-height: 1.1;
+      text-transform: uppercase;
+    }
+
+    .school-info-text .school-addr {
+      font-size: 9.5px;
+      font-weight: 600;
+      margin: 1px 0 0 0;
+    }
+
+    .title-badge-container {
+      margin-top: 2px;
+    }
+
     .card-header .title-badge {
       display: inline-block;
       background: #e2e8f0;
-      font-size: 11.5px;
+      font-size: 11px;
       font-weight: bold;
-      padding: 1px 12px;
+      padding: 1px 10px;
       border-radius: 2px;
     }
 
-    .student-details { display: flex; justify-content: space-between; margin-top: 4px; font-size: 10.5px; }
-    .details-left { width: 70%; line-height: 1.35; }
-    .details-row { display: flex; margin-bottom: 1.5px; }
-    .d-label { width: 92px; font-weight: bold; flex-shrink: 0; }
+    .student-details { display: flex; justify-content: space-between; margin-top: 3px; font-size: 10px; }
+    .details-left { width: 70%; line-height: 1.3; }
+    .details-row { display: flex; margin-bottom: 1px; }
+    .d-label { width: 88px; font-weight: bold; flex-shrink: 0; }
     .d-colon { margin-right: 4px; }
 
     .photo-right { width: 28%; text-align: center; }
     .photo-right img {
-      width: 28mm;
-      height: 35mm;
+      width: 26mm;
+      height: 33mm;
       border: 1px solid #000;
       object-fit: cover;
       display: block;
@@ -276,57 +325,58 @@
     .time-table-heading {
       text-align: center;
       background: #e2e8f0;
-      font-size: 10px;
+      font-size: 9.5px;
       font-weight: bold;
-      padding: 2px;
-      margin-top: 5px;
-      margin-bottom: 4px;
+      padding: 1.5px;
+      margin-top: 3px;
+      margin-bottom: 3px;
       border: 1px solid #cbd5e1;
     }
 
-    .bottom-section { display: flex; gap: 6px; }
+    .bottom-section { display: flex; gap: 5px; }
     .fee-col {
       width: 36%;
       border-right: 1px dashed #475569;
-      padding-right: 4px;
+      padding-right: 3px;
       display: flex;
       flex-direction: column;
       justify-content: flex-start;
       text-align: center;
     }
-    .fee-label { font-size: 10px; font-weight: bold; text-align: left; }
-    .fee-amount { font-size: 12.5px; font-weight: 900; margin: 2px 0 4px 0; text-align: left; }
+    .fee-label { font-size: 9.5px; font-weight: bold; text-align: left; }
+    .fee-amount { font-size: 12px; font-weight: 900; margin: 1px 0 3px 0; text-align: left; }
     
-    .qr-box { display: flex; justify-content: center; margin-top: 2px; min-height: 68px; }
-    .qr-text { font-size: 8px; line-height: 1.15; margin-top: 3px; font-weight: bold; }
+    .qr-box { display: flex; justify-content: center; margin-top: 1px; min-height: 65px; }
+    .qr-text { font-size: 7.5px; line-height: 1.1; margin-top: 2px; font-weight: bold; }
 
     .tt-col { width: 64%; }
     .tt-time {
-      font-size: 9.5px;
+      font-size: 9px;
       font-weight: bold;
-      margin-bottom: 3px;
+      margin-bottom: 2px;
       text-align: center;
       background: #f1f5f9;
-      padding: 2px;
+      padding: 1.5px;
       border: 0.5px solid #cbd5e1;
     }
 
-    .tt-table { width: 100%; border-collapse: collapse; font-size: 9px; }
-    .tt-table td { border: 1px dotted #334155; padding: 2px 3px; }
+    .tt-table { width: 100%; border-collapse: collapse; font-size: 8.5px; }
+    .tt-table td { border: 1px dotted #334155; padding: 1.5px 2px; }
     .tt-table td:first-child { width: 56%; }
   </style>
 </head>
 <body>
 
-  <!-- 1. FULL-SCREEN BLURRED OVERLAY LOADER -->
+  <!-- 1. FULL-SCREEN LOADER -->
   <div id="loadingOverlay">
     <div class="spinner"></div>
     <div class="loading-text">डेटा लोड हो रहा है... कृपया प्रतीक्षा करें</div>
   </div>
 
-  <!-- 2. PARENT PAYMENT VIEW (When QR is Scanned) -->
+  <!-- 2. PARENT VIEW (ON QR SCAN) -->
   <div id="parentView">
     <div class="pay-card">
+      <img src="https://i.postimg.cc/pLt1F2cD/logo-copy.png" class="school-logo-parent" alt="Logo">
       <div class="school-title" id="pSchoolName">Ambedkar Public School</div>
       <div class="school-sub" id="pSchoolAddr">Madhopur Campierganj Gorakhpur</div>
 
@@ -346,7 +396,7 @@
     </div>
   </div>
 
-  <!-- 3. ADMIN ADMIT CARD PRINT PORTAL VIEW -->
+  <!-- 3. ADMIN PORTAL VIEW -->
   <div id="adminView">
     <div class="header-panel">
       <h2>Ambedkar Public School - Admit Card Portal</h2>
@@ -382,7 +432,6 @@
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw4REM5nUtH4Udy9T3axdq-bn5mlNUlX3Wsvx3JjQKCE0Wumyzk5IJgIec33VbkgCWn/exec";
     let globalData = null;
 
-    // URL पैरामीटर चेक करें (?id=APS1 या ?pay=APS1)
     const urlParams = new URLSearchParams(window.location.search);
     const targetStudentId = urlParams.get('id') || urlParams.get('pay');
 
@@ -391,14 +440,11 @@
         const response = await fetch(SCRIPT_URL);
         globalData = await response.json();
         
-        // डेटा मिलते ही लोडिंग ओवरले हटाएँ
         document.getElementById("loadingOverlay").style.display = "none";
 
         if (targetStudentId) {
-          // 👉 QR स्कैन किया गया है -> केवल पैरेंट पेमेंट कार्ड दिखेगा
           showParentPaymentView(targetStudentId.trim().toUpperCase());
         } else {
-          // 👉 कंप्यूटर/डायरेक्ट लिंक -> एडमिन पोर्टल खुलेगा
           document.getElementById("adminView").style.display = "block";
           renderAdminTable(globalData.students);
         }
@@ -410,7 +456,6 @@
       }
     }
 
-    // पैरेंट पेमेंट कार्ड रेंडर करने का फंक्शन
     function showParentPaymentView(studentId) {
       document.getElementById("adminView").style.display = "none";
       const pView = document.getElementById("parentView");
@@ -440,7 +485,6 @@
         payBtn.innerText = `Pay ₹ ${student.feeDue} via PhonePe / GPay / Paytm`;
         payBtn.style.display = "block";
         
-        // Clean Native UPI Deep-Link
         const upiId = "kalpnathchaurasia2@ybl";
         const note = `Fee - ${student.name} (${student.className})`;
         payBtn.href = `upi://pay?pa=${upiId}&pn=${encodeURIComponent(school.schoolName)}&am=${student.feeDue}&tn=${encodeURIComponent(note)}&cu=INR`;
@@ -452,7 +496,6 @@
       }
     }
 
-    // एडमिन टेबल
     function renderAdminTable(students) {
       const tbody = document.getElementById("tableBody");
       tbody.innerHTML = students.map((s, idx) => `
@@ -483,7 +526,6 @@
       });
     }
 
-    // प्रिंट एडमिट कार्ड
     function printSelected() {
       const selectedBoxes = Array.from(document.querySelectorAll(".stu-check:checked"));
       if (selectedBoxes.length === 0) {
@@ -494,8 +536,9 @@
       const printContainer = document.getElementById("printContainer");
       printContainer.innerHTML = "";
       const school = globalData.schoolInfo;
+      const logoUrl = school.logoLink || "https://i.postimg.cc/pLt1F2cD/logo-copy.png";
 
-      // 1. कार्ड्स जोड़ें
+      // 1. एडमिट कार्ड्स रेंडर करें
       selectedBoxes.forEach((cb, index) => {
         const s = globalData.students[cb.dataset.index];
         const qrId = `qr_card_${index}`;
@@ -515,8 +558,16 @@
             <div class="card-box">
               <div class="card-header">
                 <div class="tagline">"A government recognized school (सरकार द्वारा मान्यता प्राप्त)"</div>
-                <div class="school-name">_A. P. S. Madhopur 9793458774</div>
-                <div class="title-badge">${school.examName || 'Quaterly Examination 2026-2027'}</div>
+                <div class="header-main-flex">
+                  <img src="${logoUrl}" class="school-logo" alt="Logo">
+                  <div class="school-info-text">
+                    <div class="school-name">${school.schoolName || 'Ambedkar Public School'}</div>
+                    <div class="school-addr">${school.schoolAddress || 'Madhopur Campierganj Gorakhpur'}</div>
+                  </div>
+                </div>
+                <div class="title-badge-container">
+                  <div class="title-badge">${school.examName || 'Quaterly Examination 2026-2027'}</div>
+                </div>
               </div>
               
               <div class="student-details">
@@ -566,7 +617,7 @@
         printContainer.insertAdjacentHTML('beforeend', cardHtml);
       });
 
-      // 2. हर एडमिट कार्ड में Dynamic QR Code जोड़ें
+      // 2. Dynamic QR Codes जोड़ें
       const currentOriginUrl = window.location.origin + window.location.pathname;
 
       selectedBoxes.forEach((cb, index) => {
@@ -578,8 +629,8 @@
           qrElement.innerHTML = "";
           new QRCode(qrElement, {
             text: dynamicStudentLink,
-            width: 70,
-            height: 70,
+            width: 65,
+            height: 65,
             correctLevel: QRCode.CorrectLevel.M
           });
         }
