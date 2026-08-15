@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Admit Card & Time Table Portal</title>
-  <!-- QR Code Library -->
+  <!-- Fast QR Code Library -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
   <style>
     /* ================= SCREEN / UI VIEW ================= */
@@ -59,7 +59,6 @@
       transition: 0.2s;
     }
     .btn:hover { background-color: #1d4ed8; }
-    .btn:disabled { background-color: #94a3b8; cursor: not-allowed; }
 
     .table-container {
       max-height: 500px;
@@ -171,7 +170,7 @@
     .fee-label { font-size: 10px; font-weight: bold; text-align: left; }
     .fee-amount { font-size: 12.5px; font-weight: 900; margin: 2px 0 4px 0; text-align: left; }
     
-    .qr-box { display: flex; justify-content: center; margin-top: 2px; }
+    .qr-box { display: flex; justify-content: center; margin-top: 2px; min-height: 68px; }
     .qr-text { font-size: 8px; line-height: 1.15; margin-top: 3px; font-weight: bold; }
 
     .tt-col { width: 64%; }
@@ -223,11 +222,11 @@
     </div>
   </div>
 
-  <!-- Print Container -->
+  <!-- Hidden Print Area -->
   <div class="print-area" id="printContainer"></div>
 
   <script>
-    // 🔹 अपना Google Apps Script Web App URL यहाँ पेस्ट करें:
+    // 🔹 आपका दिया गया Apps Script Web App URL:
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw4REM5nUtH4Udy9T3axdq-bn5mlNUlX3Wsvx3JjQKCE0Wumyzk5IJgIec33VbkgCWn/exec";
     let globalData = null;
 
@@ -245,7 +244,7 @@
     function renderTable(students) {
       const tbody = document.getElementById("tableBody");
       if (!students || students.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="7" style="text-align:center; padding:20px;">कोई छात्र नहीं मिला।</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="7" style="text-align:center; padding:20px;">कोई एक्टिव छात्र रिकॉर्ड नहीं मिला।</td></tr>`;
         return;
       }
 
@@ -277,25 +276,23 @@
       });
     }
 
-    async function printSelected() {
-      const selectedBoxes = document.querySelectorAll(".stu-check:checked");
+    function printSelected() {
+      const selectedBoxes = Array.from(document.querySelectorAll(".stu-check:checked"));
       if (selectedBoxes.length === 0) {
         alert("कृपया प्रिंट करने के लिए कम से कम एक छात्र को चुनें!");
         return;
       }
 
-      const printBtn = document.getElementById("printBtn");
-      printBtn.disabled = true;
-      printBtn.innerText = "फोटो लोड हो रही है...";
-
       const printContainer = document.getElementById("printContainer");
       printContainer.innerHTML = "";
 
-      const imagePromises = [];
+      const school = globalData.schoolInfo;
 
-      selectedBoxes.forEach((cb, i) => {
+      // Step 1: सभी सेलेक्टेड कार्ड्स का HTML एक साथ जनरेट करें
+      selectedBoxes.forEach((cb, index) => {
         const s = globalData.students[cb.dataset.index];
-        const school = globalData.schoolInfo;
+        const qrId = `qr_card_${index}`;
+        const photoUrl = s.photo ? s.photo.trim() : 'https://via.placeholder.com/100x130?text=No+Photo';
 
         const timetableRows = (s.schedule.timetable && s.schedule.timetable.length > 0)
           ? s.schedule.timetable.map(t => `
@@ -305,9 +302,6 @@
               </tr>
             `).join('')
           : `<tr><td colspan="2" style="text-align:center; padding: 10px;">टाइम टेबल उपलब्ध नहीं है</td></tr>`;
-
-        const qrId = `qrcode_${i}`;
-        const photoUrl = s.photo ? s.photo.trim() : '';
 
         const cardHtml = `
           <div class="admit-card-page">
@@ -332,7 +326,7 @@
                   <div class="details-row"><span class="d-label">Category</span><span class="d-colon">:-</span> ${s.category}</div>
                 </div>
                 <div class="photo-right">
-                  <img id="img_${i}" src="${photoUrl}" alt="Photo">
+                  <img src="${photoUrl}" loading="eager" decoding="async" onerror="this.src='https://via.placeholder.com/100x130?text=No+Photo'" alt="Student Photo">
                 </div>
               </div>
 
@@ -362,43 +356,30 @@
             </div>
           </div>
         `;
-        printContainer.innerHTML += cardHtml;
+        printContainer.insertAdjacentHTML('beforeend', cardHtml);
+      });
 
-        // Dynamic QR Code Link
+      // Step 2: हर कार्ड के लिए तुरंत अलग-अलग QR कोड जनरेट करें
+      selectedBoxes.forEach((cb, index) => {
+        const s = globalData.students[cb.dataset.index];
+        const qrElement = document.getElementById(`qr_card_${index}`);
         const dynamicLiveLink = `${SCRIPT_URL}?pay=${encodeURIComponent(s.studentId)}`;
-        new QRCode(document.getElementById(qrId), {
-          text: dynamicLiveLink,
-          width: 68,
-          height: 68,
-          correctLevel: QRCode.CorrectLevel.M
-        });
 
-        // Image Preload Checker
-        if (photoUrl) {
-          const imgEl = document.getElementById(`img_${i}`);
-          const p = new Promise(resolve => {
-            if (imgEl.complete) {
-              resolve();
-            } else {
-              imgEl.onload = () => resolve();
-              imgEl.onerror = () => {
-                imgEl.src = 'https://via.placeholder.com/100x130?text=No+Photo';
-                resolve();
-              };
-            }
+        if (qrElement) {
+          qrElement.innerHTML = "";
+          new QRCode(qrElement, {
+            text: dynamicLiveLink,
+            width: 68,
+            height: 68,
+            correctLevel: QRCode.CorrectLevel.M
           });
-          imagePromises.push(p);
         }
       });
 
-      // जब सभी फोटो पूरी तरह लोड हो जाएँ, तब प्रिंट डायलॉग खोलें
-      await Promise.all(imagePromises);
-      printBtn.disabled = false;
-      printBtn.innerText = "Print Selected Cards";
-
+      // Step 3: बिना इंतज़ार किए तुरंत प्रिंट डायलॉग खोलें
       setTimeout(() => {
         window.print();
-      }, 200);
+      }, 150);
     }
 
     window.onload = loadData;
