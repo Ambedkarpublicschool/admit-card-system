@@ -226,7 +226,6 @@
   <div class="print-area" id="printContainer"></div>
 
   <script>
-    // 🔹 आपका दिया गया Apps Script Web App URL:
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw4REM5nUtH4Udy9T3axdq-bn5mlNUlX3Wsvx3JjQKCE0Wumyzk5IJgIec33VbkgCWn/exec";
     let globalData = null;
 
@@ -288,7 +287,7 @@
 
       const school = globalData.schoolInfo;
 
-      // Step 1: सभी सेलेक्टेड कार्ड्स का HTML एक साथ जनरेट करें
+      // 1. सभी सेलेक्टेड कार्ड्स का HTML जोड़ें
       selectedBoxes.forEach((cb, index) => {
         const s = globalData.students[cb.dataset.index];
         const qrId = `qr_card_${index}`;
@@ -342,7 +341,7 @@
                   </div>
                   <div>
                     <div class="qr-box" id="${qrId}"></div>
-                    <div class="qr-text">वर्तमान बकाया शुल्क जानने व जमा करने के लिए स्कैन करें</div>
+                    <div class="qr-text">सीधे UPI (PhonePe / GPay) द्वारा जमा करने हेतु स्कैन करें</div>
                   </div>
                 </div>
                 
@@ -359,24 +358,28 @@
         printContainer.insertAdjacentHTML('beforeend', cardHtml);
       });
 
-      // Step 2: हर कार्ड के लिए तुरंत अलग-अलग QR कोड जनरेट करें
+      // 2. हर कार्ड के लिए Clean Fast UPI QR Code जनरेट करें
       selectedBoxes.forEach((cb, index) => {
         const s = globalData.students[cb.dataset.index];
         const qrElement = document.getElementById(`qr_card_${index}`);
-        const dynamicLiveLink = `${SCRIPT_URL}?pay=${encodeURIComponent(s.studentId)}`;
+        
+        // 🔹 Fast Native UPI Format (Scan instantly in PhonePe/GPay)
+        const upiId = "kalpnathchaurasia2@ybl";
+        const feeAmount = (s.feeDue && s.feeDue > 0) ? s.feeDue : "";
+        const cleanUpiString = `upi://pay?pa=${upiId}&pn=Ambedkar Public School&am=${feeAmount}&cu=INR`;
 
         if (qrElement) {
           qrElement.innerHTML = "";
           new QRCode(qrElement, {
-            text: dynamicLiveLink,
-            width: 68,
-            height: 68,
-            correctLevel: QRCode.CorrectLevel.M
+            text: cleanUpiString,
+            width: 70,
+            height: 70,
+            correctLevel: QRCode.CorrectLevel.L // Low density for ultra-fast scanning
           });
         }
       });
 
-      // Step 3: बिना इंतज़ार किए तुरंत प्रिंट डायलॉग खोलें
+      // 3. प्रिंट ट्रिगर
       setTimeout(() => {
         window.print();
       }, 150);
