@@ -59,6 +59,7 @@
       transition: 0.2s;
     }
     .btn:hover { background-color: #1d4ed8; }
+    .btn:disabled { background-color: #94a3b8; cursor: not-allowed; }
 
     .table-container {
       max-height: 500px;
@@ -143,7 +144,7 @@
       object-fit: cover;
       display: block;
       margin: 0 auto;
-      background: #f8fafc;
+      background: #fff;
     }
 
     .time-table-heading {
@@ -195,7 +196,7 @@
   <div class="no-print">
     <div class="header-panel">
       <h2>Ambedkar Public School - Admit Card Portal</h2>
-      <button class="btn" onclick="printSelected()">Print Selected Cards</button>
+      <button class="btn" id="printBtn" onclick="printSelected()">Print Selected Cards</button>
     </div>
 
     <div class="search-panel">
@@ -222,25 +223,13 @@
     </div>
   </div>
 
-  <!-- Hidden Print Area -->
+  <!-- Print Container -->
   <div class="print-area" id="printContainer"></div>
 
   <script>
-    // 🔹 अपना Google Apps Script Web App URL यहाँ डालें:
+    // 🔹 अपना Google Apps Script Web App URL यहाँ पेस्ट करें:
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw4REM5nUtH4Udy9T3axdq-bn5mlNUlX3Wsvx3JjQKCE0Wumyzk5IJgIec33VbkgCWn/exec";
     let globalData = null;
-
-    // Helper: फोटो URL को हाई-क्वालिटी थंबनेल में बदलना
-    function fixPhotoUrl(url) {
-      if (!url) return 'https://via.placeholder.com/100x130?text=No+Photo';
-      let cleanUrl = String(url).trim();
-      // Drive ID निकालें
-      const match = cleanUrl.match(/[-\w]{25,}/);
-      if (match) {
-        return `https://drive.google.com/thumbnail?id=${match[0]}&sz=w500`;
-      }
-      return cleanUrl;
-    }
 
     async function loadData() {
       try {
@@ -256,7 +245,7 @@
     function renderTable(students) {
       const tbody = document.getElementById("tableBody");
       if (!students || students.length === 0) {
-        tbody.innerHTML = `<tr><td colspan="7" style="text-align:center; padding:20px;">कोई एक्टिव छात्र रिकॉर्ड नहीं मिला।</td></tr>`;
+        tbody.innerHTML = `<tr><td colspan="7" style="text-align:center; padding:20px;">कोई छात्र नहीं मिला।</td></tr>`;
         return;
       }
 
@@ -288,15 +277,21 @@
       });
     }
 
-    function printSelected() {
+    async function printSelected() {
       const selectedBoxes = document.querySelectorAll(".stu-check:checked");
       if (selectedBoxes.length === 0) {
         alert("कृपया प्रिंट करने के लिए कम से कम एक छात्र को चुनें!");
         return;
       }
 
+      const printBtn = document.getElementById("printBtn");
+      printBtn.disabled = true;
+      printBtn.innerText = "फोटो लोड हो रही है...";
+
       const printContainer = document.getElementById("printContainer");
       printContainer.innerHTML = "";
+
+      const imagePromises = [];
 
       selectedBoxes.forEach((cb, i) => {
         const s = globalData.students[cb.dataset.index];
@@ -312,7 +307,7 @@
           : `<tr><td colspan="2" style="text-align:center; padding: 10px;">टाइम टेबल उपलब्ध नहीं है</td></tr>`;
 
         const qrId = `qrcode_${i}`;
-        const photoSrc = fixPhotoUrl(s.photo);
+        const photoUrl = s.photo ? s.photo.trim() : '';
 
         const cardHtml = `
           <div class="admit-card-page">
@@ -337,7 +332,7 @@
                   <div class="details-row"><span class="d-label">Category</span><span class="d-colon">:-</span> ${s.category}</div>
                 </div>
                 <div class="photo-right">
-                  <img src="${photoSrc}" onerror="this.src='https://via.placeholder.com/100x130?text=No+Photo'" alt="Student Photo">
+                  <img id="img_${i}" src="${photoUrl}" alt="Photo">
                 </div>
               </div>
 
@@ -369,23 +364,41 @@
         `;
         printContainer.innerHTML += cardHtml;
 
-        // 🔹 Dynamic Live QR Code Link
+        // Dynamic QR Code Link
         const dynamicLiveLink = `${SCRIPT_URL}?pay=${encodeURIComponent(s.studentId)}`;
+        new QRCode(document.getElementById(qrId), {
+          text: dynamicLiveLink,
+          width: 68,
+          height: 68,
+          correctLevel: QRCode.CorrectLevel.M
+        });
 
-        setTimeout(() => {
-          new QRCode(document.getElementById(qrId), {
-            text: dynamicLiveLink,
-            width: 68,
-            height: 68,
-            correctLevel: QRCode.CorrectLevel.M
+        // Image Preload Checker
+        if (photoUrl) {
+          const imgEl = document.getElementById(`img_${i}`);
+          const p = new Promise(resolve => {
+            if (imgEl.complete) {
+              resolve();
+            } else {
+              imgEl.onload = () => resolve();
+              imgEl.onerror = () => {
+                imgEl.src = 'https://via.placeholder.com/100x130?text=No+Photo';
+                resolve();
+              };
+            }
           });
-        }, 10);
+          imagePromises.push(p);
+        }
       });
 
-      // QR कोड और इमेज रेंडर होने के लिए 350ms का इंतज़ार
+      // जब सभी फोटो पूरी तरह लोड हो जाएँ, तब प्रिंट डायलॉग खोलें
+      await Promise.all(imagePromises);
+      printBtn.disabled = false;
+      printBtn.innerText = "Print Selected Cards";
+
       setTimeout(() => {
         window.print();
-      }, 350);
+      }, 200);
     }
 
     window.onload = loadData;
