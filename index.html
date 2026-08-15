@@ -29,12 +29,12 @@
       z-index: 99999;
     }
     .spinner {
-      width: 45px; height: 45px;
-      border: 4px solid #e2e8f0;
+      width: 50px; height: 50px;
+      border: 5px solid #e2e8f0;
       border-top-color: #000;
       border-radius: 50%;
       animation: spin 0.8s linear infinite;
-      margin-bottom: 12px;
+      margin-bottom: 15px;
     }
     @keyframes spin { to { transform: rotate(360deg); } }
 
@@ -48,7 +48,7 @@
       align-items: flex-start;
     }
     .pay-card {
-      width: 100%; max-width: 420px;
+      width: 100%; max-width: 440px;
       background: #ffffff;
       border-radius: 16px;
       box-shadow: 0 10px 25px rgba(0,0,0,0.06);
@@ -58,7 +58,7 @@
       border: 1px solid #e2e8f0;
     }
     .school-title { font-size: 20px; font-weight: 800; color: #000; margin-bottom: 2px; }
-    .school-sub { font-size: 12.5px; color: #64748b; margin-bottom: 18px; }
+    .school-sub { font-size: 13px; color: #64748b; margin-bottom: 18px; }
     .student-info-box {
       background: #f8fafc;
       border: 1px solid #e2e8f0;
@@ -78,7 +78,7 @@
     }
     .live-fee-box.paid { background: #f0fdf4; border-color: #bbf7d0; }
     .fee-heading { font-size: 13px; font-weight: bold; color: #475569; }
-    .fee-amount-text { font-size: 32px; font-weight: 900; color: #e11d48; margin: 4px 0 0 0; }
+    .fee-amount-text { font-size: 34px; font-weight: 900; color: #e11d48; margin: 4px 0 0 0; }
     .fee-amount-text.paid-text { color: #16a34a; font-size: 22px; }
     .btn-upi-pay {
       display: block; width: 100%;
@@ -125,39 +125,39 @@
     }
     th { background-color: #f8fafc; font-weight: 600; position: sticky; top: 0; z-index: 10; }
 
-    /* ================= 4. PRINT VIEW (140mm x 200mm) ================= */
+    /* ================= 4. PRINT VIEW (FULL A4 PAGE: 210mm x 297mm) ================= */
     .print-area { display: none; }
 
     @media print {
-      body { background: transparent !important; padding: 0 !important; margin: 0 !important; }
+      html, body {
+        width: 210mm;
+        height: 297mm;
+        margin: 0 !important;
+        padding: 0 !important;
+        background: #fff !important;
+      }
+      
       #parentView, #adminView, #loadingOverlay { display: none !important; }
       .print-area { display: block !important; }
       
       @page {
         size: A4 portrait;
-        margin: 0;
+        margin: 8mm 10mm;
       }
 
       .admit-card-page {
-        width: 210mm;
-        height: 297mm;
+        width: 100%;
+        min-height: 275mm;
         page-break-after: always;
-        position: relative;
+        page-break-inside: avoid;
         box-sizing: border-box;
-      }
-
-      .card-box {
-        width: 140mm;
-        height: 200mm;
-        position: absolute;
-        top: 0;
-        left: 0;
-        box-sizing: border-box;
-        border: 2px solid #000;
-        border-radius: 12px;
-        padding: 5mm 6mm;
+        border: 2.5px solid #000;
+        border-radius: 14px;
+        padding: 8mm 10mm;
         background: #fff;
-        overflow: hidden;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
       }
     }
 
@@ -166,100 +166,101 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 8px;
+      font-size: 11px;
       font-weight: bold;
-      margin-bottom: 4px;
+      margin-bottom: 8px;
     }
     .top-recog-line::before, .top-recog-line::after {
       content: "";
       flex: 1;
-      height: 1px;
+      height: 1.5px;
       background: #000;
-      margin: 0 4px;
+      margin: 0 10px;
     }
 
-    /* Header Section with Logo & Title */
+    /* Header Section */
     .card-header-flex {
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 8px;
-      margin-bottom: 2px;
+      gap: 14px;
+      margin-bottom: 4px;
     }
     .school-logo-img {
-      width: 38px;
-      height: 38px;
+      width: 55px;
+      height: 55px;
       object-fit: contain;
     }
     .school-main-name {
-      font-size: 17px;
+      font-size: 26px;
       font-weight: 900;
       text-transform: uppercase;
-      letter-spacing: 0.5px;
+      letter-spacing: 0.8px;
       line-height: 1.1;
       text-align: center;
     }
     .school-sub-addr {
-      font-size: 9.5px;
+      font-size: 13px;
       font-weight: 600;
       text-align: center;
-      margin-bottom: 5px;
+      margin-bottom: 10px;
     }
 
     /* Pill Badge */
     .exam-pill {
       background: #000;
       color: #fff;
-      font-size: 10px;
+      font-size: 13.5px;
       font-weight: bold;
-      padding: 3px 12px;
-      border-radius: 6px;
+      padding: 5px 22px;
+      border-radius: 8px;
       text-align: center;
-      margin: 0 auto 6px auto;
+      margin: 0 auto 12px auto;
       display: block;
       width: fit-content;
-      letter-spacing: 0.3px;
+      letter-spacing: 0.5px;
     }
 
     /* Student Info Box */
     .stu-card-outer {
-      border: 1.5px solid #000;
-      border-radius: 10px;
-      padding: 5px 6px;
+      border: 2px solid #000;
+      border-radius: 12px;
+      padding: 10px 14px;
       display: flex;
       justify-content: space-between;
-      margin-bottom: 6px;
+      margin-bottom: 12px;
     }
     .stu-info-left {
-      width: 68%;
-      font-size: 9.5px;
-      line-height: 1.35;
+      width: 72%;
+      font-size: 12.5px;
+      line-height: 1.5;
       font-weight: 600;
     }
     .stu-row {
       display: flex;
-      margin-bottom: 1.5px;
+      margin-bottom: 2px;
     }
     .stu-lbl {
-      width: 78px;
+      width: 120px;
       display: flex;
       align-items: center;
-      gap: 3px;
+      gap: 4px;
+      font-weight: bold;
     }
-    .stu-colon { margin-right: 4px; }
-    .stu-val { font-weight: 700; }
+    .stu-colon { margin-right: 6px; font-weight: bold; }
+    .stu-val { font-weight: 700; color: #000; }
 
     .stu-photo-right {
-      width: 30%;
+      width: 25%;
       display: flex;
       justify-content: flex-end;
       align-items: center;
     }
     .stu-photo-right img {
-      width: 28mm;
-      height: 34mm;
-      border: 1.2px solid #000;
-      border-radius: 6px;
+      width: 35mm;
+      height: 44mm;
+      border: 1.5px solid #000;
+      border-radius: 8px;
       object-fit: cover;
       display: block;
       background: #f8fafc;
@@ -268,16 +269,16 @@
     /* Bottom Columns */
     .bottom-columns {
       display: flex;
-      gap: 5px;
-      margin-bottom: 8px;
+      gap: 12px;
+      margin-bottom: 14px;
     }
 
     /* Fee & QR Column */
     .fee-qr-box {
-      width: 38%;
-      border: 1.5px solid #000;
-      border-radius: 10px;
-      padding: 0 0 5px 0;
+      width: 36%;
+      border: 2px solid #000;
+      border-radius: 12px;
+      padding: 0 0 10px 0;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -288,36 +289,36 @@
       color: #fff;
       width: 100%;
       text-align: center;
-      font-size: 9.5px;
+      font-size: 13px;
       font-weight: bold;
-      padding: 3px 0;
-      margin-bottom: 2px;
+      padding: 5px 0;
+      margin-bottom: 4px;
     }
     .fee-rupee-text {
-      font-size: 14px;
+      font-size: 20px;
       font-weight: 900;
-      margin: 2px 0 3px 0;
+      margin: 4px 0 6px 0;
     }
     .qr-container-box {
       display: flex;
       justify-content: center;
       align-items: center;
-      min-height: 70px;
+      min-height: 95px;
     }
     .qr-instruction {
-      font-size: 7.5px;
+      font-size: 9.5px;
       font-weight: bold;
       text-align: center;
-      line-height: 1.1;
-      padding: 0 4px;
-      margin-top: 4px;
+      line-height: 1.25;
+      padding: 0 8px;
+      margin-top: 6px;
     }
 
     /* Time Table Column */
     .timetable-box {
-      width: 62%;
-      border: 1.5px solid #000;
-      border-radius: 10px;
+      width: 64%;
+      border: 2px solid #000;
+      border-radius: 12px;
       overflow: hidden;
       display: flex;
       flex-direction: column;
@@ -326,22 +327,22 @@
       background: #000;
       color: #fff;
       text-align: center;
-      font-size: 9px;
+      font-size: 12.5px;
       font-weight: bold;
-      padding: 3px 0;
+      padding: 5px 0;
     }
     .tt-time-strip {
       text-align: center;
-      font-size: 8.5px;
+      font-size: 11.5px;
       font-weight: bold;
-      padding: 2px 0;
-      border-bottom: 1px solid #000;
-      background: #fff;
+      padding: 4px 0;
+      border-bottom: 1.5px solid #000;
+      background: #f8fafc;
     }
     .tt-grid {
       width: 100%;
       border-collapse: collapse;
-      font-size: 8.5px;
+      font-size: 11px;
     }
     .tt-grid tr {
       border-bottom: 1px dashed #000;
@@ -350,11 +351,11 @@
       border-bottom: none;
     }
     .tt-grid td {
-      padding: 2.2px 4px;
+      padding: 4px 8px;
     }
     .tt-grid td:first-child {
-      width: 62%;
-      border-right: 1px dashed #000;
+      width: 60%;
+      border-right: 1.5px dashed #000;
       font-weight: 600;
     }
     .tt-grid td:last-child {
@@ -366,19 +367,18 @@
       display: flex;
       justify-content: space-between;
       align-items: flex-end;
-      padding: 0 6px;
-      margin-top: 4px;
+      padding: 10px 14px 4px 14px;
     }
     .sign-item {
       text-align: center;
-      font-size: 8.5px;
+      font-size: 12px;
       font-weight: bold;
     }
     .sign-line {
-      width: 120px;
-      height: 1px;
+      width: 160px;
+      height: 1.5px;
       background: #000;
-      margin-bottom: 2px;
+      margin-bottom: 4px;
     }
   </style>
 </head>
@@ -387,7 +387,7 @@
   <!-- 1. FULL-SCREEN BLURRED OVERLAY LOADER -->
   <div id="loadingOverlay">
     <div class="spinner"></div>
-    <div style="font-size: 15px; font-weight: bold; color: #334155;">डेटा लोड हो रहा है... कृपया प्रतीक्षा करें</div>
+    <div style="font-size: 16px; font-weight: bold; color: #334155;">डेटा लोड हो रहा है... कृपया प्रतीक्षा करें</div>
   </div>
 
   <!-- 2. PARENT PAYMENT VIEW (When QR is Scanned) -->
@@ -416,7 +416,7 @@
   <div id="adminView">
     <div class="header-panel">
       <h2>Ambedkar Public School - Admit Card Portal</h2>
-      <button class="btn" onclick="printSelected()">Print Selected Cards</button>
+      <button class="btn" onclick="printSelected()">Print Selected Cards (Full A4)</button>
     </div>
 
     <div class="search-panel">
@@ -552,7 +552,7 @@
       const printContainer = document.getElementById("printContainer");
       printContainer.innerHTML = "";
       const school = globalData.schoolInfo;
-      const logoSrc = school.logoLink || "https://i.postimg.cc/plt1F2cD/logo-copy.png";
+      const logoSrc = school.logoLink || "https://i.postimg.cc/plt1F2cD/logo-copy.png"[cite: 1];
 
       selectedBoxes.forEach((cb, index) => {
         const s = globalData.students[cb.dataset.index];
@@ -566,11 +566,11 @@
                 <td>${t.subject}</td>
               </tr>
             `).join('')
-          : `<tr><td colspan="2" style="text-align:center; padding: 10px;">टाइम टेबल उपलब्ध नहीं है</td></tr>`;
+          : `<tr><td colspan="2" style="text-align:center; padding: 12px;">टाइम टेबल उपलब्ध नहीं है</td></tr>`;
 
         const cardHtml = `
           <div class="admit-card-page">
-            <div class="card-box">
+            <div>
               <div class="top-recog-line">"A government recognized school (सरकार द्वारा मान्यता प्राप्त)"</div>
               
               <div class="card-header-flex">
@@ -615,19 +615,19 @@
                   </table>
                 </div>
               </div>
-
-              <div class="sign-section">
-                <div class="sign-item">
-                  <div class="sign-line" style="margin: 0 auto 2px auto;"></div>
-                  Official School Stamp
-                </div>
-                <div class="sign-item">
-                  <div class="sign-line" style="margin: 0 auto 2px auto;"></div>
-                  Principal Signature
-                </div>
-              </div>
-
             </div>
+
+            <div class="sign-section">
+              <div class="sign-item">
+                <div class="sign-line" style="margin: 0 auto 4px auto;"></div>
+                Official School Stamp
+              </div>
+              <div class="sign-item">
+                <div class="sign-line" style="margin: 0 auto 4px auto;"></div>
+                Principal Signature
+              </div>
+            </div>
+
           </div>
         `;
         printContainer.insertAdjacentHTML('beforeend', cardHtml);
@@ -644,8 +644,8 @@
           qrElement.innerHTML = "";
           new QRCode(qrElement, {
             text: dynamicStudentLink,
-            width: 72,
-            height: 72,
+            width: 90,
+            height: 90,
             correctLevel: QRCode.CorrectLevel.M
           });
         }
