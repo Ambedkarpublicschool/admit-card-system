@@ -3,15 +3,17 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ambedkar Public School - Admit Card System</title>
+  <title>Ambedkar Public School - Admit Card Portal</title>
   <!-- Fast QR Code Library -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-  <!-- FontAwesome Icons for crisp symbols -->
+  <!-- FontAwesome Icons for clean vector glyphs -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Google Fonts: Oswald for Header & Poppins for Body -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@700&family=Poppins:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Cinzel:wght@700;900&family=Poppins:wght@400;600;700;800;900&display=swap');
-
     * { box-sizing: border-box; }
     body {
       font-family: 'Poppins', sans-serif;
@@ -23,11 +25,11 @@
       print-color-adjust: exact;
     }
 
-    /* ================= 1. FULL-SCREEN BLURRED LOADER ================= */
+    /* ================= 1. FULL-SCREEN LOADER ================= */
     #loadingOverlay {
       position: fixed;
       top: 0; left: 0; width: 100vw; height: 100vh;
-      background: rgba(255, 255, 255, 0.96);
+      background: rgba(255, 255, 255, 0.98);
       backdrop-filter: blur(8px);
       display: flex;
       flex-direction: column;
@@ -37,7 +39,7 @@
     }
     .spinner {
       width: 48px; height: 48px;
-      border: 4px solid #e2e8f0;
+      border: 4px solid #cbd5e1;
       border-top-color: #000;
       border-radius: 50%;
       animation: spin 0.8s linear infinite;
@@ -46,7 +48,7 @@
     @keyframes spin { to { transform: rotate(360deg); } }
     .loading-text { font-size: 15px; font-weight: 700; color: #1e293b; }
 
-    /* ================= 2. PARENT PAYMENT VIEW (MOBILE) ================= */
+    /* ================= 2. PARENT PAYMENT VIEW (ON QR SCAN) ================= */
     #parentView {
       display: none;
       min-height: 100vh;
@@ -67,7 +69,7 @@
       border: 1px solid #e2e8f0;
     }
     .pay-card .school-logo-parent { width: 65px; height: 65px; object-fit: contain; margin-bottom: 8px; }
-    .pay-card .school-title { font-size: 19px; font-weight: 800; color: #0f172a; margin-bottom: 2px; }
+    .pay-card .school-title { font-size: 20px; font-weight: 800; color: #0f172a; margin-bottom: 2px; }
     .pay-card .school-sub { font-size: 12.5px; color: #64748b; margin-bottom: 16px; }
     .student-info-box {
       background: #f8fafc;
@@ -98,7 +100,7 @@
       box-shadow: 0 4px 12px rgba(22, 163, 74, 0.25);
     }
 
-    /* ================= 3. ADMIN PORTAL VIEW (SCREEN) ================= */
+    /* ================= 3. ADMIN PORTAL VIEW ================= */
     #adminView {
       display: none;
       max-width: 1100px;
@@ -119,7 +121,7 @@
     }
     .btn {
       background-color: #0f172a; color: #ffffff; border: none;
-      padding: 10px 24px; font-size: 15px; font-weight: 600; cursor: pointer; border-radius: 6px; transition: 0.2s;
+      padding: 10px 24px; font-size: 15px; font-weight: 600; cursor: pointer; border-radius: 6px;
     }
     .btn:hover { background-color: #1e293b; }
     .table-container { max-height: 500px; overflow-y: auto; border: 1px solid #cbd5e1; border-radius: 6px; }
@@ -128,7 +130,7 @@
     th { background-color: #f8fafc; font-weight: 600; position: sticky; top: 0; z-index: 10; }
     tr:hover { background-color: #f8fafc; }
 
-    /* ================= 4. PRINT VIEW (EXACT 140mm x 200mm ON A4) ================= */
+    /* ================= 4. PRINT ADMIT CARD EXACT LAYOUT (140mm x 200mm) ================= */
     .print-area { display: none; }
 
     @media print {
@@ -157,19 +159,19 @@
         left: 0;
         box-sizing: border-box;
         border: 2px solid #000;
-        padding: 2.5mm;
+        padding: 2.2mm;
         background: #fff;
         overflow: hidden;
       }
     }
 
-    /* Outer Decorative Double Border Container */
+    /* Double Border Outer Container */
     .card-inner-frame {
       width: 100%;
       height: 100%;
-      border: 1px solid #000;
+      border: 1.2px solid #000;
       border-radius: 12px;
-      padding: 3mm 3.5mm;
+      padding: 3mm 3.2mm;
       box-sizing: border-box;
       position: relative;
       display: flex;
@@ -177,44 +179,41 @@
       justify-content: space-between;
     }
 
-    /* Corner Accents */
+    /* Corner Ornaments */
     .corner-decor {
       position: absolute;
-      width: 12px;
-      height: 12px;
+      width: 11px;
+      height: 11px;
       border: 2px solid #000;
     }
-    .corner-tl { top: 2px; left: 2px; border-right: none; border-bottom: none; border-top-left-radius: 8px; }
-    .corner-tr { top: 2px; right: 2px; border-left: none; border-bottom: none; border-top-right-radius: 8px; }
-    .corner-bl { bottom: 2px; left: 2px; border-right: none; border-top: none; border-bottom-left-radius: 8px; }
-    .corner-br { bottom: 2px; right: 2px; border-left: none; border-top: none; border-bottom-right-radius: 8px; }
+    .corner-tl { top: 2px; left: 2px; border-right: none; border-bottom: none; border-top-left-radius: 6px; }
+    .corner-tr { top: 2px; right: 2px; border-left: none; border-bottom: none; border-top-right-radius: 6px; }
+    .corner-bl { bottom: 2px; left: 2px; border-right: none; border-top: none; border-bottom-left-radius: 6px; }
+    .corner-br { bottom: 2px; right: 2px; border-left: none; border-top: none; border-bottom-right-radius: 6px; }
 
-    /* Top Banner Tagline */
+    /* Top Line */
     .top-gov-tagline {
       text-align: center;
       font-size: 8.5px;
       font-weight: 700;
-      letter-spacing: 0.2px;
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 6px;
+      gap: 5px;
       margin-bottom: 2px;
     }
     .top-gov-tagline::before, .top-gov-tagline::after {
       content: "• ——————————————— •";
       font-size: 7px;
-      color: #333;
-      letter-spacing: -1px;
+      color: #222;
     }
 
-    /* Header Main */
+    /* Header Main (Logo + Name + Address) */
     .header-section {
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 8px;
-      margin-top: 1px;
     }
     .header-logo-img {
       width: 38px;
@@ -226,10 +225,10 @@
       text-align: center;
     }
     .header-school-name {
-      font-family: 'Impact', 'Arial Black', sans-serif;
-      font-size: 21px;
-      font-weight: 900;
-      letter-spacing: 0.8px;
+      font-family: 'Oswald', sans-serif;
+      font-size: 22px;
+      font-weight: 700;
+      letter-spacing: 0.5px;
       line-height: 1;
       margin: 0;
       text-transform: uppercase;
@@ -237,30 +236,29 @@
     .header-school-addr {
       font-size: 9.5px;
       font-weight: 600;
-      margin: 1px 0 0 0;
+      margin: 2px 0 0 0;
       color: #111;
     }
 
-    /* Exam Ribbon Badge */
+    /* Exam Title Badge */
     .exam-badge-container {
       text-align: center;
-      margin: 3px 0 4px 0;
+      margin: 3px 0;
     }
     .exam-badge {
       display: inline-block;
-      border: 1.5px solid #000;
-      border-radius: 15px;
-      padding: 1px 14px;
+      border: 1.2px solid #000;
+      border-radius: 14px;
+      padding: 1.5px 14px;
       font-size: 10px;
       font-weight: 800;
       letter-spacing: 0.3px;
       background: #fff;
-      position: relative;
     }
     .exam-badge::before { content: "❧ "; font-size: 9px; }
     .exam-badge::after { content: " ☙"; font-size: 9px; }
 
-    /* Student Info & Photo Outer Card */
+    /* Student Info & Photo Outer Frame */
     .student-card-container {
       border: 1.2px solid #000;
       border-radius: 10px;
@@ -279,7 +277,7 @@
     .s-row {
       display: flex;
       align-items: center;
-      font-size: 9.2px;
+      font-size: 9px;
       line-height: 1.25;
     }
     .s-icon {
@@ -315,13 +313,14 @@
       width: 30%;
       display: flex;
       justify-content: flex-end;
-      padding-right: 2px;
+      padding-left: 6px;
+      border-left: 1px solid #ccc;
     }
     .student-photo-frame {
       width: 33mm;
       height: 42mm;
-      border: 1.5px solid #000;
-      border-radius: 10px;
+      border: 1.2px solid #000;
+      border-radius: 8px;
       overflow: hidden;
       background: #fff;
     }
@@ -333,20 +332,20 @@
       filter: grayscale(100%);
     }
 
-    /* Bottom Split Section */
+    /* Bottom Section */
     .bottom-split-container {
       display: flex;
-      gap: 4.5px;
+      gap: 4px;
       margin-top: 3px;
       height: 87mm;
     }
 
-    /* Left Card: Fee & QR */
+    /* Left Card: Fee & 40mm QR */
     .fee-qr-card {
       width: 38%;
       border: 1.2px solid #000;
       border-radius: 10px;
-      padding: 4px;
+      padding: 3px 3px 2px 3px;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -355,30 +354,30 @@
       box-sizing: border-box;
     }
     .fee-title {
-      font-size: 10.5px;
+      font-size: 10px;
       font-weight: 800;
       width: 100%;
       text-align: left;
-      padding-left: 2px;
+      padding-left: 3px;
     }
     .fee-digit {
-      font-size: 15px;
+      font-size: 14.5px;
       font-weight: 900;
       width: 100%;
       text-align: left;
-      padding-left: 2px;
+      padding-left: 3px;
       margin-top: -2px;
       margin-bottom: 2px;
     }
 
-    /* Exact 40mm x 40mm QR Box with SCAN ME Badge */
+    /* Exact 40mm x 40mm QR Frame */
     .qr-wrapper-styled {
       display: flex;
       flex-direction: column;
       align-items: center;
-      border: 1.5px solid #000;
-      border-radius: 8px;
-      padding: 3px 3px 2px 3px;
+      border: 1.2px solid #000;
+      border-radius: 7px;
+      padding: 2.5px 2.5px 2px 2.5px;
       background: #fff;
     }
     .qr-target-box {
@@ -400,23 +399,24 @@
       font-weight: 900;
       letter-spacing: 0.8px;
       padding: 1px 12px;
-      border-radius: 6px;
+      border-radius: 5px;
       margin-top: 2px;
       text-transform: uppercase;
     }
 
+    /* User Requested Text Below QR */
     .exam-instruction-note {
-      font-size: 7px;
-      font-weight: 800;
-      line-height: 1.15;
-      margin-top: 3px;
+      font-size: 7.5px;
+      font-weight: 700;
+      line-height: 1.2;
+      margin-top: 2px;
       padding: 0 1px;
     }
+
     .grad-cap-svg {
-      width: 36px;
+      width: 38px;
       height: 22px;
       margin-top: 1px;
-      opacity: 0.85;
     }
 
     /* Right Card: Time Table */
@@ -435,7 +435,7 @@
       text-align: center;
       font-size: 8.5px;
       font-weight: 800;
-      padding: 2.5px 4px;
+      padding: 3px 4px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -497,7 +497,8 @@
       font-weight: 800;
       text-align: center;
       font-size: 9px;
-      letter-spacing: 0.1px;
+      border-left: 1px dotted #555;
+      padding-left: 3px;
     }
   </style>
 </head>
@@ -674,7 +675,7 @@
       const school = globalData.schoolInfo;
       const logoUrl = school.logoLink || "https://i.postimg.cc/pLt1F2cD/logo-copy.png";
 
-      // 1. कार्ड्स रेंडर करें
+      // 1. एडमिट कार्ड्स रेंडर करें
       selectedBoxes.forEach((cb, index) => {
         const s = globalData.students[cb.dataset.index];
         const qrId = `qr_card_${index}`;
@@ -697,7 +698,7 @@
             <div class="card-box">
               <div class="card-inner-frame">
                 
-                <!-- Corner Accents -->
+                <!-- Corner Ornaments -->
                 <div class="corner-decor corner-tl"></div>
                 <div class="corner-decor corner-tr"></div>
                 <div class="corner-decor corner-bl"></div>
@@ -757,16 +758,17 @@
                       <div class="scan-me-pill">SCAN ME</div>
                     </div>
 
+                    <!-- 🔹 आपकी बताई हुई सटीक लाइन: -->
                     <div class="exam-instruction-note">
                       वर्तमान बकाया शुल्क जानने व जमा करने के लिए<br>QR स्कैन करें।
                     </div>
 
-                    <!-- Graduation Cap & Book SVG -->
-                    <svg class="grad-cap-svg" viewBox="0 0 100 60" fill="#000">
-                      <path d="M50 5 L90 20 L50 35 L10 20 Z"/>
-                      <path d="M25 26 L25 40 Q50 52 75 40 L75 26 Q50 38 25 26 Z"/>
-                      <path d="M12 25 L8 28 L8 45 Q10 47 12 45 L12 25 Z"/>
-                      <path d="M30 46 Q50 40 70 46 Q50 54 30 46 Z" fill="none" stroke="#000" stroke-width="2"/>
+                    <!-- Graduation Cap & Book Vector Graphic -->
+                    <svg class="grad-cap-svg" viewBox="0 0 100 55" fill="#000">
+                      <path d="M50 4 L92 18 L50 32 L8 18 Z"/>
+                      <path d="M22 24 L22 38 Q50 50 78 38 L78 24 Q50 35 22 24 Z"/>
+                      <path d="M10 22 L6 25 L6 42 Q8 44 10 42 L10 22 Z"/>
+                      <path d="M28 44 Q50 38 72 44 Q50 52 28 44 Z" fill="none" stroke="#000" stroke-width="1.8"/>
                     </svg>
                   </div>
 
@@ -807,7 +809,6 @@
 
         if (qrElement) {
           qrElement.innerHTML = "";
-          // 40mm at ~96-300DPI is ~150px
           new QRCode(qrElement, {
             text: dynamicStudentLink,
             width: 151,
