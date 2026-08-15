@@ -1,0 +1,526 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admit Card & Time Table Portal</title>
+  <style>
+    /* ================= BASE / UI STYLING ================= */
+    * { box-sizing: border-box; }
+    body {
+      font-family: 'Segoe UI', Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      background-color: #eef2f7;
+      color: #333;
+    }
+
+    .no-print {
+      max-width: 1100px;
+      margin: 0 auto;
+      background: #ffffff;
+      padding: 24px;
+      border-radius: 10px;
+      box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+    }
+
+    .header-panel {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 20px;
+      border-bottom: 2px solid #e2e8f0;
+      padding-bottom: 12px;
+    }
+
+    .header-panel h2 {
+      margin: 0;
+      color: #1e293b;
+      font-size: 22px;
+    }
+
+    .search-panel {
+      display: flex;
+      gap: 12px;
+      margin-bottom: 16px;
+    }
+
+    .search-panel input {
+      flex: 1;
+      padding: 10px 14px;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+      font-size: 15px;
+      outline: none;
+      transition: border-color 0.2s;
+    }
+
+    .search-panel input:focus {
+      border-color: #2563eb;
+    }
+
+    .btn {
+      background-color: #2563eb;
+      color: #ffffff;
+      border: none;
+      padding: 10px 24px;
+      font-size: 15px;
+      font-weight: 600;
+      cursor: pointer;
+      border-radius: 6px;
+      transition: background-color 0.2s;
+    }
+
+    .btn:hover {
+      background-color: #1d4ed8;
+    }
+
+    .table-container {
+      max-height: 520px;
+      overflow-y: auto;
+      border: 1px solid #cbd5e1;
+      border-radius: 6px;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      background: #fff;
+    }
+
+    th, td {
+      border-bottom: 1px solid #e2e8f0;
+      padding: 10px 14px;
+      text-align: left;
+      font-size: 14px;
+    }
+
+    th {
+      background-color: #f8fafc;
+      font-weight: 600;
+      color: #475569;
+      position: sticky;
+      top: 0;
+      z-index: 10;
+    }
+
+    tr:hover {
+      background-color: #f1f5f9;
+    }
+
+    .status-badge {
+      display: inline-block;
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: bold;
+      background: #dcfce7;
+      color: #15803d;
+    }
+
+    /* ================= PRINT & ADMIT CARD STYLING ================= */
+    .print-area {
+      display: none;
+    }
+
+    @media print {
+      body {
+        background: transparent !important;
+        padding: 0 !important;
+        margin: 0 !important;
+      }
+
+      .no-print {
+        display: none !important;
+      }
+
+      .print-area {
+        display: block !important;
+      }
+
+      @page {
+        size: A4 portrait;
+        margin: 0;
+      }
+
+      .admit-card-page {
+        width: 210mm;
+        height: 297mm;
+        page-break-after: always;
+        position: relative;
+        box-sizing: border-box;
+      }
+
+      /* 140mm Width x 200mm Height (Top-Left Aligned on A4) */
+      .card-box {
+        width: 140mm;
+        height: 200mm;
+        position: absolute;
+        top: 0;
+        left: 0;
+        box-sizing: border-box;
+        border: 1.5px solid #000;
+        padding: 5mm;
+        background: #fff;
+        overflow: hidden;
+      }
+    }
+
+    .card-header {
+      text-align: center;
+      border-bottom: 1.2px solid #000;
+      padding-bottom: 4px;
+      margin-bottom: 4px;
+    }
+
+    .card-header .tagline {
+      font-size: 9.5px;
+      font-weight: bold;
+    }
+
+    .card-header .school-name {
+      font-size: 16px;
+      font-weight: 900;
+      margin: 1px 0;
+      letter-spacing: 0.5px;
+    }
+
+    .card-header .title-badge {
+      display: inline-block;
+      background: #e2e8f0;
+      font-size: 11px;
+      font-weight: bold;
+      padding: 1px 12px;
+      border-radius: 3px;
+      margin-top: 1px;
+    }
+
+    .student-details {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 5px;
+      font-size: 10.5px;
+    }
+
+    .details-left {
+      width: 70%;
+      line-height: 1.35;
+    }
+
+    .details-row {
+      display: flex;
+      margin-bottom: 1.5px;
+    }
+
+    .d-label {
+      width: 90px;
+      font-weight: bold;
+      flex-shrink: 0;
+    }
+
+    .d-colon {
+      margin-right: 4px;
+    }
+
+    .photo-right {
+      width: 28%;
+      text-align: center;
+    }
+
+    .photo-right img {
+      width: 28mm;
+      height: 35mm;
+      border: 1px solid #000;
+      object-fit: cover;
+      display: block;
+      margin: 0 auto;
+    }
+
+    .time-table-heading {
+      text-align: center;
+      background: #e2e8f0;
+      font-size: 10.5px;
+      font-weight: bold;
+      padding: 2px;
+      margin-top: 5px;
+      margin-bottom: 4px;
+      border: 1px solid #cbd5e1;
+    }
+
+    .bottom-section {
+      display: flex;
+      gap: 6px;
+    }
+
+    .fee-col {
+      width: 36%;
+      border-right: 1px dashed #666;
+      padding-right: 4px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+    }
+
+    .fee-label {
+      font-size: 10px;
+      font-weight: bold;
+    }
+
+    .fee-amount {
+      font-size: 12px;
+      font-weight: 900;
+      margin: 2px 0 4px 0;
+    }
+
+    .qr-container {
+      text-align: center;
+    }
+
+    .qr-container img {
+      width: 65px;
+      height: 65px;
+      display: block;
+      margin: 0 auto;
+    }
+
+    .qr-text {
+      font-size: 8px;
+      line-height: 1.1;
+      margin-top: 3px;
+      font-weight: bold;
+    }
+
+    .tt-col {
+      width: 64%;
+    }
+
+    .tt-time {
+      font-size: 9.5px;
+      font-weight: bold;
+      margin-bottom: 3px;
+      text-align: center;
+      background: #f1f5f9;
+      padding: 2px;
+      border: 0.5px solid #ccc;
+    }
+
+    .tt-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 9px;
+    }
+
+    .tt-table td {
+      border: 1px dotted #475569;
+      padding: 2px 3px;
+    }
+
+    .tt-table td:first-child {
+      width: 58%;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- UI Control Panel (Screen View) -->
+  <div class="no-print">
+    <div class="header-panel">
+      <h2>Ambedkar Public School - Admit Card Portal</h2>
+      <button class="btn" onclick="printSelected()">Print Selected Cards</button>
+    </div>
+
+    <div class="search-panel">
+      <input type="text" id="searchInput" placeholder="नाम, पिता का नाम, क्लास या ID से खोजें..." onkeyup="filterStudents()">
+    </div>
+    
+    <div class="table-container">
+      <table id="studentTable">
+        <thead>
+          <tr>
+            <th width="40"><input type="checkbox" id="selectAll" onclick="toggleAll(this)"></th>
+            <th width="90">ID</th>
+            <th>Student Name</th>
+            <th>Father's Name</th>
+            <th>Class</th>
+            <th>Family ID</th>
+            <th>Fee Due (₹)</th>
+          </tr>
+        </thead>
+        <tbody id="tableBody">
+          <tr>
+            <td colspan="7" style="text-align:center; padding: 25px; color: #64748b;">
+              डेटा लोड हो रहा है... कृपया प्रतीक्षा करें।
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <!-- Print Area (Only visible during printing) -->
+  <div class="print-area" id="printContainer"></div>
+
+  <script>
+    // 🔹 अपना Google Apps Script Web App URL यहाँ पेस्ट करें:
+    const SCRIPT_URL = "YOUR_APPS_SCRIPT_WEB_APP_URL_HERE";
+    
+    let globalData = null;
+
+    // Fetch live data from Apps Script API
+    async function loadData() {
+      try {
+        const response = await fetch(SCRIPT_URL);
+        globalData = await response.json();
+        renderTable(globalData.students);
+      } catch (err) {
+        document.getElementById("tableBody").innerHTML = `
+          <tr>
+            <td colspan="7" style="text-align:center; color:#ef4444; padding: 20px;">
+              डेटा लोड करने में समस्या: ${err.message}
+            </td>
+          </tr>`;
+      }
+    }
+
+    // Render Student List in Table
+    function renderTable(students) {
+      const tbody = document.getElementById("tableBody");
+      if (!students || students.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="7" style="text-align:center; padding:20px;">कोई डेटा नहीं मिला।</td></tr>`;
+        return;
+      }
+
+      tbody.innerHTML = students.map((s, idx) => `
+        <tr>
+          <td><input type="checkbox" class="stu-check" data-index="${idx}"></td>
+          <td><strong>${s.studentId}</strong></td>
+          <td>${s.name}</td>
+          <td>${s.fatherName}</td>
+          <td><span class="status-badge">${s.className}</span></td>
+          <td>${s.mobile}</td>
+          <td><strong>₹ ${s.feeDue}</strong></td>
+        </tr>
+      `).join('');
+    }
+
+    // Live search filter
+    function filterStudents() {
+      const query = document.getElementById("searchInput").value.toLowerCase();
+      const rows = document.querySelectorAll("#tableBody tr");
+      globalData.students.forEach((s, idx) => {
+        const rowText = `${s.name} ${s.fatherName} ${s.className} ${s.studentId} ${s.mobile}`.toLowerCase();
+        if (rows[idx]) {
+          rows[idx].style.display = rowText.includes(query) ? "" : "none";
+        }
+      });
+    }
+
+    // Select/Deselect All Checkboxes
+    function toggleAll(box) {
+      document.querySelectorAll(".stu-check").forEach(cb => {
+        if (cb.closest("tr").style.display !== "none") {
+          cb.checked = box.checked;
+        }
+      });
+    }
+
+    // Generate Cards and Trigger Print
+    function printSelected() {
+      const selectedBoxes = document.querySelectorAll(".stu-check:checked");
+      if (selectedBoxes.length === 0) {
+        alert("कृपया प्रिंट करने के लिए कम से कम एक छात्र को चुनें!");
+        return;
+      }
+
+      const printContainer = document.getElementById("printContainer");
+      printContainer.innerHTML = "";
+
+      selectedBoxes.forEach(cb => {
+        const s = globalData.students[cb.dataset.index];
+        const school = globalData.schoolInfo;
+        
+        // 🔹 UPI Payment QR Code Generator
+        const upiId = "kalpnathchaurasia2@ybl";
+        const payeeName = school.schoolName || "Ambedkar Public School";
+        const amount = s.feeDue > 0 ? s.feeDue : 0;
+        const note = `Fee Payment - ${s.name} (${s.className})`;
+
+        const upiString = `upi://pay?pa=${upiId}&pn=${encodeURIComponent(payeeName)}&am=${amount}&tn=${encodeURIComponent(note)}&cu=INR`;
+        const qrUrl = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(upiString)}`;
+
+        // Timetable rows creation
+        const timetableRows = (s.schedule.timetable && s.schedule.timetable.length > 0)
+          ? s.schedule.timetable.map(t => `
+              <tr>
+                <td>${t.date}</td>
+                <td><strong>${t.subject}</strong></td>
+              </tr>
+            `).join('')
+          : `<tr><td colspan="2" style="text-align:center;">टाइम टेबल उपलब्ध नहीं है</td></tr>`;
+
+        // Card HTML Structure (140mm x 200mm)
+        const cardHtml = `
+          <div class="admit-card-page">
+            <div class="card-box">
+              <div class="card-header">
+                <div class="tagline">"A government recognized school (सरकार द्वारा मान्यता प्राप्त)"</div>
+                <div class="school-name">_A. P. S. Madhopur 9793458774</div>
+                <div class="title-badge">${school.examName || 'Admit Card 2026-2027'}</div>
+              </div>
+              
+              <div class="student-details">
+                <div class="details-left">
+                  <div class="details-row"><span class="d-label">Name</span><span class="d-colon">:-</span> ${s.name}</div>
+                  <div class="details-row"><span class="d-label">Father's Name</span><span class="d-colon">:-</span> ${s.fatherName}</div>
+                  <div class="details-row"><span class="d-label">Mother's Name</span><span class="d-colon">:-</span> ${s.motherName}</div>
+                  <div class="details-row"><span class="d-label">Date of Birth</span><span class="d-colon">:-</span> ${s.dob}</div>
+                  <div class="details-row"><span class="d-label">Gender</span><span class="d-colon">:-</span> ${s.gender}</div>
+                  <div class="details-row"><span class="d-label">Class</span><span class="d-colon">:-</span> <strong>${s.className}</strong></div>
+                  <div class="details-row"><span class="d-label">Address</span><span class="d-colon">:-</span> ${s.address}</div>
+                  <div class="details-row"><span class="d-label">Mobile number</span><span class="d-colon">:-</span> ${s.mobile}</div>
+                  <div class="details-row"><span class="d-label">Cast</span><span class="d-colon">:-</span> ${s.caste}</div>
+                  <div class="details-row"><span class="d-label">Category</span><span class="d-colon">:-</span> ${s.category}</div>
+                </div>
+                <div class="photo-right">
+                  <img src="${s.photo || 'https://via.placeholder.com/100x130?text=Photo'}" alt="Photo">
+                </div>
+              </div>
+
+              <div class="time-table-heading">
+                Time Table for ${school.examName || 'Quarterly Examination 2026-2027'}
+              </div>
+
+              <div class="bottom-section">
+                <div class="fee-col">
+                  <div>
+                    <div class="fee-label">Fee Due :-</div>
+                    <div class="fee-amount">रु. ${s.feeDue}</div>
+                  </div>
+                  <div class="qr-container">
+                    <img src="${qrUrl}" alt="QR">
+                    <div class="qr-text">वर्तमान बकाया शुल्क जानने व जमा करने के लिए स्कैन करें</div>
+                  </div>
+                </div>
+                
+                <div class="tt-col">
+                  <div class="tt-time">TIME:- ${s.schedule.timeSlot || '08:30 AM TO 11:00 AM'}</div>
+                  <table class="tt-table">
+                    ${timetableRows}
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        `;
+        printContainer.innerHTML += cardHtml;
+      });
+
+      // Open print preview
+      window.print();
+    }
+
+    // Load data on start
+    window.onload = loadData;
+  </script>
+</body>
+</html>
