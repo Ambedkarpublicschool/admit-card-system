@@ -76,7 +76,7 @@
       margin-top: 15px;
       border: 1px solid #e2e8f0;
     }
-    .pay-card .school-logo-parent { width: 65px; height: 65px; object-fit: contain; margin-bottom: 8px; filter: grayscale(100%); }
+    .pay-card .school-logo-parent { width: 75px; height: 75px; object-fit: contain; margin-bottom: 8px; filter: grayscale(100%); }
     .pay-card .school-title { font-size: 20px; font-weight: 800; color: #0f172a; margin-bottom: 2px; }
     .pay-card .school-sub { font-size: 12.5px; color: #64748b; margin-bottom: 16px; }
     .student-info-box {
@@ -108,7 +108,7 @@
       box-shadow: 0 4px 12px rgba(22, 163, 74, 0.25);
     }
 
-    /* ================= 3. ADMIN PORTAL VIEW (WITH ADVANCED SORTING) ================= */
+    /* ================= 3. ADMIN PORTAL VIEW ================= */
     #adminView {
       display: none;
       max-width: 1150px;
@@ -227,7 +227,7 @@
         page-break-after: always;
         position: relative;
         box-sizing: border-box;
-        padding: 8mm;
+        padding: 6mm 7mm;
         background: #fff;
       }
 
@@ -247,7 +247,7 @@
       height: 100%;
       border: 1.5px solid #000;
       border-radius: 14px;
-      padding: 5mm 6mm;
+      padding: 4mm 5mm 3mm 5mm;
       box-sizing: border-box;
       position: relative;
       display: flex;
@@ -273,7 +273,7 @@
       align-items: center;
       justify-content: space-between;
       width: 100%;
-      margin-bottom: 4px;
+      margin-bottom: 2px;
       white-space: nowrap;
     }
     .tag-line {
@@ -301,50 +301,53 @@
       letter-spacing: 0.2px;
     }
 
-    /* Header Main (Logo + Name + Address) */
+    /* 🔹 BIGGER & PROMINENT HEADER SECTION */
     .header-section {
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 12px;
-      margin-top: 2px;
+      gap: 16px;
+      margin-top: 1px;
+      margin-bottom: 1px;
     }
     .header-logo-img {
-      width: 52px;
-      height: 52px;
+      width: 72px;
+      height: 72px;
       object-fit: contain;
       filter: grayscale(100%);
+      flex-shrink: 0;
     }
     .header-text-block {
       text-align: center;
     }
     .header-school-name {
       font-family: 'Oswald', sans-serif;
-      font-size: 28px;
+      font-size: 34px;
       font-weight: 700;
-      letter-spacing: 0.8px;
+      letter-spacing: 1px;
       line-height: 1.05;
       margin: 0;
       text-transform: uppercase;
     }
     .header-school-addr {
-      font-size: 12px;
+      font-size: 13.5px;
       font-weight: 600;
       margin: 3px 0 0 0;
       color: #111;
+      letter-spacing: 0.2px;
     }
 
     /* Examination Badge */
     .exam-badge-container {
       text-align: center;
-      margin: 5px 0 8px 0;
+      margin: 3px 0 5px 0;
     }
     .exam-badge {
       display: inline-block;
       border: 1.5px solid #000;
       border-radius: 16px;
-      padding: 2px 20px;
-      font-size: 12.5px;
+      padding: 2.5px 22px;
+      font-size: 13px;
       font-weight: 800;
       letter-spacing: 0.4px;
       background: #fff;
@@ -356,7 +359,7 @@
     .student-card-container {
       border: 1.5px solid #000;
       border-radius: 12px;
-      padding: 8px 12px;
+      padding: 6px 12px;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -366,13 +369,13 @@
       width: 68%;
       display: flex;
       flex-direction: column;
-      gap: 3.5px;
+      gap: 2px;
     }
     .s-row {
       display: flex;
       align-items: center;
-      font-size: 11.5px;
-      line-height: 1.35;
+      font-size: 11.2px;
+      line-height: 1.3;
     }
     .s-icon {
       width: 17px;
@@ -411,8 +414,8 @@
       border-left: 1.2px solid #cbd5e1;
     }
     .student-photo-frame {
-      width: 42mm;
-      height: 52mm;
+      width: 38mm;
+      height: 48mm;
       border: 1.5px solid #000;
       border-radius: 10px;
       overflow: hidden;
@@ -430,8 +433,8 @@
     .bottom-split-container {
       display: flex;
       gap: 8px;
-      margin-top: 6px;
-      height: 118mm;
+      margin-top: 4px;
+      height: 112mm;
     }
 
     /* Left Card: Fee & 40mm QR */
@@ -439,7 +442,7 @@
       width: 38%;
       border: 1.5px solid #000;
       border-radius: 12px;
-      padding: 8px 6px;
+      padding: 6px 5px;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -448,20 +451,20 @@
       box-sizing: border-box;
     }
     .fee-title {
-      font-size: 13px;
+      font-size: 12.5px;
       font-weight: 800;
       width: 100%;
       text-align: left;
       padding-left: 4px;
     }
     .fee-digit {
-      font-size: 20px;
+      font-size: 19px;
       font-weight: 900;
       width: 100%;
       text-align: left;
       padding-left: 4px;
       margin-top: -2px;
-      margin-bottom: 4px;
+      margin-bottom: 2px;
     }
 
     /* Exact 40mm x 40mm QR Frame */
@@ -471,7 +474,7 @@
       align-items: center;
       border: 1.5px solid #000;
       border-radius: 8px;
-      padding: 3px;
+      padding: 2.5px;
       background: #fff;
     }
     .qr-target-box {
@@ -489,31 +492,30 @@
     .scan-me-pill {
       background: #000;
       color: #fff;
-      font-size: 8.5px;
+      font-size: 8px;
       font-weight: 900;
       letter-spacing: 0.8px;
-      padding: 2px 14px;
-      border-radius: 6px;
-      margin-top: 3px;
+      padding: 1.5px 12px;
+      border-radius: 5px;
+      margin-top: 2px;
       text-transform: uppercase;
     }
 
-    /* User Requested Text Below QR */
     .exam-instruction-note {
-      font-size: 9.5px;
+      font-size: 8.5px;
       font-weight: 700;
-      line-height: 1.35;
-      margin-top: 4px;
+      line-height: 1.3;
+      margin-top: 2px;
       padding: 0 2px;
     }
 
     .grad-cap-svg {
-      width: 50px;
-      height: 28px;
-      margin-top: 2px;
+      width: 46px;
+      height: 24px;
+      margin-top: 1px;
     }
 
-    /* Right Card: Time Table */
+    /* Right Card: Time Table + Signature Area */
     .timetable-card {
       width: 62%;
       border: 1.5px solid #000;
@@ -529,7 +531,7 @@
       text-align: center;
       font-size: 11px;
       font-weight: 800;
-      padding: 4.5px 6px;
+      padding: 4px 6px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -537,8 +539,8 @@
     }
     .tt-time-strip {
       border-bottom: 1.5px solid #000;
-      padding: 3px 6px;
-      font-size: 10.5px;
+      padding: 2.5px 6px;
+      font-size: 10px;
       font-weight: 800;
       display: flex;
       align-items: center;
@@ -546,7 +548,7 @@
       gap: 6px;
       background: #fff;
     }
-    .tt-time-strip i { font-size: 11px; }
+    .tt-time-strip i { font-size: 10.5px; }
 
     .tt-rows-container {
       flex: 1;
@@ -560,8 +562,8 @@
       align-items: center;
       justify-content: space-between;
       border-bottom: 1px dotted #444;
-      padding: 3px 0;
-      font-size: 10.5px;
+      padding: 2px 0;
+      font-size: 10px;
     }
     .tt-item-row:last-child {
       border-bottom: none;
@@ -569,30 +571,62 @@
     .tt-date-cell {
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 5px;
       width: 58%;
       font-weight: 600;
-      line-height: 1.2;
+      line-height: 1.15;
     }
     .tt-cal-icon {
-      width: 16px;
-      height: 16px;
+      width: 15px;
+      height: 15px;
       background: #000;
       color: #fff;
       border-radius: 50%;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      font-size: 7.5px;
+      font-size: 7px;
       flex-shrink: 0;
     }
     .tt-subject-cell {
       width: 42%;
       font-weight: 800;
       text-align: center;
-      font-size: 11.5px;
+      font-size: 11px;
       border-left: 1px dotted #555;
       padding-left: 4px;
+    }
+
+    /* 🔹 DEDICATED PRINCIPAL SIGNATURE & STAMP BLOCK */
+    .sign-stamp-block {
+      border-top: 1.5px dashed #000;
+      padding: 4px 10px 2px 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      background: #fafafa;
+    }
+    .sign-box-sub {
+      text-align: center;
+      font-size: 9px;
+      font-weight: 700;
+      color: #333;
+    }
+    .sign-line {
+      width: 90px;
+      border-bottom: 1px solid #000;
+      margin-bottom: 2px;
+      height: 14px;
+    }
+    .stamp-box-area {
+      border: 1px dotted #666;
+      border-radius: 6px;
+      padding: 2px 8px;
+      font-size: 8.5px;
+      font-weight: 700;
+      color: #555;
+      text-align: center;
+      line-height: 1.1;
     }
   </style>
 </head>
@@ -712,7 +746,7 @@
         return;
       }
 
-      document.getElementById("pSchoolLogo").src = school.logoLink || 'https://via.placeholder.com/65x65?text=Logo';
+      document.getElementById("pSchoolLogo").src = school.logoLink || 'https://via.placeholder.com/75x75?text=Logo';
       document.getElementById("pSchoolName").innerText = school.schoolName || "School Name";
       document.getElementById("pSchoolAddr").innerText = school.schoolAddress || "School Address";
       document.getElementById("pName").innerText = student.name;
@@ -755,7 +789,6 @@
       `).join('');
     }
 
-    // 🔹 Sort Table Columns
     function sortTable(colIndex) {
       const table = document.getElementById("studentTable");
       const tbody = document.getElementById("tableBody");
@@ -818,10 +851,10 @@
       printContainer.innerHTML = "";
       
       const school = globalData.schoolInfo;
-      const dSchoolName = school.schoolName || 'YOUR SCHOOL NAME';
-      const dSchoolAddr = school.schoolAddress || 'Your School Address';
-      const dExamName   = school.examName || 'Examination Name 2026-2027';
-      const dLogoUrl    = school.logoLink || 'https://via.placeholder.com/52x52?text=Logo';
+      const dSchoolName = school.schoolName || 'AMBEDKAR PUBLIC SCHOOL';
+      const dSchoolAddr = school.schoolAddress || 'Madhopur Campierganj Gorakhpur';
+      const dExamName   = school.examName || 'Quaterly Examination 2026-2027';
+      const dLogoUrl    = school.logoLink || 'https://i.postimg.cc/pLt1F2cD/logo-copy.png';
 
       selectedBoxes.forEach((cb, index) => {
         const s = globalData.students[cb.dataset.index];
@@ -858,7 +891,7 @@
                   <div class="tag-line right"></div>
                 </div>
 
-                <!-- DYNAMIC School Header -->
+                <!-- 🔹 BIGGER DYNAMIC School Header -->
                 <div class="header-section">
                   <img src="${dLogoUrl}" class="header-logo-img" alt="Logo">
                   <div class="header-text-block">
@@ -920,7 +953,7 @@
                     </svg>
                   </div>
 
-                  <!-- Right: Time Table -->
+                  <!-- Right: Time Table + 🔹 PRINCIPAL SIGNATURE BLOCK -->
                   <div class="timetable-card">
                     <div class="tt-ribbon-header">
                       <span>❧</span>
@@ -935,6 +968,17 @@
 
                     <div class="tt-rows-container">
                       ${timetableRows}
+                    </div>
+
+                    <!-- 🔹 PRINCIPAL SIGNATURE & STAMP BOX -->
+                    <div class="sign-stamp-block">
+                      <div class="stamp-box-area">
+                        [ Official School Stamp ]
+                      </div>
+                      <div class="sign-box-sub">
+                        <div class="sign-line"></div>
+                        Principal Signature
+                      </div>
                     </div>
                   </div>
 
