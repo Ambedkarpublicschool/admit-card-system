@@ -195,6 +195,7 @@
       transition: 0.2s;
     }
     .btn:hover { background-color: #174288; }
+    .btn:disabled { background-color: #94a3b8; cursor: not-allowed; }
 
     .table-container {
       max-height: 520px;
@@ -475,17 +476,17 @@
     /* BOTTOM DUAL SECTION */
     .bottom-cards-row {
       display: flex;
-      gap: 14px;
+      gap: 12px;
       margin-bottom: 12px;
     }
 
     /* LEFT: FEE & QR CARD */
     .fee-qr-card {
-      width: 36%;
+      width: 32%;
       border: 1.8px solid #f59e0b;
       border-radius: 16px;
       background: #fffdf7;
-      padding: 12px 10px;
+      padding: 10px 8px;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -496,20 +497,20 @@
     .fee-banner-pill {
       background: #0c2b5e;
       color: #ffffff;
-      padding: 4px 22px;
+      padding: 4px 18px;
       border-radius: 20px;
-      font-size: 13.5px;
+      font-size: 13px;
       font-weight: 800;
       letter-spacing: 0.5px;
       display: inline-block;
-      margin-bottom: 4px;
+      margin-bottom: 3px;
     }
 
     .fee-due-display {
-      font-size: 26px;
+      font-size: 24px;
       font-weight: 900;
       color: #dc2626;
-      margin: 2px 0 6px 0;
+      margin: 2px 0 5px 0;
       text-align: center;
     }
 
@@ -517,7 +518,7 @@
       width: 80%;
       height: 1px;
       background: #f59e0b;
-      margin: 2px 0 8px 0;
+      margin: 2px 0 6px 0;
       position: relative;
     }
     .gold-separator-line::after {
@@ -535,7 +536,7 @@
     .qr-container-box {
       border: 2px solid #0c2b5e;
       border-radius: 12px;
-      padding: 8px;
+      padding: 6px;
       background: #ffffff;
       display: flex;
       flex-direction: column;
@@ -544,8 +545,8 @@
     }
 
     .qr-render-target {
-      width: 105px;
-      height: 105px;
+      width: 95px;
+      height: 95px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -554,28 +555,28 @@
     .scan-me-pill {
       background: #0c2b5e;
       color: #ffffff;
-      font-size: 11px;
+      font-size: 10.5px;
       font-weight: 800;
-      padding: 2px 14px;
+      padding: 2px 12px;
       border-radius: 10px;
-      margin-top: 6px;
+      margin-top: 5px;
       letter-spacing: 0.6px;
     }
 
     .qr-hindi-instruction {
       font-family: 'Tiro Devanagari Hindi', 'Outfit', sans-serif;
-      font-size: 11px;
+      font-size: 10.5px;
       font-weight: 700;
       color: #0f172a;
       text-align: center;
-      line-height: 1.35;
-      margin-top: 8px;
-      padding: 0 4px;
+      line-height: 1.3;
+      margin-top: 6px;
+      padding: 0 2px;
     }
 
     /* RIGHT: TIMETABLE CARD */
     .timetable-card {
-      width: 64%;
+      width: 68%;
       border: 1.8px solid #93c5fd;
       border-radius: 16px;
       overflow: hidden;
@@ -587,7 +588,7 @@
     .tt-header-bar {
       background: #0c2b5e;
       color: #ffffff;
-      padding: 7px 12px;
+      padding: 6px 12px;
       font-size: 13.5px;
       font-weight: 800;
       text-align: center;
@@ -600,10 +601,10 @@
     .tt-time-banner {
       background: #f8fafc;
       color: #dc2626;
-      font-size: 13.5px;
+      font-size: 13px;
       font-weight: 800;
       text-align: center;
-      padding: 5px 0;
+      padding: 4px 0;
       border-bottom: 1.5px solid #e2e8f0;
       display: flex;
       align-items: center;
@@ -625,31 +626,40 @@
     }
 
     .exam-schedule-table td {
-      padding: 6.5px 12px;
-      font-size: 13.5px;
+      padding: 5.5px 8px;
       color: #0f172a;
       vertical-align: middle;
     }
 
     .exam-schedule-table td.date-cell {
-      width: 66%;
+      width: 72%;
+      font-size: 12px;
       font-weight: 600;
       border-right: 1.5px dashed #93c5fd;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .date-cell-inner {
       display: flex;
       align-items: center;
-      gap: 8px;
+      gap: 6px;
+      white-space: nowrap;
     }
 
     .exam-schedule-table td.subject-cell {
-      width: 34%;
+      width: 28%;
+      font-size: 12.5px;
       font-weight: 800;
       color: #0c2b5e;
       text-align: center;
+      white-space: nowrap;
     }
 
     .tt-cal-icon {
-      width: 20px;
-      height: 20px;
+      width: 18px;
+      height: 18px;
       border-radius: 50%;
       background: #0c2b5e;
       color: #ffffff;
@@ -658,7 +668,7 @@
       justify-content: center;
       flex-shrink: 0;
     }
-    .tt-cal-icon svg { width: 11px; height: 11px; fill: currentColor; }
+    .tt-cal-icon svg { width: 10px; height: 10px; fill: currentColor; }
 
     /* FOOTER SIGNATURE AREA */
     .card-footer-signatures {
@@ -722,7 +732,7 @@
   <!-- 1. FULL-SCREEN BLURRED OVERLAY LOADER -->
   <div id="loadingOverlay">
     <div class="spinner"></div>
-    <div class="loading-text">डेटा लोड हो रहा है... कृपया प्रतीक्षा करें</div>
+    <div class="loading-text" id="loadingMessage">डेटा लोड हो रहा है... कृपया प्रतीक्षा करें</div>
   </div>
 
   <!-- 2. PARENT PAYMENT VIEW (When QR is Scanned) -->
@@ -751,7 +761,7 @@
   <div id="adminView">
     <div class="header-panel">
       <h2>Ambedkar Public School - Admit Card Portal</h2>
-      <button class="btn" onclick="printSelected()">Print Selected Cards (A4)</button>
+      <button class="btn" id="printBtn" onclick="printSelected()">Print Selected Cards (A4)</button>
     </div>
 
     <div class="search-panel">
@@ -785,7 +795,24 @@
     let currentSortColumn = '';
     let currentSortAsc = true;
 
-    // URL पैरामीटर चेक करें (?id=APS1 या ?pay=APS1)
+    // Google Drive URL to Fast High-Speed Thumbnail Converter
+    function getOptimizedPhotoUrl(url) {
+      if (!url || typeof url !== 'string') return 'https://via.placeholder.com/140x180?text=Student+Photo';
+      url = url.trim();
+      if (!url) return 'https://via.placeholder.com/140x180?text=Student+Photo';
+
+      // Check if it is a Google Drive URL
+      const driveMatch = url.match(/\/d\/([a-zA-Z0-9_-]+)/) || 
+                         url.match(/id=([a-zA-Z0-9_-]+)/) ||
+                         url.match(/file\/d\/([a-zA-Z0-9_-]+)/);
+      if (driveMatch && driveMatch[1]) {
+        // Fast direct thumbnail CDN URL (width 320px)
+        return `https://drive.google.com/thumbnail?id=${driveMatch[1]}&sz=w320`;
+      }
+      return url;
+    }
+
+    // URL पैरामीटर चेक करें (?id=APS1 या ?pay=APS1)[cite: 1]
     const urlParams = new URLSearchParams(window.location.search);
     const targetStudentId = urlParams.get('id') || urlParams.get('pay');
 
@@ -794,14 +821,14 @@
         const response = await fetch(SCRIPT_URL);
         globalData = await response.json();
         
-        // डेटा मिलते ही लोडिंग ओवरले हटाएँ
+        // डेटा मिलते ही लोडिंग ओवरले हटाएँ[cite: 1]
         document.getElementById("loadingOverlay").style.display = "none";
 
         if (targetStudentId) {
-          // 👉 QR स्कैन किया गया है -> केवल पैरेंट पेमेंट कार्ड दिखेगा
+          // 👉 QR स्कैन किया गया है -> केवल पैरेंट पेमेंट कार्ड दिखेगा[cite: 1]
           showParentPaymentView(targetStudentId.trim().toUpperCase());
         } else {
-          // 👉 कंप्यूटर/डायरेक्ट लिंक -> एडमिन पोर्टल खुलेगा
+          // 👉 कंप्यूटर/डायरेक्ट लिंक -> एडमिन पोर्टल खुलेगा[cite: 1]
           document.getElementById("adminView").style.display = "block";
           renderAdminTable(globalData.students);
         }
@@ -813,7 +840,7 @@
       }
     }
 
-    // पैरेंट पेमेंट कार्ड रेंडर करने का फंक्शन
+    // पैरेंट पेमेंट कार्ड रेंडर करने का फंक्शन[cite: 1]
     function showParentPaymentView(studentId) {
       document.getElementById("adminView").style.display = "none";
       const pView = document.getElementById("parentView");
@@ -855,7 +882,7 @@
       }
     }
 
-    // एडमिन टेबल
+    // एडमिन टेबल[cite: 1]
     function renderAdminTable(students) {
       const tbody = document.getElementById("tableBody");
       tbody.innerHTML = students.map((s, idx) => `
@@ -882,10 +909,8 @@
         currentSortAsc = true;
       }
 
-      // Reset all sort icons
       document.querySelectorAll('.sort-icon').forEach(el => el.innerText = '▲▼');
 
-      // Update current column icon
       const activeIcon = document.getElementById(`sort_${column}`);
       if (activeIcon) {
         activeIcon.innerText = currentSortAsc ? '▲' : '▼';
@@ -895,14 +920,12 @@
         let valA = a[column] !== undefined && a[column] !== null ? a[column] : '';
         let valB = b[column] !== undefined && b[column] !== null ? b[column] : '';
 
-        // Numeric Sorting for fee or numbers
         if (column === 'feeDue' || (!isNaN(valA) && !isNaN(valB) && valA !== '' && valB !== '')) {
           const numA = parseFloat(valA) || 0;
           const numB = parseFloat(valB) || 0;
           return currentSortAsc ? numA - numB : numB - numA;
         }
 
-        // Natural String Sorting (e.g. Class 1, Class 2, Class 10 / APS1, APS2)
         const strA = String(valA).trim();
         const strB = String(valB).trim();
         return currentSortAsc 
@@ -911,7 +934,7 @@
       });
 
       renderAdminTable(globalData.students);
-      filterStudents(); // Keep any search text active
+      filterStudents();
     }
 
     function filterStudents() {
@@ -929,7 +952,7 @@
       });
     }
 
-    // SVG Icons
+    // SVG Icons[cite: 1]
     const ICONS = {
       user: `<svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>`,
       calendar: `<svg viewBox="0 0 24 24"><path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V9h14v11z"/></svg>`,
@@ -943,30 +966,36 @@
     };
 
     // प्रिंट एडमिट कार्ड
-    function printSelected() {
+    async function printSelected() {
       const selectedBoxes = Array.from(document.querySelectorAll(".stu-check:checked"));
       if (selectedBoxes.length === 0) {
         alert("कृपया प्रिंट करने के लिए कम से कम एक छात्र को चुनें!");
         return;
       }
 
+      const printBtn = document.getElementById("printBtn");
+      printBtn.disabled = true;
+      printBtn.innerText = "तैयार हो रहा है...";
+
       const printContainer = document.getElementById("printContainer");
       printContainer.innerHTML = "";
       const school = globalData.schoolInfo || {};
-      const schoolLogoUrl = school.logo || "https://i.postimg.cc/pLt1F2cD/logo-copy.png";
+      const schoolLogoUrl = getOptimizedPhotoUrl(school.logo || "https://i.postimg.cc/pLt1F2cD/logo-copy.png");
 
       // 1. कार्ड्स जोड़ें
       selectedBoxes.forEach((cb, index) => {
         const s = globalData.students[cb.dataset.index];
         const qrId = `qr_card_${index}`;
-        const photoUrl = s.photo ? s.photo.trim() : 'https://via.placeholder.com/140x180?text=Student+Photo';
+        const photoUrl = getOptimizedPhotoUrl(s.photo);
 
         const timetableRows = (s.schedule && s.schedule.timetable && s.schedule.timetable.length > 0)
           ? s.schedule.timetable.map(t => `
               <tr>
                 <td class="date-cell">
-                  <span class="tt-cal-icon">${ICONS.calendar}</span>
-                  <span>${t.date}</span>
+                  <div class="date-cell-inner">
+                    <span class="tt-cal-icon">${ICONS.calendar}</span>
+                    <span>${t.date}</span>
+                  </div>
                 </td>
                 <td class="subject-cell">${t.subject}</td>
               </tr>
@@ -1128,7 +1157,7 @@
         printContainer.insertAdjacentHTML('beforeend', cardHtml);
       });
 
-      // 2. हर एडमिट कार्ड में Dynamic QR Code जोड़ें
+      // 2. हर एडमिट कार्ड में Dynamic QR Code जोड़ें[cite: 1]
       const currentOriginUrl = window.location.origin + window.location.pathname;
 
       selectedBoxes.forEach((cb, index) => {
@@ -1140,17 +1169,35 @@
           qrElement.innerHTML = "";
           new QRCode(qrElement, {
             text: dynamicStudentLink,
-            width: 100,
-            height: 100,
+            width: 95,
+            height: 95,
             correctLevel: QRCode.CorrectLevel.M
           });
         }
       });
 
-      // 3. प्रिंट कमांड
+      // 3. Sabhi photos ko load hone ka wait karein (No Blank Photos)
+      const allImgs = Array.from(printContainer.querySelectorAll("img"));
+      const imagePromises = allImgs.map(img => {
+        if (img.complete) return Promise.resolve();
+        return new Promise(resolve => {
+          img.onload = resolve;
+          img.onerror = resolve;
+        });
+      });
+
+      await Promise.race([
+        Promise.all(imagePromises),
+        new Promise(resolve => setTimeout(resolve, 2000)) // Max 2 sec safety timeout
+      ]);
+
+      printBtn.disabled = false;
+      printBtn.innerText = "Print Selected Cards (A4)";
+
+      // Print invoke
       setTimeout(() => {
         window.print();
-      }, 200);
+      }, 100);
     }
 
     window.onload = initApp;
