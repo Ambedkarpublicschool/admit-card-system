@@ -3,17 +3,19 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Ambedkar Public School</title>
+  <title>Ambedkar Public School - Admit Card</title>
   <!-- Fast QR Code Library -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Tiro+Devanagari+Hindi&display=swap');
+
     * { box-sizing: border-box; }
     body {
-      font-family: 'Segoe UI', Arial, sans-serif;
+      font-family: 'Outfit', 'Segoe UI', Arial, sans-serif;
       margin: 0;
       padding: 0;
       background-color: #f1f5f9;
-      color: #1e293b;
+      color: #0f172a;
     }
 
     /* ================= 1. FULL-SCREEN BLURRED LOADER ================= */
@@ -37,7 +39,7 @@
       width: 50px;
       height: 50px;
       border: 5px solid #cbd5e1;
-      border-top-color: #2563eb;
+      border-top-color: #0d3880;
       border-radius: 50%;
       animation: spin 0.8s linear infinite;
       margin-bottom: 16px;
@@ -53,7 +55,7 @@
       color: #334155;
     }
 
-    /* ================= 2. PARENT PAYMENT VIEW (MOBILE QR SCAN) ================= */
+    /* ================= 2. PARENT PAYMENT VIEW ================= */
     #parentView {
       display: none;
       min-height: 100vh;
@@ -65,46 +67,49 @@
 
     .pay-card {
       width: 100%;
-      max-width: 420px;
+      max-width: 440px;
       background: #ffffff;
-      border-radius: 16px;
-      box-shadow: 0 10px 25px rgba(0,0,0,0.06);
-      padding: 24px 20px;
+      border-radius: 18px;
+      box-shadow: 0 12px 30px rgba(13, 56, 128, 0.08);
+      padding: 26px 22px;
       text-align: center;
       margin-top: 15px;
-      border: 1px solid #e2e8f0;
+      border: 1.5px solid #e2e8f0;
     }
 
     .pay-card .school-title {
-      font-size: 20px;
-      font-weight: 800;
-      color: #0f172a;
+      font-size: 22px;
+      font-weight: 900;
+      color: #0c2b5e;
       margin-bottom: 2px;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
     }
 
     .pay-card .school-sub {
-      font-size: 12.5px;
+      font-size: 13px;
       color: #64748b;
+      font-weight: 600;
       margin-bottom: 18px;
     }
 
     .student-info-box {
       background: #f8fafc;
       border: 1px solid #e2e8f0;
-      border-radius: 10px;
-      padding: 14px;
+      border-radius: 12px;
+      padding: 14px 16px;
       text-align: left;
       font-size: 14px;
-      line-height: 1.6;
+      line-height: 1.7;
       margin-bottom: 18px;
     }
 
     .live-fee-box {
-      border-radius: 10px;
+      border-radius: 12px;
       padding: 16px;
       margin-bottom: 18px;
       background: #fff1f2;
-      border: 1px solid #fecdd3;
+      border: 1.5px solid #fecdd3;
     }
 
     .live-fee-box.paid {
@@ -114,14 +119,14 @@
 
     .fee-heading {
       font-size: 13px;
-      font-weight: bold;
+      font-weight: 700;
       color: #475569;
     }
 
     .fee-amount-text {
       font-size: 32px;
       font-weight: 900;
-      color: #e11d48;
+      color: #dc2626;
       margin: 4px 0 0 0;
     }
 
@@ -139,24 +144,22 @@
       padding: 14px 0;
       border-radius: 10px;
       font-size: 16px;
-      font-weight: bold;
+      font-weight: 700;
       box-shadow: 0 4px 12px rgba(22, 163, 74, 0.25);
       transition: 0.2s;
     }
 
-    .btn-upi-pay:hover {
-      background: #15803d;
-    }
+    .btn-upi-pay:hover { background: #15803d; }
 
-    /* ================= 3. ADMIN PORTAL VIEW (PC / DIRECT ACCESS) ================= */
+    /* ================= 3. ADMIN PORTAL VIEW ================= */
     #adminView {
       display: none;
       max-width: 1100px;
-      margin: 20px auto;
+      margin: 24px auto;
       background: #ffffff;
-      padding: 24px;
-      border-radius: 8px;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      padding: 26px;
+      border-radius: 12px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.06);
     }
 
     .header-panel {
@@ -165,51 +168,52 @@
       align-items: center;
       margin-bottom: 20px;
       border-bottom: 2px solid #e2e8f0;
-      padding-bottom: 12px;
+      padding-bottom: 14px;
     }
 
-    .header-panel h2 { margin: 0; font-size: 22px; color: #0f172a; }
+    .header-panel h2 { margin: 0; font-size: 22px; color: #0c2b5e; font-weight: 800; }
 
     .search-panel { display: flex; gap: 12px; margin-bottom: 16px; }
     .search-panel input {
       flex: 1;
-      padding: 10px 14px;
-      border: 1px solid #cbd5e1;
-      border-radius: 6px;
+      padding: 11px 16px;
+      border: 1.5px solid #cbd5e1;
+      border-radius: 8px;
       font-size: 15px;
       outline: none;
     }
 
     .btn {
-      background-color: #2563eb;
+      background-color: #0c2b5e;
       color: #ffffff;
       border: none;
-      padding: 10px 24px;
+      padding: 11px 24px;
       font-size: 15px;
-      font-weight: 600;
+      font-weight: 700;
       cursor: pointer;
-      border-radius: 6px;
+      border-radius: 8px;
+      transition: 0.2s;
     }
-    .btn:hover { background-color: #1d4ed8; }
+    .btn:hover { background-color: #174288; }
 
     .table-container {
-      max-height: 500px;
+      max-height: 520px;
       overflow-y: auto;
       border: 1px solid #cbd5e1;
-      border-radius: 6px;
+      border-radius: 8px;
     }
 
     table { width: 100%; border-collapse: collapse; background: #fff; }
     th, td {
       border-bottom: 1px solid #e2e8f0;
-      padding: 10px 14px;
+      padding: 11px 14px;
       text-align: left;
       font-size: 14px;
     }
-    th { background-color: #f8fafc; font-weight: 600; position: sticky; top: 0; z-index: 10; }
+    th { background-color: #f8fafc; font-weight: 700; color: #334155; position: sticky; top: 0; z-index: 10; }
     tr:hover { background-color: #f8fafc; }
 
-    /* ================= 4. PRINT VIEW (140mm x 200mm) ================= */
+    /* ================= 4. PRINT VIEW (FULL A4 ACCURATE DESIGN) ================= */
     .print-area { display: none; }
 
     @media print {
@@ -228,92 +232,466 @@
         page-break-after: always;
         position: relative;
         box-sizing: border-box;
-      }
-
-      .card-box {
-        width: 140mm;
-        height: 200mm;
-        position: absolute;
-        top: 0;
-        left: 0;
-        box-sizing: border-box;
-        border: 1.5px solid #000;
-        padding: 5mm 6mm;
-        background: #fff;
-        overflow: hidden;
+        padding: 7mm;
+        background: #ffffff;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
       }
     }
 
-    .card-header { text-align: center; border-bottom: 1.5px solid #000; padding-bottom: 3px; margin-bottom: 4px; }
-    .card-header .tagline { font-size: 9.5px; font-weight: bold; }
-    .card-header .school-name { font-size: 16px; font-weight: 900; margin: 1px 0; }
-    .card-header .title-badge {
-      display: inline-block;
-      background: #e2e8f0;
-      font-size: 11.5px;
-      font-weight: bold;
-      padding: 1px 12px;
-      border-radius: 2px;
+    /* Screen Preview if viewed directly */
+    .admit-card-page {
+      width: 210mm;
+      min-height: 297mm;
+      box-sizing: border-box;
+      padding: 7mm;
+      margin: 0 auto 20px auto;
+      background: #ffffff;
+      position: relative;
     }
 
-    .student-details { display: flex; justify-content: space-between; margin-top: 4px; font-size: 10.5px; }
-    .details-left { width: 70%; line-height: 1.35; }
-    .details-row { display: flex; margin-bottom: 1.5px; }
-    .d-label { width: 92px; font-weight: bold; flex-shrink: 0; }
-    .d-colon { margin-right: 4px; }
+    /* OUTER BORDER FRAME */
+    .card-outer-frame {
+      width: 100%;
+      height: 100%;
+      min-height: 283mm;
+      border: 3.5px solid #0c2b5e;
+      border-radius: 20px;
+      padding: 5.5mm 6.5mm;
+      position: relative;
+      background: #ffffff;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      box-sizing: border-box;
+    }
 
-    .photo-right { width: 28%; text-align: center; }
-    .photo-right img {
-      width: 28mm;
-      height: 35mm;
-      border: 1px solid #000;
-      object-fit: cover;
-      display: block;
-      margin: 0 auto;
+    /* Inner Corner Accent Decorators */
+    .corner-decor {
+      position: absolute;
+      width: 24px;
+      height: 24px;
+      border: 3px solid #0c2b5e;
+      pointer-events: none;
+    }
+    .corner-tl { top: 4px; left: 4px; border-right: none; border-bottom: none; border-top-left-radius: 12px; }
+    .corner-tr { top: 4px; right: 4px; border-left: none; border-bottom: none; border-top-right-radius: 12px; }
+    .corner-bl { bottom: 4px; left: 4px; border-right: none; border-top: none; border-bottom-left-radius: 12px; }
+    .corner-br { bottom: 4px; right: 4px; border-left: none; border-top: none; border-bottom-right-radius: 12px; }
+
+    /* HEADER */
+    .card-header-wrapper {
+      text-align: center;
+      margin-bottom: 8px;
+    }
+
+    .tagline-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-size: 13px;
+      font-weight: 700;
+      color: #0c2b5e;
+      margin-bottom: 5px;
+    }
+    .tagline-pill::before, .tagline-pill::after {
+      content: "❖";
+      color: #f59e0b;
+      font-size: 12px;
+    }
+
+    .school-title-area {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 16px;
+      margin: 2px 0 6px 0;
+      position: relative;
+    }
+
+    .school-logo {
+      width: 68px;
+      height: 68px;
+      object-fit: contain;
+      border-radius: 50%;
+      border: 2px solid #0c2b5e;
+      padding: 2px;
       background: #fff;
     }
 
-    .time-table-heading {
+    .school-title-text {
       text-align: center;
-      background: #e2e8f0;
-      font-size: 10px;
-      font-weight: bold;
-      padding: 2px;
-      margin-top: 5px;
-      margin-bottom: 4px;
-      border: 1px solid #cbd5e1;
     }
 
-    .bottom-section { display: flex; gap: 6px; }
-    .fee-col {
-      width: 36%;
-      border-right: 1px dashed #475569;
-      padding-right: 4px;
+    .school-name-h1 {
+      font-size: 33px;
+      font-weight: 900;
+      color: #0c2b5e;
+      letter-spacing: 1.5px;
+      margin: 0;
+      line-height: 1.1;
+      text-transform: uppercase;
+    }
+
+    .school-address-p {
+      font-size: 14.5px;
+      font-weight: 700;
+      color: #1e293b;
+      margin: 3px 0 0 0;
+    }
+
+    /* EXAM RIBBON BANNER */
+    .exam-banner-ribbon {
+      background: #0c2b5e;
+      color: #ffffff;
+      padding: 6px 20px;
+      border-radius: 30px;
+      font-size: 15px;
+      font-weight: 800;
+      letter-spacing: 0.8px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      margin: 8px auto 14px auto;
+      border: 2px solid #f59e0b;
+      box-shadow: 0 3px 8px rgba(12, 43, 94, 0.2);
+      width: 92%;
+    }
+
+    /* STUDENT DETAILS CARD */
+    .student-profile-card {
+      border: 1.8px solid #93c5fd;
+      border-radius: 16px;
+      padding: 14px 18px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #ffffff;
+      margin-bottom: 12px;
+    }
+
+    .student-info-grid {
+      width: 65%;
       display: flex;
       flex-direction: column;
-      justify-content: flex-start;
-      text-align: center;
-    }
-    .fee-label { font-size: 10px; font-weight: bold; text-align: left; }
-    .fee-amount { font-size: 12.5px; font-weight: 900; margin: 2px 0 4px 0; text-align: left; }
-    
-    .qr-box { display: flex; justify-content: center; margin-top: 2px; min-height: 68px; }
-    .qr-text { font-size: 8px; line-height: 1.15; margin-top: 3px; font-weight: bold; }
-
-    .tt-col { width: 64%; }
-    .tt-time {
-      font-size: 9.5px;
-      font-weight: bold;
-      margin-bottom: 3px;
-      text-align: center;
-      background: #f1f5f9;
-      padding: 2px;
-      border: 0.5px solid #cbd5e1;
+      gap: 5px;
     }
 
-    .tt-table { width: 100%; border-collapse: collapse; font-size: 9px; }
-    .tt-table td { border: 1px dotted #334155; padding: 2px 3px; }
-    .tt-table td:first-child { width: 56%; }
+    .info-row {
+      display: flex;
+      align-items: center;
+      font-size: 14px;
+      color: #0f172a;
+    }
+
+    .info-icon-badge {
+      width: 22px;
+      height: 22px;
+      border-radius: 50%;
+      background: #0c2b5e;
+      color: #ffffff;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-right: 10px;
+      flex-shrink: 0;
+    }
+
+    .info-icon-badge svg {
+      width: 12px;
+      height: 12px;
+      fill: currentColor;
+    }
+
+    .info-label {
+      width: 125px;
+      font-weight: 800;
+      color: #0c2b5e;
+      flex-shrink: 0;
+    }
+
+    .info-colon {
+      margin-right: 8px;
+      font-weight: 800;
+      color: #0c2b5e;
+    }
+
+    .info-value {
+      font-weight: 700;
+      color: #1e293b;
+      text-transform: uppercase;
+    }
+
+    .student-photo-wrapper {
+      width: 32%;
+      border-left: 1.5px solid #cbd5e1;
+      padding-left: 18px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .student-photo-frame {
+      width: 36mm;
+      height: 46mm;
+      border-radius: 14px;
+      border: 2px solid #0c2b5e;
+      overflow: hidden;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      background: #f8fafc;
+    }
+
+    .student-photo-frame img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    /* BOTTOM DUAL SECTION */
+    .bottom-cards-row {
+      display: flex;
+      gap: 14px;
+      margin-bottom: 12px;
+    }
+
+    /* LEFT: FEE & QR CARD */
+    .fee-qr-card {
+      width: 36%;
+      border: 1.8px solid #f59e0b;
+      border-radius: 16px;
+      background: #fffdf7;
+      padding: 12px 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-between;
+      position: relative;
+    }
+
+    .fee-banner-pill {
+      background: #0c2b5e;
+      color: #ffffff;
+      padding: 4px 22px;
+      border-radius: 20px;
+      font-size: 13.5px;
+      font-weight: 800;
+      letter-spacing: 0.5px;
+      display: inline-block;
+      margin-bottom: 4px;
+    }
+
+    .fee-due-display {
+      font-size: 26px;
+      font-weight: 900;
+      color: #dc2626;
+      margin: 2px 0 6px 0;
+      text-align: center;
+    }
+
+    .gold-separator-line {
+      width: 80%;
+      height: 1px;
+      background: #f59e0b;
+      margin: 2px 0 8px 0;
+      position: relative;
+    }
+    .gold-separator-line::after {
+      content: "❖";
+      position: absolute;
+      top: -8px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: #fffdf7;
+      padding: 0 4px;
+      font-size: 10px;
+      color: #f59e0b;
+    }
+
+    .qr-container-box {
+      border: 2px solid #0c2b5e;
+      border-radius: 12px;
+      padding: 8px;
+      background: #ffffff;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+    }
+
+    .qr-render-target {
+      width: 105px;
+      height: 105px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .scan-me-pill {
+      background: #0c2b5e;
+      color: #ffffff;
+      font-size: 11px;
+      font-weight: 800;
+      padding: 2px 14px;
+      border-radius: 10px;
+      margin-top: 6px;
+      letter-spacing: 0.6px;
+    }
+
+    .qr-hindi-instruction {
+      font-family: 'Tiro Devanagari Hindi', 'Outfit', sans-serif;
+      font-size: 11px;
+      font-weight: 700;
+      color: #0f172a;
+      text-align: center;
+      line-height: 1.35;
+      margin-top: 8px;
+      padding: 0 4px;
+    }
+
+    /* RIGHT: TIMETABLE CARD */
+    .timetable-card {
+      width: 64%;
+      border: 1.8px solid #93c5fd;
+      border-radius: 16px;
+      overflow: hidden;
+      background: #ffffff;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .tt-header-bar {
+      background: #0c2b5e;
+      color: #ffffff;
+      padding: 7px 12px;
+      font-size: 13.5px;
+      font-weight: 800;
+      text-align: center;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .tt-time-banner {
+      background: #f8fafc;
+      color: #dc2626;
+      font-size: 13.5px;
+      font-weight: 800;
+      text-align: center;
+      padding: 5px 0;
+      border-bottom: 1.5px solid #e2e8f0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 6px;
+    }
+
+    .exam-schedule-table {
+      width: 100%;
+      border-collapse: collapse;
+      flex-grow: 1;
+    }
+
+    .exam-schedule-table tr {
+      border-bottom: 1px dashed #93c5fd;
+    }
+    .exam-schedule-table tr:last-child {
+      border-bottom: none;
+    }
+
+    .exam-schedule-table td {
+      padding: 6.5px 12px;
+      font-size: 13.5px;
+      color: #0f172a;
+      vertical-align: middle;
+    }
+
+    .exam-schedule-table td.date-cell {
+      width: 66%;
+      font-weight: 600;
+      border-right: 1.5px dashed #93c5fd;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .exam-schedule-table td.subject-cell {
+      width: 34%;
+      font-weight: 800;
+      color: #0c2b5e;
+      text-align: center;
+    }
+
+    .tt-cal-icon {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      background: #0c2b5e;
+      color: #ffffff;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
+    .tt-cal-icon svg { width: 11px; height: 11px; fill: currentColor; }
+
+    /* FOOTER SIGNATURE AREA */
+    .card-footer-signatures {
+      display: flex;
+      justify-content: space-between;
+      gap: 16px;
+      margin-top: 4px;
+    }
+
+    .signature-box {
+      border: 1.5px dashed #94a3b8;
+      border-radius: 12px;
+      height: 20mm;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-end;
+      align-items: center;
+      padding-bottom: 6px;
+      background: #fafafa;
+    }
+
+    .stamp-box-col {
+      width: 36%;
+      justify-content: center;
+      padding-bottom: 0;
+    }
+
+    .sig-box-col {
+      width: 64%;
+    }
+
+    .stamp-inner-circle {
+      border: 1px dashed #94a3b8;
+      border-radius: 50%;
+      width: 65px;
+      height: 52px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      font-size: 10px;
+      font-weight: 700;
+      color: #64748b;
+      line-height: 1.2;
+      text-align: center;
+    }
+
+    .sig-line-text {
+      font-size: 12.5px;
+      font-weight: 700;
+      color: #475569;
+      border-top: 1.5px solid #cbd5e1;
+      width: 70%;
+      text-align: center;
+      padding-top: 3px;
+    }
   </style>
 </head>
 <body>
@@ -350,7 +728,7 @@
   <div id="adminView">
     <div class="header-panel">
       <h2>Ambedkar Public School - Admit Card Portal</h2>
-      <button class="btn" onclick="printSelected()">Print Selected Cards</button>
+      <button class="btn" onclick="printSelected()">Print Selected Cards (A4)</button>
     </div>
 
     <div class="search-panel">
@@ -483,6 +861,19 @@
       });
     }
 
+    // SVG Icons
+    const ICONS = {
+      user: `<svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>`,
+      calendar: `<svg viewBox="0 0 24 24"><path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V9h14v11z"/></svg>`,
+      gender: `<svg viewBox="0 0 24 24"><path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm1 15h-2v-6h2v6zm0-8h-2V7h2v2z"/></svg>`,
+      book: `<svg viewBox="0 0 24 24"><path d="M18 2H6c-1.1 0-2 .9-2 2v16c0 1.1.9 2 2 2h12c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zM6 4h5v8l-2.5-1.5L6 12V4z"/></svg>`,
+      location: `<svg viewBox="0 0 24 24"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zm0 9.5c-1.38 0-2.5-1.12-2.5-2.5s1.12-2.5 2.5-2.5 2.5 1.12 2.5 2.5-1.12 2.5-2.5 2.5z"/></svg>`,
+      phone: `<svg viewBox="0 0 24 24"><path d="M6.62 10.79c1.44 2.83 3.76 5.14 6.59 6.59l2.2-2.2c.27-.27.67-.36 1.02-.24 1.12.37 2.33.57 3.57.57.55 0 1 .45 1 1V20c0 .55-.45 1-1 1-9.39 0-17-7.61-17-17 0-.55.45-1 1-1h3.5c.55 0 1 .45 1 1 0 1.25.2 2.45.57 3.57.11.35.03.74-.25 1.02l-2.2 2.2z"/></svg>`,
+      group: `<svg viewBox="0 0 24 24"><path d="M16 11c1.66 0 2.99-1.34 2.99-3S17.66 5 16 5c-1.66 0-3 1.34-3 3s1.34 3 3 3zm-8 0c1.66 0 2.99-1.34 2.99-3S9.66 5 8 5C6.34 5 5 6.34 5 8s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm8 0c-.29 0-.62.02-.97.05 1.16.84 1.97 1.97 1.97 3.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/></svg>`,
+      badge: `<svg viewBox="0 0 24 24"><path d="M12 1L3 5v6c0 5.55 3.84 10.74 9 12 5.16-1.26 9-6.45 9-12V5l-9-4zm-2 16l-4-4 1.41-1.41L10 14.17l6.59-6.59L18 9l-8 8z"/></svg>`,
+      clock: `<svg viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg>`
+    };
+
     // प्रिंट एडमिट कार्ड
     function printSelected() {
       const selectedBoxes = Array.from(document.querySelectorAll(".stu-check:checked"));
@@ -493,73 +884,176 @@
 
       const printContainer = document.getElementById("printContainer");
       printContainer.innerHTML = "";
-      const school = globalData.schoolInfo;
+      const school = globalData.schoolInfo || {};
+      const schoolLogoUrl = school.logo || "https://images.unsplash.com/photo-1546410531-bb4caa6b424d?w=120&h=120&fit=crop&crop=faces";
 
       // 1. कार्ड्स जोड़ें
       selectedBoxes.forEach((cb, index) => {
         const s = globalData.students[cb.dataset.index];
         const qrId = `qr_card_${index}`;
-        const photoUrl = s.photo ? s.photo.trim() : 'https://via.placeholder.com/100x130?text=No+Photo';
+        const photoUrl = s.photo ? s.photo.trim() : 'https://via.placeholder.com/140x180?text=Student+Photo';
 
-        const timetableRows = (s.schedule.timetable && s.schedule.timetable.length > 0)
+        const timetableRows = (s.schedule && s.schedule.timetable && s.schedule.timetable.length > 0)
           ? s.schedule.timetable.map(t => `
               <tr>
-                <td>${t.date}</td>
-                <td><strong>${t.subject}</strong></td>
+                <td class="date-cell">
+                  <span class="tt-cal-icon">${ICONS.calendar}</span>
+                  <span>${t.date}</span>
+                </td>
+                <td class="subject-cell">${t.subject}</td>
               </tr>
             `).join('')
-          : `<tr><td colspan="2" style="text-align:center; padding: 10px;">टाइम टेबल उपलब्ध नहीं है</td></tr>`;
+          : `<tr><td colspan="2" style="text-align:center; padding: 15px; font-weight:700;">टाइम टेबल उपलब्ध नहीं है</td></tr>`;
 
         const cardHtml = `
           <div class="admit-card-page">
-            <div class="card-box">
-              <div class="card-header">
-                <div class="tagline">"A government recognized school (सरकार द्वारा मान्यता प्राप्त)"</div>
-                <div class="school-name">_A. P. S. Madhopur 9793458774</div>
-                <div class="title-badge">${school.examName || 'Quaterly Examination 2026-2027'}</div>
-              </div>
-              
-              <div class="student-details">
-                <div class="details-left">
-                  <div class="details-row"><span class="d-label">Name</span><span class="d-colon">:-</span> ${s.name}</div>
-                  <div class="details-row"><span class="d-label">Father's Name</span><span class="d-colon">:-</span> ${s.fatherName}</div>
-                  <div class="details-row"><span class="d-label">Mother's Name</span><span class="d-colon">:-</span> ${s.motherName}</div>
-                  <div class="details-row"><span class="d-label">Date of Birth</span><span class="d-colon">:-</span> ${s.dob}</div>
-                  <div class="details-row"><span class="d-label">Gender</span><span class="d-colon">:-</span> ${s.gender}</div>
-                  <div class="details-row"><span class="d-label">Class</span><span class="d-colon">:-</span> <strong>${s.className}</strong></div>
-                  <div class="details-row"><span class="d-label">Address</span><span class="d-colon">:-</span> ${s.address}</div>
-                  <div class="details-row"><span class="d-label">Mobile number</span><span class="d-colon">:-</span> ${s.mobile}</div>
-                  <div class="details-row"><span class="d-label">Cast</span><span class="d-colon">:-</span> ${s.caste}</div>
-                  <div class="details-row"><span class="d-label">Category</span><span class="d-colon">:-</span> ${s.category}</div>
+            <div class="card-outer-frame">
+              <div class="corner-decor corner-tl"></div>
+              <div class="corner-decor corner-tr"></div>
+              <div class="corner-decor corner-bl"></div>
+              <div class="corner-decor corner-br"></div>
+
+              <!-- Top Section: Header -->
+              <div>
+                <div class="card-header-wrapper">
+                  <div class="tagline-pill">“A government recognized school (सरकार द्वारा मान्यता प्राप्त)”</div>
+                  
+                  <div class="school-title-area">
+                    <img src="${schoolLogoUrl}" class="school-logo" alt="Logo" onerror="this.style.display='none'">
+                    <div class="school-title-text">
+                      <h1 class="school-name-h1">${school.schoolName || 'AMBEDKAR PUBLIC SCHOOL'}</h1>
+                      <p class="school-address-p">${school.schoolAddress || 'Madhopur Campierganj Gorakhpur'}</p>
+                    </div>
+                  </div>
+
+                  <div class="exam-banner-ribbon">
+                    <span>❖</span>
+                    <span>${school.examName || 'Quaterly Examination 2026-2027'}</span>
+                    <span>❖</span>
+                  </div>
                 </div>
-                <div class="photo-right">
-                  <img src="${photoUrl}" loading="eager" decoding="async" onerror="this.src='https://via.placeholder.com/100x130?text=No+Photo'" alt="Photo">
+
+                <!-- Student Details Profile Card -->
+                <div class="student-profile-card">
+                  <div class="student-info-grid">
+                    <div class="info-row">
+                      <span class="info-icon-badge">${ICONS.user}</span>
+                      <span class="info-label">Name</span>
+                      <span class="info-colon">:</span>
+                      <span class="info-value">${s.name}</span>
+                    </div>
+                    <div class="info-row">
+                      <span class="info-icon-badge">${ICONS.user}</span>
+                      <span class="info-label">Father’s Name</span>
+                      <span class="info-colon">:</span>
+                      <span class="info-value">${s.fatherName}</span>
+                    </div>
+                    <div class="info-row">
+                      <span class="info-icon-badge">${ICONS.user}</span>
+                      <span class="info-label">Mother’s Name</span>
+                      <span class="info-colon">:</span>
+                      <span class="info-value">${s.motherName || '—'}</span>
+                    </div>
+                    <div class="info-row">
+                      <span class="info-icon-badge">${ICONS.calendar}</span>
+                      <span class="info-label">Date of Birth</span>
+                      <span class="info-colon">:</span>
+                      <span class="info-value">${s.dob || '—'}</span>
+                    </div>
+                    <div class="info-row">
+                      <span class="info-icon-badge">${ICONS.gender}</span>
+                      <span class="info-label">Gender</span>
+                      <span class="info-colon">:</span>
+                      <span class="info-value">${s.gender || '—'}</span>
+                    </div>
+                    <div class="info-row">
+                      <span class="info-icon-badge">${ICONS.book}</span>
+                      <span class="info-label">Class</span>
+                      <span class="info-colon">:</span>
+                      <span class="info-value">${s.className}</span>
+                    </div>
+                    <div class="info-row">
+                      <span class="info-icon-badge">${ICONS.location}</span>
+                      <span class="info-label">Address</span>
+                      <span class="info-colon">:</span>
+                      <span class="info-value">${s.address || '—'}</span>
+                    </div>
+                    <div class="info-row">
+                      <span class="info-icon-badge">${ICONS.phone}</span>
+                      <span class="info-label">Mobile number</span>
+                      <span class="info-colon">:</span>
+                      <span class="info-value">${s.mobile || '—'}</span>
+                    </div>
+                    <div class="info-row">
+                      <span class="info-icon-badge">${ICONS.group}</span>
+                      <span class="info-label">Cast</span>
+                      <span class="info-colon">:</span>
+                      <span class="info-value">${s.caste || '—'}</span>
+                    </div>
+                    <div class="info-row">
+                      <span class="info-icon-badge">${ICONS.badge}</span>
+                      <span class="info-label">Category</span>
+                      <span class="info-colon">:</span>
+                      <span class="info-value">${s.category || '—'}</span>
+                    </div>
+                  </div>
+
+                  <div class="student-photo-wrapper">
+                    <div class="student-photo-frame">
+                      <img src="${photoUrl}" loading="eager" decoding="async" onerror="this.src='https://via.placeholder.com/140x180?text=Student+Photo'" alt="Photo">
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Bottom Cards Row: Fee & Timetable -->
+                <div class="bottom-cards-row">
+                  <!-- Fee & QR Card -->
+                  <div class="fee-qr-card">
+                    <div class="fee-banner-pill">Fee Due :-</div>
+                    <div class="fee-due-display">₹. ${s.feeDue}</div>
+                    <div class="gold-separator-line"></div>
+                    <div class="qr-container-box">
+                      <div class="qr-render-target" id="${qrId}"></div>
+                      <div class="scan-me-pill">SCAN ME</div>
+                    </div>
+                    <div class="qr-hindi-instruction">
+                      वर्तमान बकाया शुल्क जानने व जमा करने के लिए QR स्कैन करें।
+                    </div>
+                  </div>
+
+                  <!-- Timetable Card -->
+                  <div class="timetable-card">
+                    <div class="tt-header-bar">
+                      <span>❖</span>
+                      <span>Time Table for ${school.examName || 'Quaterly Examination 2026-2027'}</span>
+                      <span>❖</span>
+                    </div>
+                    <div class="tt-time-banner">
+                      <span style="display:inline-flex; vertical-align:middle; width:16px; height:16px;">${ICONS.clock}</span>
+                      <span>TIME:- ${(s.schedule && s.schedule.timeSlot) ? s.schedule.timeSlot : '08:30am to 11:00am'}</span>
+                    </div>
+                    <table class="exam-schedule-table">
+                      <tbody>
+                        ${timetableRows}
+                      </tbody>
+                    </table>
+                  </div>
                 </div>
               </div>
 
-              <div class="time-table-heading">
-                Time Table for ${school.examName || 'Quaterly Examination 2026-2027'}
+              <!-- Footer Signature Area -->
+              <div class="card-footer-signatures">
+                <div class="signature-box stamp-box-col">
+                  <div class="stamp-inner-circle">
+                    <div>Official School</div>
+                    <div>Stamp</div>
+                  </div>
+                </div>
+                <div class="signature-box sig-box-col">
+                  <div class="sig-line-text">Principal Signature</div>
+                </div>
               </div>
 
-              <div class="bottom-section">
-                <div class="fee-col">
-                  <div>
-                    <div class="fee-label">Fee Due :-</div>
-                    <div class="fee-amount">रु. ${s.feeDue}</div>
-                  </div>
-                  <div>
-                    <div class="qr-box" id="${qrId}"></div>
-                    <div class="qr-text">वर्तमान बकाया शुल्क जानने व जमा करने के लिए स्कैन करें</div>
-                  </div>
-                </div>
-                
-                <div class="tt-col">
-                  <div class="tt-time">TIME:- ${s.schedule.timeSlot || '08:30 AM TO 11:00 AM'}</div>
-                  <table class="tt-table">
-                    ${timetableRows}
-                  </table>
-                </div>
-              </div>
             </div>
           </div>
         `;
@@ -578,8 +1072,8 @@
           qrElement.innerHTML = "";
           new QRCode(qrElement, {
             text: dynamicStudentLink,
-            width: 70,
-            height: 70,
+            width: 100,
+            height: 100,
             correctLevel: QRCode.CorrectLevel.M
           });
         }
@@ -588,7 +1082,7 @@
       // 3. प्रिंट कमांड
       setTimeout(() => {
         window.print();
-      }, 150);
+      }, 200);
     }
 
     window.onload = initApp;
