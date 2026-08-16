@@ -26,8 +26,8 @@
       width: 100vw;
       height: 100vh;
       background: rgba(248, 250, 252, 0.96);
-      backdrop-filter: blur(8px);
-      -webkit-backdrop-filter: blur(8px);
+      backdrop-filter: blur(10px);
+      -webkit-backdrop-filter: blur(10px);
       display: flex;
       flex-direction: column;
       justify-content: center;
@@ -36,13 +36,13 @@
     }
 
     .spinner {
-      width: 45px;
-      height: 45px;
-      border: 4px solid #cbd5e1;
+      width: 50px;
+      height: 50px;
+      border: 5px solid #cbd5e1;
       border-top-color: #0d3880;
       border-radius: 50%;
-      animation: spin 0.7s linear infinite;
-      margin-bottom: 12px;
+      animation: spin 0.8s linear infinite;
+      margin-bottom: 16px;
     }
 
     @keyframes spin {
@@ -50,7 +50,7 @@
     }
 
     .loading-text {
-      font-size: 15px;
+      font-size: 16px;
       font-weight: 700;
       color: #334155;
     }
@@ -153,7 +153,7 @@
     /* ================= 3. ADMIN PORTAL VIEW ================= */
     #adminView {
       display: none;
-      max-width: 1150px;
+      max-width: 1100px;
       margin: 24px auto;
       background: #ffffff;
       padding: 26px;
@@ -172,6 +172,16 @@
 
     .header-panel h2 { margin: 0; font-size: 22px; color: #0c2b5e; font-weight: 800; }
 
+    .search-panel { display: flex; gap: 12px; margin-bottom: 16px; }
+    .search-panel input {
+      flex: 1;
+      padding: 11px 16px;
+      border: 1.5px solid #cbd5e1;
+      border-radius: 8px;
+      font-size: 15px;
+      outline: none;
+    }
+
     .btn {
       background-color: #0c2b5e;
       color: #ffffff;
@@ -186,7 +196,7 @@
     .btn:hover { background-color: #174288; }
 
     .table-container {
-      max-height: 560px;
+      max-height: 520px;
       overflow-y: auto;
       border: 1px solid #cbd5e1;
       border-radius: 8px;
@@ -195,56 +205,12 @@
     table { width: 100%; border-collapse: collapse; background: #fff; }
     th, td {
       border-bottom: 1px solid #e2e8f0;
-      padding: 9px 12px;
+      padding: 11px 14px;
       text-align: left;
       font-size: 14px;
     }
-    th {
-      background-color: #f8fafc;
-      font-weight: 700;
-      color: #0f2d59;
-      position: sticky;
-      top: 0;
-      z-index: 10;
-    }
+    th { background-color: #f8fafc; font-weight: 700; color: #334155; position: sticky; top: 0; z-index: 10; }
     tr:hover { background-color: #f8fafc; }
-
-    .filter-header-row th {
-      top: 38px;
-      padding: 6px 8px;
-      background-color: #f1f5f9;
-      border-bottom: 2px solid #cbd5e1;
-    }
-
-    .col-filter-input, .col-filter-select {
-      width: 100%;
-      padding: 6px 8px;
-      font-size: 12.5px;
-      border: 1px solid #cbd5e1;
-      border-radius: 6px;
-      background-color: #ffffff;
-      color: #0f172a;
-      outline: none;
-      font-family: inherit;
-    }
-
-    .col-filter-input:focus, .col-filter-select:focus {
-      border-color: #0c2b5e;
-      box-shadow: 0 0 0 2px rgba(12, 43, 94, 0.12);
-    }
-
-    .btn-clear-filters {
-      background: #e2e8f0;
-      border: none;
-      border-radius: 4px;
-      padding: 5px 8px;
-      cursor: pointer;
-      font-size: 11px;
-      font-weight: 700;
-      color: #475569;
-      width: 100%;
-    }
-    .btn-clear-filters:hover { background: #cbd5e1; color: #0f172a; }
 
     /* ================= 4. PRINT VIEW (EXACT A4 DESIGN) ================= */
     .print-area { display: none; }
@@ -719,7 +685,7 @@
     <div class="loading-text" id="loaderStatusText">डेटा लोड हो रहा है... कृपया प्रतीक्षा करें</div>
   </div>
 
-  <!-- 2. PARENT PAYMENT VIEW -->
+  <!-- 2. PARENT PAYMENT VIEW (When QR is Scanned) -->
   <div id="parentView">
     <div class="pay-card">
       <div class="school-title" id="pSchoolName">Ambedkar Public School</div>
@@ -747,37 +713,22 @@
       <h2 id="adminSchoolTitle">Ambedkar Public School - Admit Card Portal</h2>
       <button class="btn" id="printBtn" onclick="printSelected()">Print Selected Cards (A4)</button>
     </div>
+
+    <div class="search-panel">
+      <input type="text" id="searchInput" placeholder="नाम, पिता का नाम, क्लास या ID से खोजें..." onkeyup="filterStudents()">
+    </div>
     
     <div class="table-container">
       <table id="studentTable">
         <thead>
           <tr>
-            <th width="45"><input type="checkbox" id="selectAll" onclick="toggleAll(this)"></th>
-            <th width="90">ID</th>
+            <th width="40"><input type="checkbox" id="selectAll" onclick="toggleAll(this)"></th>
+            <th width="80">ID</th>
             <th>Student Name</th>
             <th>Father's Name</th>
-            <th width="110">Class</th>
-            <th width="140">Family ID</th>
-            <th width="130">Fee Due (₹)</th>
-          </tr>
-          <tr class="filter-header-row">
-            <th><button class="btn-clear-filters" title="Reset All Filters" onclick="resetFilters()">✕</button></th>
-            <th><input type="text" id="fId" class="col-filter-input" placeholder="Filter ID" onkeyup="filterStudents()"></th>
-            <th><input type="text" id="fName" class="col-filter-input" placeholder="Filter Name" onkeyup="filterStudents()"></th>
-            <th><input type="text" id="fFather" class="col-filter-input" placeholder="Filter Father" onkeyup="filterStudents()"></th>
-            <th>
-              <select id="fClass" class="col-filter-select" onchange="filterStudents()">
-                <option value="">All</option>
-              </select>
-            </th>
-            <th><input type="text" id="fFamily" class="col-filter-input" placeholder="Filter Mobile" onkeyup="filterStudents()"></th>
-            <th>
-              <select id="fFee" class="col-filter-select" onchange="filterStudents()">
-                <option value="">All</option>
-                <option value="due">Due (> 0)</option>
-                <option value="paid">Paid (₹ 0)</option>
-              </select>
-            </th>
+            <th>Class</th>
+            <th>Family ID</th>
+            <th>Fee Due (₹)</th>
           </tr>
         </thead>
         <tbody id="tableBody"></tbody>
@@ -790,67 +741,47 @@
 
   <script>
     const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw4REM5nUtH4Udy9T3axdq-bn5mlNUlX3Wsvx3JjQKCE0Wumyzk5IJgIec33VbkgCWn/exec";[cite: 1]
-    const CACHE_KEY = "aps_admit_card_data_v2";
     let globalData = null;
 
     const urlParams = new URLSearchParams(window.location.search);[cite: 1]
     const targetStudentId = urlParams.get('id') || urlParams.get('pay');[cite: 1]
 
-    // High Speed Direct CDN Converter
+    // Fast image URL converter for Google Drive and standard direct links
     function optimizeImageUrl(url) {
       if (!url) return '';
-      let cleanUrl = String(url).trim();
+      let cleanUrl = url.trim();
+      
+      // Google Drive link fast direct CDN converter
       if (cleanUrl.includes("drive.google.com")) {
         const idMatch = cleanUrl.match(/\/d\/([a-zA-Z0-9_-]+)/) || cleanUrl.match(/id=([a-zA-Z0-9_-]+)/);
         if (idMatch && idMatch[1]) {
-          return `https://lh3.googleusercontent.com/d/${idMatch[1]}=s400`;
+          return `https://lh3.googleusercontent.com/d/${idMatch[1]}`;
         }
       }
       return cleanUrl;
     }
 
     async function initApp() {
-      // 1. Instant Cache Check for Sub-Second Opening
-      const cached = localStorage.getItem(CACHE_KEY);
-      if (cached) {
-        try {
-          globalData = JSON.parse(cached);
-          renderUI();
-          document.getElementById("loadingOverlay").style.display = "none";
-        } catch (e) {
-          console.error(e);
-        }
-      }
-
-      // 2. Fetch Fresh Data in Background / Initial
       try {
-        const response = await fetch(SCRIPT_URL, { cache: "no-store" });[cite: 1]
+        const response = await fetch(SCRIPT_URL);[cite: 1]
         globalData = await response.json();[cite: 1]
-        localStorage.setItem(CACHE_KEY, JSON.stringify(globalData));
         
         document.getElementById("loadingOverlay").style.display = "none";[cite: 1]
-        renderUI();
-      } catch (err) {
-        if (!globalData) {
-          document.getElementById("loadingOverlay").innerHTML = `
-            <div style="color:#ef4444; font-size:16px; font-weight:bold; text-align:center; padding:20px;">
-              डेटा लोड करने में समस्या: ${err.message}
-            </div>`;[cite: 1]
-        }
-      }
-    }
 
-    function renderUI() {
-      if (!globalData) return;
-      if (targetStudentId) {[cite: 1]
-        showParentPaymentView(targetStudentId.trim().toUpperCase());[cite: 1]
-      } else {
-        document.getElementById("adminView").style.display = "block";[cite: 1]
-        if (globalData.schoolInfo && globalData.schoolInfo.schoolName) {
-          document.getElementById("adminSchoolTitle").innerText = `${globalData.schoolInfo.schoolName} - Admit Card Portal`;
+        if (targetStudentId) {[cite: 1]
+          showParentPaymentView(targetStudentId.trim().toUpperCase());[cite: 1]
+        } else {
+          document.getElementById("adminView").style.display = "block";[cite: 1]
+          if (globalData.schoolInfo && globalData.schoolInfo.schoolName) {
+            document.getElementById("adminSchoolTitle").innerText = `${globalData.schoolInfo.schoolName} - Admit Card Portal`;
+          }
+          renderAdminTable(globalData.students);[cite: 1]
         }
-        populateClassFilter(globalData.students);
-        renderAdminTable(globalData.students);[cite: 1]
+      } catch (err) {
+        document.getElementById("loadingOverlay").innerHTML = `[cite: 1]
+          <div style="color:#ef4444; font-size:16px; font-weight:bold; text-align:center; padding:20px;">
+            डेटा लोड करने में समस्या: ${err.message}
+          </div>`;[cite: 1]
       }
     }
 
@@ -894,69 +825,28 @@
       }
     }
 
-    function populateClassFilter(students) {
-      const classSelect = document.getElementById("fClass");
-      if (classSelect.options.length > 1) return;
-      const classSet = new Set();
-      students.forEach(s => {
-        if (s.className) classSet.add(String(s.className).trim());
-      });
-      Array.from(classSet).sort().forEach(c => {
-        const opt = document.createElement("option");
-        opt.value = c;
-        opt.innerText = c;
-        classSelect.appendChild(opt);
-      });
-    }
-
     function renderAdminTable(students) {
       const tbody = document.getElementById("tableBody");[cite: 1]
       tbody.innerHTML = students.map((s, idx) => `
-        <tr data-index="${idx}">
+        <tr>
           <td><input type="checkbox" class="stu-check" data-index="${idx}"></td>
           <td><strong>${s.studentId}</strong></td>
           <td>${s.name}</td>
           <td>${s.fatherName}</td>
           <td><strong>${s.className}</strong></td>
-          <td>${s.mobile || ''}</td>
+          <td>${s.mobile}</td>
           <td>₹ ${s.feeDue}</td>
         </tr>
       `).join('');[cite: 1]
     }
 
     function filterStudents() {
-      const fId = document.getElementById("fId").value.toLowerCase().trim();
-      const fName = document.getElementById("fName").value.toLowerCase().trim();
-      const fFather = document.getElementById("fFather").value.toLowerCase().trim();
-      const fClass = document.getElementById("fClass").value.toLowerCase().trim();
-      const fFamily = document.getElementById("fFamily").value.toLowerCase().trim();
-      const fFee = document.getElementById("fFee").value;
-
-      const rows = document.querySelectorAll("#tableBody tr");
-      globalData.students.forEach((s, idx) => {
-        const idMatch = !fId || String(s.studentId).toLowerCase().includes(fId);
-        const nameMatch = !fName || String(s.name).toLowerCase().includes(fName);
-        const fatherMatch = !fFather || String(s.fatherName).toLowerCase().includes(fFather);
-        const classMatch = !fClass || String(s.className).toLowerCase() === fClass;
-        const familyMatch = !fFamily || String(s.mobile || '').toLowerCase().includes(fFamily);
-
-        let feeMatch = true;
-        if (fFee === 'due') feeMatch = Number(s.feeDue) > 0;
-        else if (fFee === 'paid') feeMatch = Number(s.feeDue) <= 0;
-
-        const isVisible = idMatch && nameMatch && fatherMatch && classMatch && familyMatch && feeMatch;
-        if (rows[idx]) rows[idx].style.display = isVisible ? "" : "none";
+      const q = document.getElementById("searchInput").value.toLowerCase();[cite: 1]
+      const rows = document.querySelectorAll("#tableBody tr");[cite: 1]
+      globalData.students.forEach((s, idx) => {[cite: 1]
+        const rowText = `${s.name} ${s.fatherName} ${s.className} ${s.studentId} ${s.mobile}`.toLowerCase();[cite: 1]
+        if (rows[idx]) rows[idx].style.display = rowText.includes(q) ? "" : "none";[cite: 1]
       });
-    }
-
-    function resetFilters() {
-      document.getElementById("fId").value = "";
-      document.getElementById("fName").value = "";
-      document.getElementById("fFather").value = "";
-      document.getElementById("fClass").value = "";
-      document.getElementById("fFamily").value = "";
-      document.getElementById("fFee").value = "";
-      filterStudents();
     }
 
     function toggleAll(box) {
@@ -977,7 +867,7 @@
       clock: `<svg viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg>`
     };
 
-    // Instant Print Engine
+    // Print Admit Cards with Fast Image Preload
     async function printSelected() {
       const selectedBoxes = Array.from(document.querySelectorAll(".stu-check:checked"));[cite: 1]
       if (selectedBoxes.length === 0) {[cite: 1]
@@ -985,9 +875,16 @@
         return;[cite: 1]
       }
 
+      // Loader on while preparing images
+      const loader = document.getElementById("loadingOverlay");
+      const loaderText = document.getElementById("loaderStatusText");
+      loaderText.innerText = "फोटो व एडमिट कार्ड तैयार हो रहे हैं...";
+      loader.style.display = "flex";
+
       const printContainer = document.getElementById("printContainer");[cite: 1]
       printContainer.innerHTML = "";[cite: 1]
 
+      // 1. Get School Details dynamically from Sheet response
       const school = globalData.schoolInfo || {};[cite: 1]
       const schoolName = school.schoolName || 'AMBEDKAR PUBLIC SCHOOL';
       const schoolAddress = school.schoolAddress || 'Madhopur Campierganj Gorakhpur';
@@ -995,11 +892,17 @@
       const rawLogoUrl = school.schoolLogoLink || school.schoolLogo || school.logo || "https://i.postimg.cc/pLt1F2cD/logo-copy.png";
       const schoolLogoUrl = optimizeImageUrl(rawLogoUrl);
 
+      const imagesToPreload = [];
+      if (schoolLogoUrl) imagesToPreload.push(schoolLogoUrl);
+
+      // 2. Build HTML for each student
       selectedBoxes.forEach((cb, index) => {[cite: 1]
         const s = globalData.students[cb.dataset.index];[cite: 1]
         const qrId = `qr_card_${index}`;[cite: 1]
         const rawPhoto = s.photo ? s.photo.trim() : '';[cite: 1]
         const photoUrl = rawPhoto ? optimizeImageUrl(rawPhoto) : 'https://via.placeholder.com/140x180?text=No+Photo';[cite: 1]
+        
+        if (photoUrl) imagesToPreload.push(photoUrl);
 
         const timetableRows = (s.schedule && s.schedule.timetable && s.schedule.timetable.length > 0)
           ? s.schedule.timetable.map(t => `
@@ -1022,6 +925,7 @@
               <div class="corner-decor corner-br"></div>
 
               <div>
+                <!-- Top Header Section -->
                 <div class="card-header-wrapper">
                   <div class="tagline-pill">“A government recognized school (सरकार द्वारा मान्यता प्राप्त)”</div>
                   
@@ -1040,6 +944,7 @@
                   </div>
                 </div>
 
+                <!-- Student Details Profile Card -->
                 <div class="student-profile-card">
                   <div class="student-info-grid">
                     <div class="info-row">
@@ -1106,12 +1011,14 @@
 
                   <div class="student-photo-wrapper">
                     <div class="student-photo-frame">
-                      <img src="${photoUrl}" loading="eager" decoding="sync" fetchpriority="high" onerror="this.src='https://via.placeholder.com/140x180?text=No+Photo'" alt="Photo">
+                      <img src="${photoUrl}" loading="eager" decoding="async" fetchpriority="high" onerror="this.src='https://via.placeholder.com/140x180?text=No+Photo'" alt="Photo">
                     </div>
                   </div>
                 </div>
 
+                <!-- Bottom Cards Row -->
                 <div class="bottom-cards-row">
+                  <!-- Fee & Dynamic QR Box -->
                   <div class="fee-qr-card">
                     <div class="fee-banner-pill">Fee Due :-</div>
                     <div class="fee-due-display">₹. ${s.feeDue}</div>
@@ -1125,6 +1032,7 @@
                     </div>
                   </div>
 
+                  <!-- Time Table Box -->
                   <div class="timetable-card">
                     <div class="tt-header-bar">
                       <span>❖</span>
@@ -1144,6 +1052,7 @@
                 </div>
               </div>
 
+              <!-- Footer Stamp & Signature -->
               <div class="card-footer-signatures">
                 <div class="signature-box stamp-box-col">
                   <div class="stamp-inner-circle">
@@ -1162,7 +1071,7 @@
         printContainer.insertAdjacentHTML('beforeend', cardHtml);[cite: 1]
       });
 
-      // Rapid QR Code Generator
+      // 3. Render Dynamic QR Codes instantly
       const currentOriginUrl = window.location.origin + window.location.pathname;[cite: 1]
       selectedBoxes.forEach((cb, index) => {[cite: 1]
         const s = globalData.students[cb.dataset.index];[cite: 1]
@@ -1173,17 +1082,31 @@
           qrElement.innerHTML = "";[cite: 1]
           new QRCode(qrElement, {[cite: 1]
             text: dynamicStudentLink,[cite: 1]
-            width: 100,[cite: 1]
-            height: 100,[cite: 1]
-            correctLevel: QRCode.CorrectLevel.L
+            width: 100,
+            height: 100,
+            correctLevel: QRCode.CorrectLevel.M[cite: 1]
           });
         }
       });
 
-      // Non-blocking Print Dialog Trigger
+      // 4. Fast Parallel Image Preloader - waits until all images load in memory
+      const uniqueImages = Array.from(new Set(imagesToPreload));
+      const imagePromises = uniqueImages.map(src => {
+        return new Promise((resolve) => {
+          const img = new Image();
+          img.onload = () => resolve(true);
+          img.onerror = () => resolve(false);
+          img.src = src;
+        });
+      });
+
+      await Promise.all(imagePromises);
+
+      // Hide loader and trigger Print directly
+      loader.style.display = "none";
       setTimeout(() => {
         window.print();
-      }, 50);
+      }, 100);
     }
 
     window.onload = initApp;[cite: 1]
