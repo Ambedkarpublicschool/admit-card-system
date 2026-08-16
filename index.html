@@ -83,6 +83,7 @@
       color: #0c2b5e;
       margin-bottom: 2px;
       text-transform: uppercase;
+      letter-spacing: 0.5px;
     }
 
     .pay-card .school-sub {
@@ -212,7 +213,7 @@
     th { background-color: #f8fafc; font-weight: 700; color: #334155; position: sticky; top: 0; z-index: 10; }
     tr:hover { background-color: #f8fafc; }
 
-    /* ================= 4. PRINT VIEW (EXACT A4 DESIGN) ================= */
+    /* ================= 4. PRINT VIEW (FULL A4 ACCURATE DESIGN) ================= */
     .print-area { display: none; }
 
     @media print {
@@ -238,6 +239,7 @@
       }
     }
 
+    /* Screen Preview if viewed directly */
     .admit-card-page {
       width: 210mm;
       min-height: 297mm;
@@ -248,13 +250,14 @@
       position: relative;
     }
 
+    /* OUTER BORDER FRAME */
     .card-outer-frame {
       width: 100%;
       height: 100%;
       min-height: 283mm;
       border: 3.5px solid #0c2b5e;
       border-radius: 20px;
-      padding: 6mm 7mm;
+      padding: 5.5mm 6.5mm;
       position: relative;
       background: #ffffff;
       display: flex;
@@ -263,6 +266,7 @@
       box-sizing: border-box;
     }
 
+    /* Inner Corner Accent Decorators */
     .corner-decor {
       position: absolute;
       width: 24px;
@@ -275,9 +279,10 @@
     .corner-bl { bottom: 4px; left: 4px; border-right: none; border-top: none; border-bottom-left-radius: 12px; }
     .corner-br { bottom: 4px; right: 4px; border-left: none; border-top: none; border-bottom-right-radius: 12px; }
 
+    /* HEADER */
     .card-header-wrapper {
       text-align: center;
-      margin-bottom: 6px;
+      margin-bottom: 8px;
     }
 
     .tagline-pill {
@@ -287,7 +292,7 @@
       font-size: 13px;
       font-weight: 700;
       color: #0c2b5e;
-      margin-bottom: 4px;
+      margin-bottom: 5px;
     }
     .tagline-pill::before, .tagline-pill::after {
       content: "❖";
@@ -305,8 +310,8 @@
     }
 
     .school-logo {
-      width: 70px;
-      height: 70px;
+      width: 68px;
+      height: 68px;
       object-fit: contain;
       border-radius: 50%;
       border: 2px solid #0c2b5e;
@@ -314,13 +319,15 @@
       background: #fff;
     }
 
-    .school-title-text { text-align: center; }
+    .school-title-text {
+      text-align: center;
+    }
 
     .school-name-h1 {
-      font-size: 32px;
+      font-size: 33px;
       font-weight: 900;
       color: #0c2b5e;
-      letter-spacing: 1.2px;
+      letter-spacing: 1.5px;
       margin: 0;
       line-height: 1.1;
       text-transform: uppercase;
@@ -333,6 +340,7 @@
       margin: 3px 0 0 0;
     }
 
+    /* EXAM RIBBON BANNER */
     .exam-banner-ribbon {
       background: #0c2b5e;
       color: #ffffff;
@@ -345,16 +353,17 @@
       align-items: center;
       justify-content: center;
       gap: 12px;
-      margin: 8px auto 12px auto;
+      margin: 8px auto 14px auto;
       border: 2px solid #f59e0b;
       box-shadow: 0 3px 8px rgba(12, 43, 94, 0.2);
       width: 92%;
     }
 
+    /* STUDENT DETAILS CARD */
     .student-profile-card {
       border: 1.8px solid #93c5fd;
       border-radius: 16px;
-      padding: 12px 18px;
+      padding: 14px 18px;
       display: flex;
       justify-content: space-between;
       align-items: center;
@@ -366,13 +375,13 @@
       width: 65%;
       display: flex;
       flex-direction: column;
-      gap: 4.5px;
+      gap: 5px;
     }
 
     .info-row {
       display: flex;
       align-items: center;
-      font-size: 13.8px;
+      font-size: 14px;
       color: #0f172a;
     }
 
@@ -389,7 +398,11 @@
       flex-shrink: 0;
     }
 
-    .info-icon-badge svg { width: 12px; height: 12px; fill: currentColor; }
+    .info-icon-badge svg {
+      width: 12px;
+      height: 12px;
+      fill: currentColor;
+    }
 
     .info-label {
       width: 125px;
@@ -436,12 +449,14 @@
       display: block;
     }
 
+    /* BOTTOM DUAL SECTION */
     .bottom-cards-row {
       display: flex;
       gap: 14px;
       margin-bottom: 12px;
     }
 
+    /* LEFT: FEE & QR CARD */
     .fee-qr-card {
       width: 36%;
       border: 1.8px solid #f59e0b;
@@ -535,6 +550,7 @@
       padding: 0 4px;
     }
 
+    /* RIGHT: TIMETABLE CARD */
     .timetable-card {
       width: 64%;
       border: 1.8px solid #93c5fd;
@@ -586,8 +602,8 @@
     }
 
     .exam-schedule-table td {
-      padding: 6px 12px;
-      font-size: 13px;
+      padding: 6.5px 12px;
+      font-size: 13.5px;
       color: #0f172a;
       vertical-align: middle;
     }
@@ -621,6 +637,7 @@
     }
     .tt-cal-icon svg { width: 11px; height: 11px; fill: currentColor; }
 
+    /* FOOTER SIGNATURE AREA */
     .card-footer-signatures {
       display: flex;
       justify-content: space-between;
@@ -682,7 +699,7 @@
   <!-- 1. FULL-SCREEN BLURRED OVERLAY LOADER -->
   <div id="loadingOverlay">
     <div class="spinner"></div>
-    <div class="loading-text" id="loaderStatusText">डेटा लोड हो रहा है... कृपया प्रतीक्षा करें</div>
+    <div class="loading-text">डेटा लोड हो रहा है... कृपया प्रतीक्षा करें</div>
   </div>
 
   <!-- 2. PARENT PAYMENT VIEW (When QR is Scanned) -->
@@ -710,8 +727,8 @@
   <!-- 3. ADMIN ADMIT CARD PRINT PORTAL VIEW -->
   <div id="adminView">
     <div class="header-panel">
-      <h2 id="adminSchoolTitle">Ambedkar Public School - Admit Card Portal</h2>
-      <button class="btn" id="printBtn" onclick="printSelected()">Print Selected Cards (A4)</button>
+      <h2>Ambedkar Public School - Admit Card Portal</h2>
+      <button class="btn" onclick="printSelected()">Print Selected Cards (A4)</button>
     </div>
 
     <div class="search-panel">
@@ -740,93 +757,82 @@
   <div class="print-area" id="printContainer"></div>
 
   <script>
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw4REM5nUtH4Udy9T3axdq-bn5mlNUlX3Wsvx3JjQKCE0Wumyzk5IJgIec33VbkgCWn/exec";[cite: 1]
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbw4REM5nUtH4Udy9T3axdq-bn5mlNUlX3Wsvx3JjQKCE0Wumyzk5IJgIec33VbkgCWn/exec";
     let globalData = null;
 
-    const urlParams = new URLSearchParams(window.location.search);[cite: 1]
-    const targetStudentId = urlParams.get('id') || urlParams.get('pay');[cite: 1]
-
-    // Fast image URL converter for Google Drive and standard direct links
-    function optimizeImageUrl(url) {
-      if (!url) return '';
-      let cleanUrl = url.trim();
-      
-      // Google Drive link fast direct CDN converter
-      if (cleanUrl.includes("drive.google.com")) {
-        const idMatch = cleanUrl.match(/\/d\/([a-zA-Z0-9_-]+)/) || cleanUrl.match(/id=([a-zA-Z0-9_-]+)/);
-        if (idMatch && idMatch[1]) {
-          return `https://lh3.googleusercontent.com/d/${idMatch[1]}`;
-        }
-      }
-      return cleanUrl;
-    }
+    // URL पैरामीटर चेक करें (?id=APS1 या ?pay=APS1)
+    const urlParams = new URLSearchParams(window.location.search);
+    const targetStudentId = urlParams.get('id') || urlParams.get('pay');
 
     async function initApp() {
       try {
-        const response = await fetch(SCRIPT_URL);[cite: 1]
-        globalData = await response.json();[cite: 1]
+        const response = await fetch(SCRIPT_URL);
+        globalData = await response.json();
         
-        document.getElementById("loadingOverlay").style.display = "none";[cite: 1]
+        // डेटा मिलते ही लोडिंग ओवरले हटाएँ
+        document.getElementById("loadingOverlay").style.display = "none";
 
-        if (targetStudentId) {[cite: 1]
-          showParentPaymentView(targetStudentId.trim().toUpperCase());[cite: 1]
+        if (targetStudentId) {
+          // 👉 QR स्कैन किया गया है -> केवल पैरेंट पेमेंट कार्ड दिखेगा
+          showParentPaymentView(targetStudentId.trim().toUpperCase());
         } else {
-          document.getElementById("adminView").style.display = "block";[cite: 1]
-          if (globalData.schoolInfo && globalData.schoolInfo.schoolName) {
-            document.getElementById("adminSchoolTitle").innerText = `${globalData.schoolInfo.schoolName} - Admit Card Portal`;
-          }
-          renderAdminTable(globalData.students);[cite: 1]
+          // 👉 कंप्यूटर/डायरेक्ट लिंक -> एडमिन पोर्टल खुलेगा
+          document.getElementById("adminView").style.display = "block";
+          renderAdminTable(globalData.students);
         }
       } catch (err) {
-        document.getElementById("loadingOverlay").innerHTML = `[cite: 1]
+        document.getElementById("loadingOverlay").innerHTML = `
           <div style="color:#ef4444; font-size:16px; font-weight:bold; text-align:center; padding:20px;">
             डेटा लोड करने में समस्या: ${err.message}
-          </div>`;[cite: 1]
+          </div>`;
       }
     }
 
+    // पैरेंट पेमेंट कार्ड रेंडर करने का फंक्शन
     function showParentPaymentView(studentId) {
-      document.getElementById("adminView").style.display = "none";[cite: 1]
-      const pView = document.getElementById("parentView");[cite: 1]
-      pView.style.display = "flex";[cite: 1]
+      document.getElementById("adminView").style.display = "none";
+      const pView = document.getElementById("parentView");
+      pView.style.display = "flex";
 
-      const student = globalData.students.find(s => String(s.studentId).trim().toUpperCase() === studentId);[cite: 1]
-      const school = globalData.schoolInfo || {};[cite: 1]
+      const student = globalData.students.find(s => String(s.studentId).trim().toUpperCase() === studentId);
+      const school = globalData.schoolInfo;
 
-      if (!student) {[cite: 1]
-        pView.innerHTML = `<div class="pay-card"><h3 style="color:#ef4444;">छात्र ID (${studentId}) का रिकॉर्ड नहीं मिला।</h3></div>`;[cite: 1]
-        return;[cite: 1]
+      if (!student) {
+        pView.innerHTML = `<div class="pay-card"><h3 style="color:#ef4444;">छात्र ID (${studentId}) का रिकॉर्ड नहीं मिला।</h3></div>`;
+        return;
       }
 
-      document.getElementById("pSchoolName").innerText = school.schoolName || "Ambedkar Public School";[cite: 1]
-      document.getElementById("pSchoolAddr").innerText = school.schoolAddress || "Madhopur Campierganj Gorakhpur";[cite: 1]
-      document.getElementById("pName").innerText = student.name;[cite: 1]
-      document.getElementById("pFather").innerText = student.fatherName;[cite: 1]
-      document.getElementById("pClass").innerText = student.className;[cite: 1]
-      document.getElementById("pId").innerText = student.studentId;[cite: 1]
+      document.getElementById("pSchoolName").innerText = school.schoolName || "Ambedkar Public School";
+      document.getElementById("pSchoolAddr").innerText = school.schoolAddress || "Madhopur Campierganj Gorakhpur";
+      document.getElementById("pName").innerText = student.name;
+      document.getElementById("pFather").innerText = student.fatherName;
+      document.getElementById("pClass").innerText = student.className;
+      document.getElementById("pId").innerText = student.studentId;
 
-      const feeBox = document.getElementById("pFeeBox");[cite: 1]
-      const feeText = document.getElementById("pFeeAmount");[cite: 1]
-      const payBtn = document.getElementById("pPayBtn");[cite: 1]
+      const feeBox = document.getElementById("pFeeBox");
+      const feeText = document.getElementById("pFeeAmount");
+      const payBtn = document.getElementById("pPayBtn");
 
-      if (student.feeDue > 0) {[cite: 1]
-        feeText.innerText = `₹ ${student.feeDue}`;[cite: 1]
-        payBtn.innerText = `Pay ₹ ${student.feeDue} via PhonePe / GPay / Paytm`;[cite: 1]
-        payBtn.style.display = "block";[cite: 1]
+      if (student.feeDue > 0) {
+        feeText.innerText = `₹ ${student.feeDue}`;
+        payBtn.innerText = `Pay ₹ ${student.feeDue} via PhonePe / GPay / Paytm`;
+        payBtn.style.display = "block";
         
-        const upiId = "kalpnathchaurasia2@ybl";[cite: 1]
-        const note = `Fee - ${student.name} (${student.className})`;[cite: 1]
-        payBtn.href = `upi://pay?pa=${upiId}&pn=${encodeURIComponent(school.schoolName || 'School Fee')}&am=${student.feeDue}&tn=${encodeURIComponent(note)}&cu=INR`;[cite: 1]
+        // Clean Native UPI Deep-Link
+        const upiId = "kalpnathchaurasia2@ybl";
+        const note = `Fee - ${student.name} (${student.className})`;
+        payBtn.href = `upi://pay?pa=${upiId}&pn=${encodeURIComponent(school.schoolName)}&am=${student.feeDue}&tn=${encodeURIComponent(note)}&cu=INR`;
       } else {
-        feeBox.classList.add("paid");[cite: 1]
-        feeText.classList.add("paid-text");[cite: 1]
-        feeText.innerText = "✔ कोई बकाया शुल्क नहीं है (₹ 0)";[cite: 1]
-        payBtn.style.display = "none";[cite: 1]
+        feeBox.classList.add("paid");
+        feeText.classList.add("paid-text");
+        feeText.innerText = "✔ कोई बकाया शुल्क नहीं है (₹ 0)";
+        payBtn.style.display = "none";
       }
     }
 
+    // एडमिन टेबल
     function renderAdminTable(students) {
-      const tbody = document.getElementById("tableBody");[cite: 1]
+      const tbody = document.getElementById("tableBody");
       tbody.innerHTML = students.map((s, idx) => `
         <tr>
           <td><input type="checkbox" class="stu-check" data-index="${idx}"></td>
@@ -837,24 +843,25 @@
           <td>${s.mobile}</td>
           <td>₹ ${s.feeDue}</td>
         </tr>
-      `).join('');[cite: 1]
+      `).join('');
     }
 
     function filterStudents() {
-      const q = document.getElementById("searchInput").value.toLowerCase();[cite: 1]
-      const rows = document.querySelectorAll("#tableBody tr");[cite: 1]
-      globalData.students.forEach((s, idx) => {[cite: 1]
-        const rowText = `${s.name} ${s.fatherName} ${s.className} ${s.studentId} ${s.mobile}`.toLowerCase();[cite: 1]
-        if (rows[idx]) rows[idx].style.display = rowText.includes(q) ? "" : "none";[cite: 1]
+      const q = document.getElementById("searchInput").value.toLowerCase();
+      const rows = document.querySelectorAll("#tableBody tr");
+      globalData.students.forEach((s, idx) => {
+        const rowText = `${s.name} ${s.fatherName} ${s.className} ${s.studentId} ${s.mobile}`.toLowerCase();
+        if (rows[idx]) rows[idx].style.display = rowText.includes(q) ? "" : "none";
       });
     }
 
     function toggleAll(box) {
-      document.querySelectorAll(".stu-check").forEach(cb => {[cite: 1]
-        if (cb.closest("tr").style.display !== "none") cb.checked = box.checked;[cite: 1]
+      document.querySelectorAll(".stu-check").forEach(cb => {
+        if (cb.closest("tr").style.display !== "none") cb.checked = box.checked;
       });
     }
 
+    // SVG Icons
     const ICONS = {
       user: `<svg viewBox="0 0 24 24"><path d="M12 12c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm0 2c-2.67 0-8 1.34-8 4v2h16v-2c0-2.66-5.33-4-8-4z"/></svg>`,
       calendar: `<svg viewBox="0 0 24 24"><path d="M19 4h-1V2h-2v2H8V2H6v2H5c-1.11 0-1.99.9-1.99 2L3 20c0 1.1.89 2 2 2h14c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 16H5V9h14v11z"/></svg>`,
@@ -867,42 +874,24 @@
       clock: `<svg viewBox="0 0 24 24"><path d="M11.99 2C6.47 2 2 6.48 2 12s4.47 10 9.99 10C17.52 22 22 17.52 22 12S17.52 2 11.99 2zM12 20c-4.42 0-8-3.58-8-8s3.58-8 8-8 8 3.58 8 8-3.58 8-8 8zm.5-13H11v6l5.25 3.15.75-1.23-4.5-2.67z"/></svg>`
     };
 
-    // Print Admit Cards with Fast Image Preload
-    async function printSelected() {
-      const selectedBoxes = Array.from(document.querySelectorAll(".stu-check:checked"));[cite: 1]
-      if (selectedBoxes.length === 0) {[cite: 1]
-        alert("कृपया प्रिंट करने के लिए कम से कम एक छात्र को चुनें!");[cite: 1]
-        return;[cite: 1]
+    // प्रिंट एडमिट कार्ड
+    function printSelected() {
+      const selectedBoxes = Array.from(document.querySelectorAll(".stu-check:checked"));
+      if (selectedBoxes.length === 0) {
+        alert("कृपया प्रिंट करने के लिए कम से कम एक छात्र को चुनें!");
+        return;
       }
 
-      // Loader on while preparing images
-      const loader = document.getElementById("loadingOverlay");
-      const loaderText = document.getElementById("loaderStatusText");
-      loaderText.innerText = "फोटो व एडमिट कार्ड तैयार हो रहे हैं...";
-      loader.style.display = "flex";
+      const printContainer = document.getElementById("printContainer");
+      printContainer.innerHTML = "";
+      const school = globalData.schoolInfo || {};
+      const schoolLogoUrl = school.logo || "https://images.unsplash.com/photo-1546410531-bb4caa6b424d?w=120&h=120&fit=crop&crop=faces";
 
-      const printContainer = document.getElementById("printContainer");[cite: 1]
-      printContainer.innerHTML = "";[cite: 1]
-
-      // 1. Get School Details dynamically from Sheet response
-      const school = globalData.schoolInfo || {};[cite: 1]
-      const schoolName = school.schoolName || 'AMBEDKAR PUBLIC SCHOOL';
-      const schoolAddress = school.schoolAddress || 'Madhopur Campierganj Gorakhpur';
-      const examName = school.examName || 'Quaterly Examination 2026-2027';
-      const rawLogoUrl = school.schoolLogoLink || school.schoolLogo || school.logo || "https://i.postimg.cc/pLt1F2cD/logo-copy.png";
-      const schoolLogoUrl = optimizeImageUrl(rawLogoUrl);
-
-      const imagesToPreload = [];
-      if (schoolLogoUrl) imagesToPreload.push(schoolLogoUrl);
-
-      // 2. Build HTML for each student
-      selectedBoxes.forEach((cb, index) => {[cite: 1]
-        const s = globalData.students[cb.dataset.index];[cite: 1]
-        const qrId = `qr_card_${index}`;[cite: 1]
-        const rawPhoto = s.photo ? s.photo.trim() : '';[cite: 1]
-        const photoUrl = rawPhoto ? optimizeImageUrl(rawPhoto) : 'https://via.placeholder.com/140x180?text=No+Photo';[cite: 1]
-        
-        if (photoUrl) imagesToPreload.push(photoUrl);
+      // 1. कार्ड्स जोड़ें
+      selectedBoxes.forEach((cb, index) => {
+        const s = globalData.students[cb.dataset.index];
+        const qrId = `qr_card_${index}`;
+        const photoUrl = s.photo ? s.photo.trim() : 'https://via.placeholder.com/140x180?text=Student+Photo';
 
         const timetableRows = (s.schedule && s.schedule.timetable && s.schedule.timetable.length > 0)
           ? s.schedule.timetable.map(t => `
@@ -914,7 +903,7 @@
                 <td class="subject-cell">${t.subject}</td>
               </tr>
             `).join('')
-          : `<tr><td colspan="2" style="text-align:center; padding: 15px; font-weight:700;">टाइम टेबल उपलब्ध नहीं है</td></tr>`;[cite: 1]
+          : `<tr><td colspan="2" style="text-align:center; padding: 15px; font-weight:700;">टाइम टेबल उपलब्ध नहीं है</td></tr>`;
 
         const cardHtml = `
           <div class="admit-card-page">
@@ -924,22 +913,22 @@
               <div class="corner-decor corner-bl"></div>
               <div class="corner-decor corner-br"></div>
 
+              <!-- Top Section: Header -->
               <div>
-                <!-- Top Header Section -->
                 <div class="card-header-wrapper">
                   <div class="tagline-pill">“A government recognized school (सरकार द्वारा मान्यता प्राप्त)”</div>
                   
                   <div class="school-title-area">
                     <img src="${schoolLogoUrl}" class="school-logo" alt="Logo" onerror="this.style.display='none'">
                     <div class="school-title-text">
-                      <h1 class="school-name-h1">${schoolName}</h1>
-                      <p class="school-address-p">${schoolAddress}</p>
+                      <h1 class="school-name-h1">${school.schoolName || 'AMBEDKAR PUBLIC SCHOOL'}</h1>
+                      <p class="school-address-p">${school.schoolAddress || 'Madhopur Campierganj Gorakhpur'}</p>
                     </div>
                   </div>
 
                   <div class="exam-banner-ribbon">
                     <span>❖</span>
-                    <span>${examName}</span>
+                    <span>${school.examName || 'Quaterly Examination 2026-2027'}</span>
                     <span>❖</span>
                   </div>
                 </div>
@@ -1011,14 +1000,14 @@
 
                   <div class="student-photo-wrapper">
                     <div class="student-photo-frame">
-                      <img src="${photoUrl}" loading="eager" decoding="async" fetchpriority="high" onerror="this.src='https://via.placeholder.com/140x180?text=No+Photo'" alt="Photo">
+                      <img src="${photoUrl}" loading="eager" decoding="async" onerror="this.src='https://via.placeholder.com/140x180?text=Student+Photo'" alt="Photo">
                     </div>
                   </div>
                 </div>
 
-                <!-- Bottom Cards Row -->
+                <!-- Bottom Cards Row: Fee & Timetable -->
                 <div class="bottom-cards-row">
-                  <!-- Fee & Dynamic QR Box -->
+                  <!-- Fee & QR Card -->
                   <div class="fee-qr-card">
                     <div class="fee-banner-pill">Fee Due :-</div>
                     <div class="fee-due-display">₹. ${s.feeDue}</div>
@@ -1032,11 +1021,11 @@
                     </div>
                   </div>
 
-                  <!-- Time Table Box -->
+                  <!-- Timetable Card -->
                   <div class="timetable-card">
                     <div class="tt-header-bar">
                       <span>❖</span>
-                      <span>Time Table for ${examName}</span>
+                      <span>Time Table for ${school.examName || 'Quaterly Examination 2026-2027'}</span>
                       <span>❖</span>
                     </div>
                     <div class="tt-time-banner">
@@ -1052,7 +1041,7 @@
                 </div>
               </div>
 
-              <!-- Footer Stamp & Signature -->
+              <!-- Footer Signature Area -->
               <div class="card-footer-signatures">
                 <div class="signature-box stamp-box-col">
                   <div class="stamp-inner-circle">
@@ -1068,48 +1057,35 @@
             </div>
           </div>
         `;
-        printContainer.insertAdjacentHTML('beforeend', cardHtml);[cite: 1]
+        printContainer.insertAdjacentHTML('beforeend', cardHtml);
       });
 
-      // 3. Render Dynamic QR Codes instantly
-      const currentOriginUrl = window.location.origin + window.location.pathname;[cite: 1]
-      selectedBoxes.forEach((cb, index) => {[cite: 1]
-        const s = globalData.students[cb.dataset.index];[cite: 1]
-        const qrElement = document.getElementById(`qr_card_${index}`);[cite: 1]
-        const dynamicStudentLink = `${currentOriginUrl}?id=${encodeURIComponent(s.studentId)}`;[cite: 1]
+      // 2. हर एडमिट कार्ड में Dynamic QR Code जोड़ें
+      const currentOriginUrl = window.location.origin + window.location.pathname;
 
-        if (qrElement) {[cite: 1]
-          qrElement.innerHTML = "";[cite: 1]
-          new QRCode(qrElement, {[cite: 1]
-            text: dynamicStudentLink,[cite: 1]
+      selectedBoxes.forEach((cb, index) => {
+        const s = globalData.students[cb.dataset.index];
+        const qrElement = document.getElementById(`qr_card_${index}`);
+        const dynamicStudentLink = `${currentOriginUrl}?id=${encodeURIComponent(s.studentId)}`;
+
+        if (qrElement) {
+          qrElement.innerHTML = "";
+          new QRCode(qrElement, {
+            text: dynamicStudentLink,
             width: 100,
             height: 100,
-            correctLevel: QRCode.CorrectLevel.M[cite: 1]
+            correctLevel: QRCode.CorrectLevel.M
           });
         }
       });
 
-      // 4. Fast Parallel Image Preloader - waits until all images load in memory
-      const uniqueImages = Array.from(new Set(imagesToPreload));
-      const imagePromises = uniqueImages.map(src => {
-        return new Promise((resolve) => {
-          const img = new Image();
-          img.onload = () => resolve(true);
-          img.onerror = () => resolve(false);
-          img.src = src;
-        });
-      });
-
-      await Promise.all(imagePromises);
-
-      // Hide loader and trigger Print directly
-      loader.style.display = "none";
+      // 3. प्रिंट कमांड
       setTimeout(() => {
         window.print();
-      }, 100);
+      }, 200);
     }
 
-    window.onload = initApp;[cite: 1]
+    window.onload = initApp;
   </script>
 </body>
 </html>
