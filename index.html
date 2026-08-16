@@ -257,7 +257,7 @@
         page-break-after: always;
         position: relative;
         box-sizing: border-box;
-        padding: 7mm;
+        padding: 6mm 7mm;
         background: #ffffff;
         -webkit-print-color-adjust: exact;
         print-color-adjust: exact;
@@ -269,7 +269,7 @@
       width: 210mm;
       min-height: 297mm;
       box-sizing: border-box;
-      padding: 7mm;
+      padding: 6mm 7mm;
       margin: 0 auto 20px auto;
       background: #ffffff;
       position: relative;
@@ -279,10 +279,10 @@
     .card-outer-frame {
       width: 100%;
       height: 100%;
-      min-height: 283mm;
+      min-height: 285mm;
       border: 3.5px solid #0c2b5e;
       border-radius: 20px;
-      padding: 5.5mm 6.5mm;
+      padding: 6mm 7mm;
       position: relative;
       background: #ffffff;
       display: flex;
@@ -307,17 +307,17 @@
     /* HEADER */
     .card-header-wrapper {
       text-align: center;
-      margin-bottom: 8px;
+      margin-bottom: 10px;
     }
 
     .tagline-pill {
       display: inline-flex;
       align-items: center;
       gap: 8px;
-      font-size: 13px;
+      font-size: 13.5px;
       font-weight: 700;
       color: #0c2b5e;
-      margin-bottom: 5px;
+      margin-bottom: 6px;
     }
     .tagline-pill::before, .tagline-pill::after {
       content: "❖";
@@ -330,15 +330,15 @@
       align-items: center;
       justify-content: center;
       gap: 16px;
-      margin: 2px 0 6px 0;
+      margin: 2px 0 8px 0;
       position: relative;
     }
 
-    /* Logo Circle Removed */
+    /* Logo - Original Shape */
     .school-logo {
-      width: 70px;
+      width: 76px;
       height: auto;
-      max-height: 70px;
+      max-height: 76px;
       object-fit: contain;
       background: transparent;
     }
@@ -348,7 +348,7 @@
     }
 
     .school-name-h1 {
-      font-size: 33px;
+      font-size: 34px;
       font-weight: 900;
       color: #0c2b5e;
       letter-spacing: 1.5px;
@@ -358,85 +358,86 @@
     }
 
     .school-address-p {
-      font-size: 14.5px;
+      font-size: 15px;
       font-weight: 700;
       color: #1e293b;
-      margin: 3px 0 0 0;
+      margin: 4px 0 0 0;
     }
 
     /* EXAM RIBBON BANNER */
     .exam-banner-ribbon {
       background: #0c2b5e;
       color: #ffffff;
-      padding: 6px 20px;
+      padding: 7px 22px;
       border-radius: 30px;
-      font-size: 15px;
+      font-size: 15.5px;
       font-weight: 800;
       letter-spacing: 0.8px;
       display: flex;
       align-items: center;
       justify-content: center;
       gap: 12px;
-      margin: 8px auto 14px auto;
+      margin: 10px auto 14px auto;
       border: 2px solid #f59e0b;
       box-shadow: 0 3px 8px rgba(12, 43, 94, 0.2);
-      width: 92%;
+      width: 94%;
     }
 
-    /* STUDENT DETAILS CARD */
+    /* STUDENT DETAILS CARD - HEIGHT & SPACING INCREASED */
     .student-profile-card {
       border: 1.8px solid #93c5fd;
       border-radius: 16px;
-      padding: 14px 18px;
+      padding: 16px 20px;
       display: flex;
       justify-content: space-between;
       align-items: center;
       background: #ffffff;
-      margin-bottom: 12px;
+      margin-bottom: 14px;
     }
 
     .student-info-grid {
-      width: 65%;
+      width: 66%;
       display: flex;
       flex-direction: column;
-      gap: 5px;
+      gap: 8px; /* Increased row gap */
     }
 
     .info-row {
       display: flex;
       align-items: center;
-      font-size: 14px;
+      font-size: 14.5px;
       color: #0f172a;
+      line-height: 1.2;
     }
 
     .info-icon-badge {
-      width: 22px;
-      height: 22px;
+      width: 24px;
+      height: 24px;
       border-radius: 50%;
       background: #0c2b5e;
       color: #ffffff;
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      margin-right: 10px;
+      margin-right: 12px;
       flex-shrink: 0;
     }
 
     .info-icon-badge svg {
-      width: 12px;
-      height: 12px;
+      width: 13px;
+      height: 13px;
       fill: currentColor;
     }
 
     .info-label {
-      width: 125px;
+      width: 130px;
       font-weight: 800;
       color: #0c2b5e;
       flex-shrink: 0;
     }
 
     .info-colon {
-      margin-right: 8px;
+      margin-right: 10px;
       font-weight: 800;
       color: #0c2b5e;
     }
@@ -457,8 +458,8 @@
     }
 
     .student-photo-frame {
-      width: 36mm;
-      height: 46mm;
+      width: 38mm;
+      height: 49mm;
       border-radius: 14px;
       border: 2px solid #0c2b5e;
       overflow: hidden;
@@ -476,17 +477,17 @@
     /* BOTTOM DUAL SECTION */
     .bottom-cards-row {
       display: flex;
-      gap: 12px;
-      margin-bottom: 12px;
+      gap: 14px;
+      margin-bottom: 14px;
     }
 
     /* LEFT: FEE & QR CARD */
     .fee-qr-card {
-      width: 32%;
+      width: 31%;
       border: 1.8px solid #f59e0b;
       border-radius: 16px;
       background: #fffdf7;
-      padding: 10px 8px;
+      padding: 12px 10px;
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -497,20 +498,20 @@
     .fee-banner-pill {
       background: #0c2b5e;
       color: #ffffff;
-      padding: 4px 18px;
+      padding: 5px 20px;
       border-radius: 20px;
-      font-size: 13px;
+      font-size: 13.5px;
       font-weight: 800;
       letter-spacing: 0.5px;
       display: inline-block;
-      margin-bottom: 3px;
+      margin-bottom: 4px;
     }
 
     .fee-due-display {
-      font-size: 24px;
+      font-size: 26px;
       font-weight: 900;
       color: #dc2626;
-      margin: 2px 0 5px 0;
+      margin: 3px 0 6px 0;
       text-align: center;
     }
 
@@ -518,7 +519,7 @@
       width: 80%;
       height: 1px;
       background: #f59e0b;
-      margin: 2px 0 6px 0;
+      margin: 2px 0 8px 0;
       position: relative;
     }
     .gold-separator-line::after {
@@ -536,7 +537,7 @@
     .qr-container-box {
       border: 2px solid #0c2b5e;
       border-radius: 12px;
-      padding: 6px;
+      padding: 8px;
       background: #ffffff;
       display: flex;
       flex-direction: column;
@@ -545,8 +546,8 @@
     }
 
     .qr-render-target {
-      width: 95px;
-      height: 95px;
+      width: 105px;
+      height: 105px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -555,28 +556,28 @@
     .scan-me-pill {
       background: #0c2b5e;
       color: #ffffff;
-      font-size: 10.5px;
+      font-size: 11px;
       font-weight: 800;
-      padding: 2px 12px;
+      padding: 3px 14px;
       border-radius: 10px;
-      margin-top: 5px;
+      margin-top: 6px;
       letter-spacing: 0.6px;
     }
 
     .qr-hindi-instruction {
       font-family: 'Tiro Devanagari Hindi', 'Outfit', sans-serif;
-      font-size: 10.5px;
+      font-size: 11px;
       font-weight: 700;
       color: #0f172a;
       text-align: center;
-      line-height: 1.3;
-      margin-top: 6px;
-      padding: 0 2px;
+      line-height: 1.35;
+      margin-top: 8px;
+      padding: 0 4px;
     }
 
-    /* RIGHT: TIMETABLE CARD */
+    /* RIGHT: TIMETABLE CARD - ROW HEIGHT INCREASED */
     .timetable-card {
-      width: 68%;
+      width: 69%;
       border: 1.8px solid #93c5fd;
       border-radius: 16px;
       overflow: hidden;
@@ -588,8 +589,8 @@
     .tt-header-bar {
       background: #0c2b5e;
       color: #ffffff;
-      padding: 6px 12px;
-      font-size: 13.5px;
+      padding: 8px 14px;
+      font-size: 14px;
       font-weight: 800;
       text-align: center;
       display: flex;
@@ -601,10 +602,10 @@
     .tt-time-banner {
       background: #f8fafc;
       color: #dc2626;
-      font-size: 13px;
+      font-size: 13.5px;
       font-weight: 800;
       text-align: center;
-      padding: 4px 0;
+      padding: 6px 0;
       border-bottom: 1.5px solid #e2e8f0;
       display: flex;
       align-items: center;
@@ -625,15 +626,16 @@
       border-bottom: none;
     }
 
+    /* Increased Row Height & Padding */
     .exam-schedule-table td {
-      padding: 5.5px 8px;
+      padding: 8px 10px;
       color: #0f172a;
       vertical-align: middle;
     }
 
     .exam-schedule-table td.date-cell {
-      width: 72%;
-      font-size: 12px;
+      width: 70%;
+      font-size: 12.8px;
       font-weight: 600;
       border-right: 1.5px dashed #93c5fd;
       white-space: nowrap;
@@ -644,13 +646,13 @@
     .date-cell-inner {
       display: flex;
       align-items: center;
-      gap: 6px;
+      gap: 8px;
       white-space: nowrap;
     }
 
     .exam-schedule-table td.subject-cell {
-      width: 28%;
-      font-size: 12.5px;
+      width: 30%;
+      font-size: 13.5px;
       font-weight: 800;
       color: #0c2b5e;
       text-align: center;
@@ -658,8 +660,8 @@
     }
 
     .tt-cal-icon {
-      width: 18px;
-      height: 18px;
+      width: 20px;
+      height: 20px;
       border-radius: 50%;
       background: #0c2b5e;
       color: #ffffff;
@@ -668,48 +670,48 @@
       justify-content: center;
       flex-shrink: 0;
     }
-    .tt-cal-icon svg { width: 10px; height: 10px; fill: currentColor; }
+    .tt-cal-icon svg { width: 11px; height: 11px; fill: currentColor; }
 
-    /* FOOTER SIGNATURE AREA */
+    /* FOOTER SIGNATURE AREA - CLEAR GENEROUS SPACE */
     .card-footer-signatures {
       display: flex;
       justify-content: space-between;
-      gap: 16px;
-      margin-top: 4px;
+      gap: 18px;
+      margin-top: 6px;
     }
 
     .signature-box {
       border: 1.5px dashed #94a3b8;
-      border-radius: 12px;
-      height: 20mm;
+      border-radius: 14px;
+      height: 24mm; /* Spacious signature and stamp zone */
       display: flex;
       flex-direction: column;
       justify-content: flex-end;
       align-items: center;
-      padding-bottom: 6px;
+      padding-bottom: 8px;
       background: #fafafa;
     }
 
     .stamp-box-col {
-      width: 36%;
+      width: 31%;
       justify-content: center;
       padding-bottom: 0;
     }
 
     .sig-box-col {
-      width: 64%;
+      width: 69%;
     }
 
     .stamp-inner-circle {
-      border: 1px dashed #94a3b8;
+      border: 1.2px dashed #94a3b8;
       border-radius: 50%;
-      width: 65px;
-      height: 52px;
+      width: 72px;
+      height: 58px;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      font-size: 10px;
+      font-size: 11px;
       font-weight: 700;
       color: #64748b;
       line-height: 1.2;
@@ -717,13 +719,13 @@
     }
 
     .sig-line-text {
-      font-size: 12.5px;
-      font-weight: 700;
+      font-size: 13.5px;
+      font-weight: 800;
       color: #475569;
       border-top: 1.5px solid #cbd5e1;
-      width: 70%;
+      width: 65%;
       text-align: center;
-      padding-top: 3px;
+      padding-top: 4px;
     }
   </style>
 </head>
@@ -795,18 +797,16 @@
     let currentSortColumn = '';
     let currentSortAsc = true;
 
-    // Google Drive URL to Fast High-Speed Thumbnail Converter
+    // Fast CDN Thumbnail Loader for Google Drive
     function getOptimizedPhotoUrl(url) {
       if (!url || typeof url !== 'string') return 'https://via.placeholder.com/140x180?text=Student+Photo';
       url = url.trim();
       if (!url) return 'https://via.placeholder.com/140x180?text=Student+Photo';
 
-      // Check if it is a Google Drive URL
       const driveMatch = url.match(/\/d\/([a-zA-Z0-9_-]+)/) || 
                          url.match(/id=([a-zA-Z0-9_-]+)/) ||
                          url.match(/file\/d\/([a-zA-Z0-9_-]+)/);
       if (driveMatch && driveMatch[1]) {
-        // Fast direct thumbnail CDN URL (width 320px)
         return `https://drive.google.com/thumbnail?id=${driveMatch[1]}&sz=w320`;
       }
       return url;
@@ -821,14 +821,11 @@
         const response = await fetch(SCRIPT_URL);
         globalData = await response.json();
         
-        // डेटा मिलते ही लोडिंग ओवरले हटाएँ[cite: 1]
         document.getElementById("loadingOverlay").style.display = "none";
 
         if (targetStudentId) {
-          // 👉 QR स्कैन किया गया है -> केवल पैरेंट पेमेंट कार्ड दिखेगा[cite: 1]
           showParentPaymentView(targetStudentId.trim().toUpperCase());
         } else {
-          // 👉 कंप्यूटर/डायरेक्ट लिंक -> एडमिन पोर्टल खुलेगा[cite: 1]
           document.getElementById("adminView").style.display = "block";
           renderAdminTable(globalData.students);
         }
@@ -1000,7 +997,7 @@
                 <td class="subject-cell">${t.subject}</td>
               </tr>
             `).join('')
-          : `<tr><td colspan="2" style="text-align:center; padding: 15px; font-weight:700;">टाइम टेबल उपलब्ध नहीं है</td></tr>`;
+          : `<tr><td colspan="2" style="text-align:center; padding: 20px; font-weight:700;">टाइम टेबल उपलब्ध नहीं है</td></tr>`;
 
         const cardHtml = `
           <div class="admit-card-page">
@@ -1157,7 +1154,7 @@
         printContainer.insertAdjacentHTML('beforeend', cardHtml);
       });
 
-      // 2. हर एडमिट कार्ड में Dynamic QR Code जोड़ें[cite: 1]
+      // 2. Dynamic QR Code
       const currentOriginUrl = window.location.origin + window.location.pathname;
 
       selectedBoxes.forEach((cb, index) => {
@@ -1169,14 +1166,14 @@
           qrElement.innerHTML = "";
           new QRCode(qrElement, {
             text: dynamicStudentLink,
-            width: 95,
-            height: 95,
+            width: 105,
+            height: 105,
             correctLevel: QRCode.CorrectLevel.M
           });
         }
       });
 
-      // 3. Sabhi photos ko load hone ka wait karein (No Blank Photos)
+      // 3. Fast Image Preloader Wait
       const allImgs = Array.from(printContainer.querySelectorAll("img"));
       const imagePromises = allImgs.map(img => {
         if (img.complete) return Promise.resolve();
@@ -1188,13 +1185,12 @@
 
       await Promise.race([
         Promise.all(imagePromises),
-        new Promise(resolve => setTimeout(resolve, 2000)) // Max 2 sec safety timeout
+        new Promise(resolve => setTimeout(resolve, 2000))
       ]);
 
       printBtn.disabled = false;
       printBtn.innerText = "Print Selected Cards (A4)";
 
-      // Print invoke
       setTimeout(() => {
         window.print();
       }, 100);
